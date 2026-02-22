@@ -47,3 +47,8 @@ next-env.d.ts
 /.tools
 /.lighthouseci
 /tsconfig.tsbuildinfo
+
+# Secrets and Credentials
+server/*.json
+*.json.json
+.env*

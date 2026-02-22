@@ -28,7 +28,21 @@ export async function POST(request: Request) {
 
         const body = await request.json();
 
-        // Ensure required fields
+        // Handle Web Vitals (RUM) Stream
+        if (body.event === 'web_vitals') {
+            adminDb.collection('core_web_vitals').add({
+                timestamp: new Date(),
+                metric: body.data.name,
+                value: body.data.value,
+                rating: body.data.rating,
+                delta: body.data.delta,
+                country: body.data.country || 'unknown',
+                url: body.data.url,
+            }).catch(err => console.error('Failed to log CWV:', err));
+            return NextResponse.json({ success: true });
+        }
+
+        // Ensure required fields for standard events
         if (!body.event_type || !body.url) {
             return new NextResponse(null, { status: 400 });
         }

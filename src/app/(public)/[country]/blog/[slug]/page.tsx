@@ -9,6 +9,7 @@ import CouponCard from "@/components/CouponCard";
 import Script from "next/script";
 import { processBlogContent, extractToc } from "@/lib/auto-link";
 import { User, ChevronDown, Facebook, Twitter, Mail, Tag } from "lucide-react";
+import { buildHreflangAlternates } from "@/lib/seo-helpers";
 
 import { injectCouponSSR } from "@/lib/ssr-injector";
 import { BlogPost } from "@/lib/types";
@@ -144,6 +145,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
         alternates: {
             canonical,
+            languages: buildHreflangAlternates(`/blog/${slug}`),
         },
     };
 }

@@ -5,10 +5,13 @@
  * Uses inline SVG to eliminate lucide-react from this component.
  */
 import React from "react";
+import Image from "next/image";
 import { Coupon, Store } from "@/lib/types";
-import CopyButton from "./CopyButton";
 import Link from "next/link";
-import CouponViewTracker from "./CouponViewTracker";
+import dynamic from "next/dynamic";
+
+const CopyButton = dynamic(() => import("./CopyButton"), { ssr: false });
+const CouponViewTracker = dynamic(() => import("./CouponViewTracker"), { ssr: false });
 
 interface Props {
     coupon: Coupon;
@@ -47,13 +50,14 @@ export default function CouponCardServer({ coupon, store, categoryName = "عرض
             <Link href={storeHref} className="mb-3 block" tabIndex={-1} aria-hidden="true">
                 <div className="w-[84px] h-[84px] rounded-full border border-gray-100 shadow-sm bg-white overflow-hidden p-1 flex items-center justify-center mx-auto">
                     {store?.logoUrl ? (
-                        <img
+                        <Image
                             src={store.logoUrl}
-                            alt={store.name}
+                            alt={store.name || "متجر"}
                             className="w-full h-full object-contain rounded-full"
                             loading="lazy"
                             width={84}
                             height={84}
+                            sizes="84px"
                         />
                     ) : (
                         <span className="text-3xl">🛍️</span>

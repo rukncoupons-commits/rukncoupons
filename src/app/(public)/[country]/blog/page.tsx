@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
 import Script from "next/script";
-import { buildAbsoluteUrl } from "@/lib/seo-helpers";
+import { buildAbsoluteUrl, buildHreflangAlternates } from "@/lib/seo-helpers";
 import { Calendar, Tag } from "lucide-react";
 
 // ISR: Regenerate every hour
@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         description: `تعرف على طرق التوفير وأسرار التسوق الذكي في ${currentCountry.name}. شروحات للكوبونات وعروض المتاجر.`,
         alternates: {
             canonical: buildAbsoluteUrl(`/${currentCountry.code}/blog`),
+            languages: buildHreflangAlternates("/blog"),
         },
     };
 }

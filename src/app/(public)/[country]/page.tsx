@@ -5,7 +5,7 @@ import Script from "next/script";
 import { getCountryData, getTrackingConfig, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
 import CouponCardServer from "@/components/CouponCardServer";
-import { buildAbsoluteUrl, buildBreadcrumbSchema, getCurrencyByCountry } from "@/lib/seo-helpers";
+import { buildAbsoluteUrl, buildBreadcrumbSchema, getCurrencyByCountry, buildHreflangAlternates } from "@/lib/seo-helpers";
 
 // ISR: Regenerate every hour
 export const revalidate = 3600;
@@ -28,7 +28,10 @@ export async function generateMetadata({ params }: { params: Promise<{ country: 
     return {
         title, description,
         openGraph: { title: seo?.ogTitle || title, description: seo?.ogDescription || description, url: canonicalUrl, type: "website" },
-        alternates: { canonical: seo?.canonicalUrl || canonicalUrl },
+        alternates: {
+            canonical: seo?.canonicalUrl || canonicalUrl,
+            languages: buildHreflangAlternates(""),
+        },
         robots: seo?.noIndex ? "noindex, nofollow" : { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
     };
 }

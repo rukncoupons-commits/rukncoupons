@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Store, Category, Coupon, BlogPost, SocialConfig, AdBanner } from "@/lib/types";
 import Sidebar from "./Sidebar";
@@ -39,6 +40,23 @@ export default function StoresClient({
 
     const getCouponCount = (storeId: string) => allCoupons.filter((c) => c.storeId === storeId).length;
     const getCategoryName = (catSlug: string | undefined) => categories.find((c) => c.slug === catSlug)?.name || "";
+
+    // Above-The-Fold Performance Optimization
+    const [isDeferredLoaded, setIsDeferredLoaded] = useState(false);
+    const deferredRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (isDeferredLoaded || filteredStores.length <= 12) return;
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                setIsDeferredLoaded(true);
+                observer.disconnect();
+            }
+        }, { rootMargin: '800px' });
+
+        if (deferredRef.current) observer.observe(deferredRef.current);
+        return () => observer.disconnect();
+    }, [isDeferredLoaded, filteredStores.length]);
 
     return (
         <main className="min-h-screen bg-gray-50 py-8 text-right" dir="rtl">
@@ -107,8 +125,8 @@ export default function StoresClient({
                         </div>
 
                         {/* Grid */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                            {filteredStores.map((store) => {
+                        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 800px' }}>
+                            {filteredStores.slice(0, 12).map((store) => {
                                 const count = getCouponCount(store.id);
                                 return (
                                     <Link
@@ -122,7 +140,50 @@ export default function StoresClient({
                                             </span>
                                         )}
                                         <div className="w-20 h-20 rounded-full border border-gray-100 p-2 mb-4 bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                                            <img src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" />
+                                            <Image src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" width={80} height={80} sizes="80px" loading="lazy" />
+                                        </div>
+                                        <h3 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">
+                                            كود خصم {store.name}
+                                        </h3>
+                                        {store.description && (
+                                            <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-2 px-1">
+                                                {store.description}
+                                            </p>
+                                        )}
+                                        {count > 0 ? (
+                                            <span className="text-xs bg-green-50 text-green-700 px-3 py-1 rounded-full font-bold border border-green-100">
+                                                {count} عرض فعال
+                                            </span>
+                                        ) : (
+                                            <span className="text-xs bg-gray-50 text-gray-400 px-3 py-1 rounded-full border border-gray-100">
+                                                لا توجد عروض
+                                            </span>
+                                        )}
+                                    </Link>
+                                );
+                            })}
+
+                            {/* Intersection Sentinel */}
+                            {filteredStores.length > 12 && !isDeferredLoaded && (
+                                <div ref={deferredRef} className="col-span-full h-[200px] w-full flex items-center justify-center" aria-hidden="true" />
+                            )}
+
+                            {/* Deferred Rendering */}
+                            {isDeferredLoaded && filteredStores.slice(12).map((store) => {
+                                const count = getCouponCount(store.id);
+                                return (
+                                    <Link
+                                        key={store.id}
+                                        href={`/${countryCode}/${store.slug}`}
+                                        className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all group flex flex-col items-center text-center relative"
+                                    >
+                                        {store.category && (
+                                            <span className="absolute top-3 right-3 text-[10px] bg-gray-50 text-gray-400 px-2 py-0.5 rounded-full">
+                                                {getCategoryName(store.category)}
+                                            </span>
+                                        )}
+                                        <div className="w-20 h-20 rounded-full border border-gray-100 p-2 mb-4 bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
+                                            <Image src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" width={80} height={80} sizes="80px" loading="lazy" />
                                         </div>
                                         <h3 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">
                                             كود خصم {store.name}

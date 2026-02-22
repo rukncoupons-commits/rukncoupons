@@ -19,6 +19,9 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
     const searchParams = useSearchParams();
 
     const switchCountry = (code: string) => {
+        // Save preference to disable auto-detect for 30 days
+        document.cookie = `country_preference=${code}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
+
         const parts = pathname.split("/");
         // pathname usually /sa/something... parts=["", "sa", "something"]
         if (parts.length >= 2) {

@@ -5,7 +5,7 @@ import Script from "next/script";
 import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
 import CouponCardServer from "@/components/CouponCardServer";
-import { buildAbsoluteUrl, getCurrencyByCountry } from "@/lib/seo-helpers";
+import { buildAbsoluteUrl, getCurrencyByCountry, buildHreflangAlternates } from "@/lib/seo-helpers";
 
 // ISR: Regenerate every hour
 export const revalidate = 3600;
@@ -22,7 +22,10 @@ export async function generateMetadata({ params }: { params: Promise<{ country: 
     return {
         title: `جميع كوبونات وعروض ${currentCountry.name} | ركن الكوبونات`,
         description: `تصفح أحدث الكوبونات والخصومات لجميع المتاجر في ${currentCountry.name}. عروض حصرية ومتجددة يومياً.`,
-        alternates: { canonical: buildAbsoluteUrl(`/${country}/coupons`) },
+        alternates: {
+            canonical: buildAbsoluteUrl(`/${country}/coupons`),
+            languages: buildHreflangAlternates("/coupons"),
+        },
         robots: "noindex, follow",
     };
 }

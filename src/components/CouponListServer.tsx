@@ -6,6 +6,7 @@
 import React from "react";
 import { Store, Coupon, Category } from "@/lib/types";
 import CouponCardServer from "./CouponCardServer";
+import DeferredCouponsClient from "./DeferredCouponsClient";
 
 interface Props {
     store: Store;
@@ -22,8 +23,8 @@ export default function CouponListServer({ store, coupons, countryCode, countryN
     return (
         <section aria-label={`كوبونات ${store.name} في ${countryName}`}>
             {active.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {active.map((coupon) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 800px' }}>
+                    {active.slice(0, 12).map((coupon) => (
                         <CouponCardServer
                             key={coupon.id}
                             coupon={coupon}
@@ -32,6 +33,14 @@ export default function CouponListServer({ store, coupons, countryCode, countryN
                             countryCode={countryCode}
                         />
                     ))}
+                    {active.length > 12 && (
+                        <DeferredCouponsClient
+                            coupons={active.slice(12)}
+                            store={store}
+                            categoryName={categoryName}
+                            countryCode={countryCode}
+                        />
+                    )}
                 </div>
             ) : (
                 <div className="bg-white p-16 rounded-3xl text-center border-2 border-dashed border-gray-200 w-full">

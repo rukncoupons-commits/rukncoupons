@@ -3,6 +3,10 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { buildOrganizationSchema, SITE_URL } from "@/lib/seo-helpers";
+import dynamic from "next/dynamic";
+
+const GeoSuggestionPopup = dynamic(() => import("@/components/GeoSuggestionPopup"), { ssr: false });
+const WebVitalsLogger = dynamic(() => import("@/components/WebVitalsLogger"), { ssr: false });
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,6 +53,12 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://storage.googleapis.com" />
       </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased font-sans bg-gray-50`}>
+        {/* Geo Auto Suggestion Layer */}
+        <GeoSuggestionPopup />
+
+        {/* Core Web Vitals RUM Logger */}
+        <WebVitalsLogger />
+
         {/* Organization + WebSite Schema — Site-wide */}
         <Script
           id="org-schema"
@@ -57,10 +67,10 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         {/* Legacy Heatmap Behavior Script for Blogs */}
-        <Script src="/tracker.js" strategy="afterInteractive" />
+        <Script src="/tracker.js" strategy="lazyOnload" />
 
         {/* Global Advanced Analytics Tracker */}
-        <Script src="/metrics-tracker.js" strategy="afterInteractive" />
+        <Script src="/metrics-tracker.js" strategy="lazyOnload" />
         {children}
       </body>
     </html>

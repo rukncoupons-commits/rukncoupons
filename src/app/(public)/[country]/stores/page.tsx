@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import StoresClient from "@/components/StoresClient";
 import Script from "next/script";
-import { buildAbsoluteUrl } from "@/lib/seo-helpers";
+import { buildAbsoluteUrl, buildHreflangAlternates } from "@/lib/seo-helpers";
 
 // ISR: Regenerate every hour
 export const revalidate = 3600;
@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         description,
         alternates: {
             canonical: buildAbsoluteUrl(`/${country}/stores`),
+            languages: buildHreflangAlternates("/stores"),
         },
         // noindex on ?q= search results to avoid thin/duplicate pages
         robots: "index, follow",

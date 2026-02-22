@@ -1,0 +1,30 @@
+{
+    "name": "rukn-coupons-server",
+    "version": "1.0.0",
+    "description": "Rukn Al-Coupons - Node.js SSR Server with full SEO optimization",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js"
+    },
+    "dependencies": {
+        "compression": "^1.7.4",
+        "dotenv": "^16.4.5",
+        "ejs": "^3.1.10",
+        "express": "^4.18.3",
+        "express-ejs-layouts": "^2.5.1",
+        "express-rate-limit": "^7.2.0",
+        "express-session": "^1.19.0",
+        "firebase-admin": "^12.1.0",
+        "helmet": "^7.1.0",
+        "node-cache": "^5.1.2",
+        "node-html-parser": "^6.1.13",
+        "xss": "^1.0.15"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.0"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
+}

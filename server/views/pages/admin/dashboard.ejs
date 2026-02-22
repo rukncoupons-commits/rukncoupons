@@ -1,0 +1,106 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Stat Card -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl">🏪
+            </div>
+            <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-lg">+12%</span>
+        </div>
+        <h3 class="text-gray-500 text-sm font-bold">إجمالي المتاجر</h3>
+        <p class="text-3xl font-black text-gray-800">
+            <%= stats.stores %>
+        </p>
+    </div>
+
+    <!-- Stat Card -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center text-2xl">🎫
+            </div>
+            <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-lg">+5%</span>
+        </div>
+        <h3 class="text-gray-500 text-sm font-bold">الكوبونات النشطة</h3>
+        <p class="text-3xl font-black text-gray-800">
+            <%= stats.coupons %>
+        </p>
+    </div>
+
+    <!-- Stat Card -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center text-2xl">📝
+            </div>
+            <span class="text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-lg">0%</span>
+        </div>
+        <h3 class="text-gray-500 text-sm font-bold">مقالات المدونة</h3>
+        <p class="text-3xl font-black text-gray-800">
+            <%= stats.blogPosts %>
+        </p>
+    </div>
+
+    <!-- Stat Card -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-2xl">⚖️
+            </div>
+            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">نشط</span>
+        </div>
+        <h3 class="text-gray-500 text-sm font-bold">قواعد المحرك</h3>
+        <p class="text-3xl font-black text-gray-800">
+            <%= stats.rules %>
+        </p>
+    </div>
+</div>
+
+<div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Quick Actions -->
+    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+        <h3 class="text-lg font-black text-gray-800 mb-6">إجراءات سريعة</h3>
+        <div class="grid grid-cols-2 gap-4">
+            <button class="p-4 bg-gray-50 hover:bg-gray-100 rounded-2xl text-right transition-all group">
+                <span class="text-2xl mb-2 block">➕</span>
+                <span class="text-sm font-bold text-gray-700 block group-hover:text-blue-600">أضف كوبون جديد</span>
+            </button>
+            <button class="p-4 bg-gray-50 hover:bg-gray-100 rounded-2xl text-right transition-all group">
+                <span class="text-2xl mb-2 block">🏬</span>
+                <span class="text-sm font-bold text-gray-700 block group-hover:text-blue-600">أضف متجر جديد</span>
+            </button>
+            <button class="p-4 bg-gray-50 hover:bg-gray-100 rounded-2xl text-right transition-all group">
+                <span class="text-2xl mb-2 block">📄</span>
+                <span class="text-sm font-bold text-gray-700 block group-hover:text-blue-600">أضف مقال جديد</span>
+            </button>
+            <button class="p-4 bg-gray-50 hover:bg-gray-100 rounded-2xl text-right transition-all group">
+                <span class="text-2xl mb-2 block">🛠️</span>
+                <span class="text-sm font-bold text-gray-700 block group-hover:text-blue-600">إعدادات الموقع</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Recent Activity Placeholder -->
+    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+        <h3 class="text-lg font-black text-gray-800 mb-6">آخر النشاطات</h3>
+        <div class="space-y-4">
+            <div class="flex items-center gap-4 text-sm">
+                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">➕</div>
+                <div class="flex-1">
+                    <p class="text-gray-800 font-bold">تم إضافة كوبون جديد لمتجر "نون"</p>
+                    <p class="text-gray-400 text-xs">منذ ساعة واحدة</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-sm">
+                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0">✨</div>
+                <div class="flex-1">
+                    <p class="text-gray-800 font-bold">تم تحديث بيانات متجر "أمازون"</p>
+                    <p class="text-gray-400 text-xs">منذ ساعتين</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-sm">
+                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center shrink-0">⚖️</div>
+                <div class="flex-1">
+                    <p class="text-gray-800 font-bold">تم تفعيل قاعدة جديدة لإخفاء الكوبونات المنتهية</p>
+                    <p class="text-gray-400 text-xs">منذ 3 ساعات</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

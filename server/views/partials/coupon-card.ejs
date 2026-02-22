@@ -1,0 +1,107 @@
+<% const store=locals.store || (storeMap && storeMap[coupon.storeId]) || null; const catName=(()=> {
+    if (store && store.category) {
+    const cat = (typeof categories !== 'undefined' ? categories : []).find(c => c.slug === store.category);
+    return cat ? cat.name : 'متجر';
+    }
+    return 'عرض خاص';
+    })();
+    const hasCode = !!(coupon.code);
+    const overrides = coupon._ruleOverrides || {};
+
+    // Clean strings for JS onclick
+    const safeStoreName = store ? store.name.replace(/'/g, "\\'") : '';
+    const safeLogoUrl = store ? store.logoUrl.replace(/'/g, "\\'") : '';
+    const safeTitle = coupon.title ? coupon.title.replace(/'/g, "\\'") : '';
+    const safeCode = coupon.code ? coupon.code.replace(/'/g, "\\'") : '';
+    const safeLink = coupon.affiliateLink ? coupon.affiliateLink.replace(/'/g, "\\'") : '';
+    %>
+    <div class="h-full group relative">
+        <div class="bg-white rounded-3xl border-2 border-dashed border-gray-300 shadow-sm hover:shadow-xl hover:border-blue-400 hover:-translate-y-1 transition-all duration-300 p-5 h-full flex flex-col items-center text-center cursor-pointer relative overflow-hidden"
+            onclick="openCouponModal('<%= coupon.id %>', '<%= safeStoreName %>', '<%= safeLogoUrl %>', '<%= safeTitle %>', '<%= safeCode %>', '<%= safeLink %>')">
+
+            <!-- Exclusive Badge -->
+            <% if (coupon.isExclusive) { %>
+                <div
+                    class="absolute top-0 right-0 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-2xl shadow-sm z-10">
+                    حصري</div>
+                <% } %>
+
+                    <!-- Rule Badge -->
+                    <% if (overrides.badge) { %>
+                        <div
+                            class="absolute top-0 left-0 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-3 py-1 rounded-br-2xl shadow-sm z-10">
+                            <%= overrides.badge %>
+                        </div>
+                        <% } %>
+
+                            <!-- Logo -->
+                            <div
+                                class="w-[84px] h-[84px] mb-3 rounded-full border border-gray-100 shadow-sm bg-white overflow-hidden p-1 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                                <% if (store && store.logoUrl) { %>
+                                    <img src="<%= store.logoUrl %>" alt="<%= store.name %>"
+                                        class="w-full h-full object-contain rounded-full" loading="lazy">
+                                    <% } else { %>
+                                        <span class="text-3xl">🛍️</span>
+                                        <% } %>
+                            </div>
+
+                            <!-- Store Name & Category -->
+                            <h3 class="font-bold text-gray-900 text-sm mb-1">
+                                <%= store ? store.name : 'عرض خاص' %>
+                            </h3>
+                            <p class="text-[10px] text-gray-400 font-medium mb-4">
+                                <%= catName %>
+                            </p>
+
+                            <!-- Discount Badge -->
+                            <div
+                                class="w-full bg-blue-50 text-blue-600 rounded-xl py-2 px-4 mb-4 transform transition-transform group-hover:scale-105">
+                                <span class="font-bold text-lg tracking-tight block dir-ltr">
+                                    <%= coupon.discountValue %>
+                                </span>
+                            </div>
+
+                            <!-- Title -->
+                            <p class="text-gray-500 text-xs font-medium leading-relaxed line-clamp-2 mb-5 px-1">
+                                <%= coupon.title %>
+                            </p>
+
+                            <!-- Action Button -->
+                            <button
+                                class="w-full font-bold py-3 rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 text-white mt-auto text-sm <%= hasCode ? 'bg-blue-600 hover:bg-blue-700 shadow-blue-200' : 'bg-gray-800 hover:bg-gray-900 shadow-gray-200' %>">
+                                <% if (hasCode) { %>
+                                    <span>نسخ الكود</span>
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                    </svg>
+                                    <% } else { %>
+                                        <span>تفعيل العرض</span>
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                        </svg>
+                                        <% } %>
+                            </button>
+
+                            <!-- Footer: Expiry & Flags -->
+                            <div
+                                class="w-full flex items-center justify-between mt-4 pt-3 border-t border-gray-50 text-[10px] text-gray-400">
+                                <div class="flex items-center gap-1">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span>لفترة محدودة</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <% if (Array.isArray(coupon.countryCodes)) { coupon.countryCodes.forEach(code=> { %>
+                                        <img src="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/flags/1x1/<%= code %>.svg"
+                                            title="<%= code %>"
+                                            class="w-3.5 h-3.5 rounded-full object-cover shadow-sm border border-gray-100"
+                                            loading="lazy">
+                                        <% }) } %>
+                                </div>
+                            </div>
+        </div>
+    </div>

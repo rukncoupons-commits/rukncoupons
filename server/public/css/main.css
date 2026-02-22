@@ -1,0 +1,132 @@
+/* ─── Rukn Al-Coupons Custom Styles ─────────────────────────────────────── */
+
+/* Font */
+* {
+  font-family: 'Rubik', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* RTL Utilities */
+.dir-ltr { direction: ltr; }
+
+/* Scrollbar Hide */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Line Clamp */
+.line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+.line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+
+/* Modal Animation */
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.animate-modal-in { animation: modalIn 0.25s ease-out forwards; }
+
+/* Blog Content Styles */
+.blog-content h2 {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #1e293b;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+.blog-content h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #334155;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.blog-content p {
+  color: #475569;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+.blog-content ul, .blog-content ol {
+  margin: 1rem 0;
+  padding-right: 1.5rem;
+}
+.blog-content li {
+  color: #475569;
+  line-height: 1.8;
+  margin-bottom: 0.25rem;
+}
+.blog-content a {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+}
+.blog-content a:hover { text-decoration: underline; }
+.blog-content img {
+  border-radius: 1rem;
+  margin: 1.5rem auto;
+  max-width: 100%;
+}
+.blog-content blockquote {
+  border-right: 4px solid #2563eb;
+  background: #eff6ff;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  margin: 1.5rem 0;
+  color: #1e40af;
+  font-style: italic;
+}
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+.blog-content th {
+  background: #2563eb;
+  color: white;
+  padding: 0.75rem 1rem;
+  text-align: right;
+  font-weight: 700;
+}
+.blog-content td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+}
+.blog-content tr:nth-child(even) td { background: #f8fafc; }
+
+/* Quill Content Override */
+.ql-editor { padding: 0 !important; }
+.ql-snow.ql-toolbar { display: none; }
+.ql-container.ql-snow { border: none !important; }
+
+/* Container */
+.container { max-width: 1280px; }
+
+/* Slider */
+#hero-slider { min-height: 200px; }
+.slider-track { will-change: transform; }
+
+/* Toast */
+.toast {
+  background: white;
+  border-radius: 1rem;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: all;
+  animation: toastIn 0.3s ease-out;
+  max-width: 320px;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Prose Overrides */
+.prose { max-width: none; }

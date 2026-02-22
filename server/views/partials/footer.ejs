@@ -1,0 +1,53 @@
+<footer class="bg-gray-800 text-gray-300 pt-10 mt-12 pb-8">
+    <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+            <div class="flex items-center gap-2 mb-4">
+                <div class="bg-blue-600 text-white p-1 rounded font-bold">ركن</div>
+                <span class="text-xl font-bold text-white">الكوبونات</span>
+            </div>
+            <p class="text-sm leading-relaxed">منصتك الأولى للحصول على أحدث كوبونات الخصم والعروض في السعودية، مصر،
+                والإمارات.</p>
+        </div>
+        <div>
+            <h3 class="text-white font-bold mb-4">روابط سريعة</h3>
+            <ul class="space-y-2 text-sm">
+                <li><a href="/temu"
+                        class="text-orange-400 hover:text-orange-300 transition font-bold flex items-center gap-1"><span>🔥</span>
+                        عرض Temu الحصري</a></li>
+                <li><a href="/<%= countryCode %>/about" class="hover:text-white transition">عن الموقع</a></li>
+                <li><a href="/<%= countryCode %>/contact" class="hover:text-white transition">اتصل بنا</a></li>
+                <li><a href="/<%= countryCode %>/privacy" class="hover:text-white transition">سياسة الخصوصية</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="text-white font-bold mb-4">أقسام مشهورة</h3>
+            <ul class="space-y-2 text-sm">
+                <li><a href="/<%= countryCode %>/stores" class="hover:text-white transition">أزياء وموضة</a></li>
+                <li><a href="/<%= countryCode %>/stores" class="hover:text-white transition">إلكترونيات</a></li>
+                <li><a href="/<%= countryCode %>/stores" class="hover:text-white transition">بقالة</a></li>
+            </ul>
+        </div>
+        <div>
+            <h3 class="text-white font-bold mb-4">اشترك في النشرة</h3>
+            <p class="text-xs mb-3">احصل على أحدث الكوبونات في بريدك.</p>
+            <div class="flex">
+                <input type="email" placeholder="بريدك الإلكتروني"
+                    class="w-full px-3 py-2 rounded-r bg-gray-700 border-none text-white text-sm focus:outline-none">
+                <button
+                    class="bg-blue-600 text-white px-4 py-2 rounded-l text-sm font-bold hover:bg-blue-700">اشتراك</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 pt-8 border-t border-gray-700">
+        <div class="container mx-auto px-4 text-gray-300 text-xs">
+            <div class="flex flex-col-reverse md:flex-row md:justify-between items-center gap-y-4">
+                <div>&copy; <%= new Date().getFullYear() %> موقع ركن الكوبونات. جميع الحقوق محفوظة.</div>
+                <div class="flex items-center gap-4">
+                    <a href="/<%= countryCode %>/blog" class="hover:text-white transition-colors">المدونة</a>
+                    <a href="/<%= countryCode %>/privacy" class="hover:text-white transition-colors">سياسة الخصوصية</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

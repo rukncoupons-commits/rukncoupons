@@ -1,0 +1,89 @@
+<main class="container mx-auto px-4 py-10">
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Main Content -->
+        <div class="flex-1 min-w-0">
+
+            <!-- Store Header Card -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8 mb-8">
+                <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                    <div
+                        class="w-28 h-28 rounded-2xl border-2 border-gray-100 p-2 bg-white flex items-center justify-center shrink-0 shadow-sm">
+                        <img src="<%= store.logoUrl %>" alt="<%= store.name %>" class="w-full h-full object-contain">
+                    </div>
+                    <div class="flex-1 text-center sm:text-right">
+                        <h1 class="text-3xl font-black text-gray-800 mb-2">
+                            <%= store.name %>
+                        </h1>
+                        <p class="text-gray-500 text-sm leading-relaxed mb-4">
+                            <%= store.description %>
+                        </p>
+                        <div class="flex flex-wrap gap-3 justify-center sm:justify-start">
+                            <% if (store.website) { %>
+                                <a href="<%= store.website %>" target="_blank" rel="noopener noreferrer"
+                                    class="inline-flex items-center gap-2 bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition-colors text-sm">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                    </svg>
+                                    زيارة المتجر
+                                </a>
+                                <% } %>
+                                    <% if (store.shippingInfo) { %>
+                                        <span
+                                            class="inline-flex items-center gap-1 bg-green-50 text-green-700 font-medium px-4 py-2.5 rounded-xl text-sm">
+                                            🚚 <%= store.shippingInfo %>
+                                        </span>
+                                        <% } %>
+                                            <% if (store.returnPolicy) { %>
+                                                <span
+                                                    class="inline-flex items-center gap-1 bg-blue-50 text-blue-700 font-medium px-4 py-2.5 rounded-xl text-sm">
+                                                    🔄 <%= store.returnPolicy %>
+                                                </span>
+                                                <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coupons Section -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-black text-gray-800 mb-6 flex items-center gap-2">
+                    <span class="text-blue-600">🎫</span>
+                    كوبونات وعروض <%= store.name %>
+                        <span class="text-base font-normal text-gray-400">(<%= storeCoupons.length %>)</span>
+                </h2>
+
+                <% if (storeCoupons.length> 0) { %>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <% storeCoupons.forEach(coupon=> { %>
+                            <%- include('../partials/coupon-card', { coupon, storeMap, categories, countryCode }) %>
+                                <% }) %>
+                    </div>
+                    <% } else { %>
+                        <div class="text-center py-16 bg-white rounded-2xl border border-gray-100">
+                            <div class="text-5xl mb-4">🎫</div>
+                            <p class="text-gray-500 font-medium">لا توجد كوبونات متاحة لهذا المتجر حالياً</p>
+                        </div>
+                        <% } %>
+            </div>
+
+            <!-- Long Description -->
+            <% if (longDescription) { %>
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8">
+                    <div class="ql-snow">
+                        <div class="ql-editor prose max-w-none">
+                            <%- longDescription %>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="w-full lg:w-80 shrink-0">
+            <%- include('../partials/sidebar', { adBanners, recentPosts, socialConfig, countryCode, allStores: [store],
+                coupons: storeCoupons }) %>
+        </aside>
+    </div>
+</main>

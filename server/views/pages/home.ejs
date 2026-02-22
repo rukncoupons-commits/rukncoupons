@@ -1,0 +1,191 @@
+<!-- Hero Slider -->
+<% if (typeof slides !=='undefined' && slides.length> 0) { %>
+    <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800" id="hero-slider">
+        <div class="slider-track flex transition-transform duration-500" id="slider-track">
+            <% slides.forEach((slide, i)=> { %>
+                <div class="slider-slide w-full shrink-0 relative" style="min-width:100%">
+                    <div class="container mx-auto px-4 py-12 md:py-20 flex flex-col md:flex-row items-center gap-8">
+                        <div class="text-white text-center md:text-right flex-1">
+                            <% if (slide.badge || slide.isExclusive) { %>
+                                <span
+                                    class="inline-block bg-yellow-400 text-yellow-900 text-xs font-black px-3 py-1 rounded-full mb-4">
+                                    <%= slide.badge || '🔥 عرض حصري' %>
+                                </span>
+                                <% } %>
+                                    <h1 class="text-3xl md:text-5xl font-black mb-4 leading-tight">
+                                        <%= slide.title %>
+                                    </h1>
+                                    <p class="text-blue-100 text-lg mb-8 max-w-xl">
+                                        <%= slide.description %>
+                                    </p>
+                                    <% if (slide.linkUrl) { %>
+                                        <a href="<%= slide.linkUrl %>" target="_blank"
+                                            class="inline-block bg-white text-blue-700 font-black px-8 py-4 rounded-2xl hover:bg-blue-50 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 text-lg">
+                                            احصل على الخصم
+                                        </a>
+                                        <% } %>
+                        </div>
+                        <% if (slide.image) { %>
+                            <div class="flex-1 flex justify-center">
+                                <img src="<%= slide.image %>" alt="<%= slide.title %>"
+                                    class="max-h-64 object-contain drop-shadow-2xl rounded-2xl">
+                            </div>
+                            <% } %>
+                    </div>
+                </div>
+                <% }) %>
+        </div>
+        <!-- Dots -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2" id="slider-dots">
+            <% slides.forEach((_, i)=> { %>
+                <button onclick="goToSlide(<%= i %>)"
+                    class="slider-dot w-2.5 h-2.5 rounded-full transition-all <%= i === 0 ? 'bg-white scale-125' : 'bg-white/50' %>"></button>
+                <% }) %>
+        </div>
+    </section>
+    <% } %>
+
+        <main class="container mx-auto px-4 py-10">
+            <!-- Country Intro -->
+            <% if (typeof country !=='undefined' && country.introTitle) { %>
+                <div class="mb-12 text-center max-w-3xl mx-auto animate-fade-in-up">
+                    <h2 class="text-3xl font-black text-gray-800 mb-4">
+                        <%= country.introTitle %>
+                    </h2>
+                    <p class="text-gray-500 leading-relaxed">
+                        <%= country.introDesc %>
+                    </p>
+                </div>
+                <% } %>
+
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <!-- Main Content -->
+                        <div class="flex-1 min-w-0">
+
+                            <!-- Popular Stores -->
+                            <section class="mb-10 animate-fade-in-up">
+                                <div class="flex items-center justify-between mb-6">
+                                    <h2 class="text-2xl font-black text-gray-800 flex items-center gap-2">
+                                        <span class="text-blue-600">🏪</span> المتاجر الشائعة
+                                    </h2>
+                                    <a href="/<%= countryCode %>/stores"
+                                        class="text-blue-600 text-sm font-bold hover:underline">عرض الكل ←</a>
+                                </div>
+                                <div class="flex overflow-x-auto gap-4 pb-4 scrollbar-hide pt-2">
+                                    <% stores.slice(0, 15).forEach(store=> { %>
+                                        <a href="/<%= countryCode %>/<%= store.slug %>"
+                                            class="flex flex-col items-center gap-2 min-w-[80px] group transition-all">
+                                            <div
+                                                class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-white p-1 bg-white shadow-md group-hover:border-blue-500 group-hover:shadow-lg group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
+                                                <img src="<%= store.logoUrl %>" alt="<%= store.name %>"
+                                                    class="w-full h-full object-contain rounded-full" loading="lazy">
+                                            </div>
+                                            <span
+                                                class="text-[11px] md:text-xs font-bold text-gray-700 group-hover:text-blue-600 text-center line-clamp-1 transition-colors">
+                                                <%= store.name %>
+                                            </span>
+                                        </a>
+                                        <% }) %>
+                                </div>
+                            </section>
+
+                            <!-- Category Filter -->
+                            <% if (categories && categories.length> 0) { %>
+                                <section class="mb-10 animate-fade-in-up">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <h2 class="text-2xl font-black text-gray-800 flex items-center gap-2">
+                                            <span class="text-blue-600">🏷️</span> التصنيفات
+                                        </h2>
+                                    </div>
+                                    <div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                                        <button onclick="filterCategory('')"
+                                            class="flex flex-col items-center gap-2 min-w-[64px] group"
+                                            id="cat-btn-all">
+                                            <div
+                                                class="cat-icon-box w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center text-2xl shadow-sm border-2 border-transparent bg-blue-600 text-white transition-all group-hover:scale-105">
+                                                ♾️
+                                            </div>
+                                            <span class="text-[11px] font-bold text-gray-700">الكل</span>
+                                        </button>
+                                        <% categories.forEach(cat=> { %>
+                                            <button onclick="filterCategory('<%= cat.slug %>')"
+                                                class="category-btn flex flex-col items-center gap-2 min-w-[64px] group"
+                                                data-cat="<%= cat.slug %>">
+                                                <div
+                                                    class="cat-icon-box w-14 h-14 md:w-16 md:h-16 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center text-2xl shadow-sm group-hover:border-blue-400 group-hover:shadow-md transition-all">
+                                                    <%= cat.icon || '🏷️' %>
+                                                </div>
+                                                <span
+                                                    class="text-[11px] font-bold text-gray-700 group-hover:text-blue-600 text-center line-clamp-1 transition-colors">
+                                                    <%= cat.name %>
+                                                </span>
+                                            </button>
+                                            <% }) %>
+                                    </div>
+                                </section>
+                                <% } %>
+
+                                    <!-- Coupons Grid -->
+                                    <section class="animate-fade-in-up">
+                                        <div class="flex items-center justify-between mb-6">
+                                            <h2 class="text-2xl font-black text-gray-800 flex items-center gap-2">
+                                                <span class="text-blue-600">🎫</span> أحدث الكوبونات
+                                            </h2>
+                                            <a href="/<%= countryCode %>/coupons"
+                                                class="text-blue-600 text-sm font-bold hover:underline">عرض الكل ←</a>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5"
+                                            id="coupons-grid">
+                                            <% coupons.forEach(coupon=> { %>
+                                                <div class="coupon-item" data-store="<%= coupon.storeId %>"
+                                                    data-cat="<%= coupon.categories ? coupon.categories.join(',') : '' %>">
+                                                    <%- include('../partials/coupon-card', { coupon, storeMap,
+                                                        categories, countryCode }) %>
+                                                </div>
+                                                <% }) %>
+                                        </div>
+                                        <% if (coupons.length===0) { %>
+                                            <div
+                                                class="text-center py-16 bg-white rounded-2xl border border-dashed border-gray-200">
+                                                <div class="text-6xl mb-4">🎫</div>
+                                                <p class="text-lg font-medium text-gray-500">لا توجد كوبونات متاحة
+                                                    حالياً</p>
+                                            </div>
+                                            <% } %>
+                                    </section>
+                        </div>
+
+                        <!-- Sidebar -->
+                        <aside class="w-full lg:w-80 shrink-0">
+                            <%- include('../partials/sidebar', { adBanners, recentPosts, socialConfig, countryCode,
+                                allStores, coupons }) %>
+                        </aside>
+                    </div>
+        </main>
+
+        <script>
+            // Category filter for home page
+            function filterCategory(slug) {
+                // Update buttons
+                document.querySelectorAll('.cat-icon-box').forEach(box => {
+                    box.classList.remove('bg-blue-600', 'text-white', 'border-blue-500');
+                    box.classList.add('bg-white', 'text-gray-400', 'border-gray-200');
+                });
+
+                const activeBtn = slug ? document.querySelector(`.category-btn[data-cat="${slug}"] .cat-icon-box`) : document.querySelector('#cat-btn-all .cat-icon-box');
+                if (activeBtn) {
+                    activeBtn.classList.remove('bg-white', 'text-gray-400', 'border-gray-200');
+                    activeBtn.classList.add('bg-blue-600', 'text-white');
+                }
+
+                // Filter items
+                document.querySelectorAll('.coupon-item').forEach(item => {
+                    const cats = item.dataset.cat.split(',');
+                    if (!slug || cats.includes(slug)) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        </script>

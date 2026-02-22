@@ -1,0 +1,12 @@
+.next
+node_modules
+.git
+.env.local
+legacy-angular
+server
+scripts
+*.md
+.dockerignore
+.gitignore
+.tools
+.gcloudignore

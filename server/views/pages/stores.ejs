@@ -1,0 +1,84 @@
+<main class="container mx-auto px-4 py-10">
+    <!-- Page Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-black text-gray-800 mb-2">جميع المتاجر</h1>
+        <p class="text-gray-500">تصفح جميع المتاجر المتوفرة في <%= country ? country.name : '' %>
+        </p>
+    </div>
+
+    <!-- Search & Filter Bar -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-8">
+        <form action="/<%= countryCode %>/stores" method="GET" class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+                <input type="text" name="q" value="<%= searchQuery %>" placeholder="ابحث عن متجر..."
+                    class="w-full bg-gray-100 rounded-xl px-4 py-3 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all">
+                <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+            <button type="submit"
+                class="bg-blue-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors">بحث</button>
+        </form>
+    </div>
+
+    <!-- Category Filter -->
+    <% if (categories && categories.length> 0) { %>
+        <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide mb-8">
+            <a href="/<%= countryCode %>/stores"
+                class="shrink-0 px-4 py-2 rounded-xl text-sm font-bold transition-all <%= !selectedCategory ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-400' %>">الكل</a>
+            <% categories.forEach(cat=> { %>
+                <a href="/<%= countryCode %>/stores?category=<%= cat.slug %><%= searchQuery ? '&q=' + searchQuery : '' %>"
+                    class="shrink-0 px-4 py-2 rounded-xl text-sm font-bold transition-all <%= selectedCategory === cat.slug ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-400' %>">
+                    <%= cat.name %>
+                </a>
+                <% }) %>
+        </div>
+        <% } %>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Stores Grid -->
+                <div class="flex-1 min-w-0">
+                    <% if (stores.length> 0) { %>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            <% stores.forEach(store=> { %>
+                                <a href="/<%= countryCode %>/<%= store.slug %>"
+                                    class="bg-white rounded-2xl p-4 flex flex-col items-center gap-3 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all border border-gray-100 group">
+                                    <div
+                                        class="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-100 p-1 bg-white flex items-center justify-center">
+                                        <img src="<%= store.logoUrl %>" alt="<%= store.name %>"
+                                            class="w-full h-full object-contain" loading="lazy">
+                                    </div>
+                                    <div class="text-center">
+                                        <h2
+                                            class="font-bold text-gray-800 text-sm group-hover:text-blue-600 transition-colors">
+                                            <%= store.name %>
+                                        </h2>
+                                        <% const count=couponCountMap[store.id] || 0; %>
+                                            <% if (count> 0) { %>
+                                                <span class="text-xs text-green-600 font-medium">
+                                                    <%= count %> كوبون
+                                                </span>
+                                                <% } %>
+                                    </div>
+                                </a>
+                                <% }) %>
+                        </div>
+                        <% } else { %>
+                            <div class="text-center py-20 text-gray-400">
+                                <div class="text-6xl mb-4">🏪</div>
+                                <p class="text-lg font-medium">لا توجد متاجر تطابق بحثك</p>
+                                <a href="/<%= countryCode %>/stores"
+                                    class="text-blue-600 text-sm mt-2 inline-block hover:underline">عرض جميع المتاجر</a>
+                            </div>
+                            <% } %>
+                </div>
+
+                <!-- Sidebar -->
+                <aside class="w-full lg:w-80 shrink-0">
+                    <%- include('../partials/sidebar', { adBanners, recentPosts, socialConfig, countryCode, allStores:
+                        stores, coupons: [] }) %>
+                </aside>
+            </div>
+</main>

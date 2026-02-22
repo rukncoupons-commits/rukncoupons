@@ -1,0 +1,55 @@
+<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+        <h3 class="text-lg font-black text-gray-800">قائمة الكوبونات</h3>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all">➕
+            أضف كوبون</button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-right">
+            <thead class="bg-gray-50 text-gray-500 text-xs font-bold uppercase tracking-wider">
+                <tr>
+                    <th class="px-6 py-4">العنوان</th>
+                    <th class="px-6 py-4">المتجر</th>
+                    <th class="px-6 py-4">رمز الكوبون</th>
+                    <th class="px-6 py-4">الخصم</th>
+                    <th class="px-6 py-4">الاستخدامات</th>
+                    <th class="px-6 py-4">الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                <% coupons.forEach(coupon=> { %>
+                    <tr class="hover:bg-gray-50 transition-all">
+                        <td class="px-6 py-4">
+                            <span class="font-bold text-gray-800 block line-clamp-1">
+                                <%= coupon.title %>
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            <%= storeMap[coupon.storeId] ? storeMap[coupon.storeId].name : 'مجهول' %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span
+                                class="font-mono bg-blue-50 text-blue-700 px-3 py-1 rounded-lg border border-blue-100 text-xs font-black">
+                                <%= coupon.code || 'بدون كود' %>
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 font-bold text-green-600">
+                            <%= coupon.discountValue %>
+                        </td>
+                        <td class="px-6 py-4 text-xs">
+                            <span class="bg-gray-100 px-2 py-1 rounded-lg">🖱️ <%= coupon.usedCount %></span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-2">
+                                <button class="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-all"
+                                    title="تعديل">✏️</button>
+                                <button class="p-2 hover:bg-red-50 text-red-600 rounded-lg transition-all"
+                                    title="حذف">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>

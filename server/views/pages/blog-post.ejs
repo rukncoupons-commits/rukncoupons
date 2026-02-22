@@ -1,0 +1,177 @@
+<main class="container mx-auto px-4 py-10">
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Article -->
+        <article class="flex-1 min-w-0">
+
+            <!-- Breadcrumb -->
+            <nav class="flex items-center gap-2 text-sm text-gray-400 mb-6">
+                <a href="/<%= countryCode %>" class="hover:text-blue-600 transition-colors">الرئيسية</a>
+                <span>/</span>
+                <a href="/<%= countryCode %>/blog" class="hover:text-blue-600 transition-colors">المدونة</a>
+                <span>/</span>
+                <span class="text-gray-600 line-clamp-1">
+                    <%= post.title %>
+                </span>
+            </nav>
+
+            <!-- Post Header -->
+            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 mb-8">
+                <% if (post.image) { %>
+                    <div class="h-64 md:h-80 overflow-hidden">
+                        <img src="<%= post.image %>" alt="<%= post.title %>" class="w-full h-full object-cover">
+                    </div>
+                    <% } %>
+                        <div class="p-6 md:p-8">
+                            <% if (categoryName) { %>
+                                <span
+                                    class="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
+                                    <%= categoryName %>
+                                </span>
+                                <% } %>
+                                    <h1 class="text-3xl md:text-4xl font-black text-gray-800 mb-4 leading-tight">
+                                        <%= post.title %>
+                                    </h1>
+                                    <div class="flex items-center gap-4 text-sm text-gray-400">
+                                        <span class="flex items-center gap-1">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                            </svg>
+                                            <%= post.author %>
+                                        </span>
+                                        <span class="flex items-center gap-1">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            </svg>
+                                            <%= post.date %>
+                                        </span>
+                                    </div>
+                        </div>
+            </div>
+
+            <!-- Table of Contents -->
+            <% if (toc && toc.length> 2) { %>
+                <div class="bg-blue-50 border border-blue-100 rounded-2xl p-6 mb-8">
+                    <h2 class="font-black text-gray-800 mb-4 flex items-center gap-2">
+                        <span>📋</span> محتويات المقال
+                    </h2>
+                    <ul class="space-y-2">
+                        <% toc.forEach(item=> { %>
+                            <li class="<%= item.level === 3 ? 'mr-4' : '' %>">
+                                <a href="#<%= item.id %>" class="text-blue-600 hover:underline text-sm">
+                                    <%= item.text %>
+                                </a>
+                            </li>
+                            <% }) %>
+                    </ul>
+                </div>
+                <% } %>
+
+                    <!-- Article Content -->
+                    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8 mb-8">
+                        <div class="ql-snow">
+                            <div class="ql-editor blog-content prose max-w-none">
+                                <%- processedHtml %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Section -->
+                    <% if (post.faq && post.faq.length> 0) { %>
+                        <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8 mb-8">
+                            <h2 class="text-2xl font-black text-gray-800 mb-6 flex items-center gap-2">
+                                <span>❓</span> أسئلة شائعة
+                            </h2>
+                            <div class="space-y-4" id="faq-accordion">
+                                <% post.faq.forEach((item, i)=> { %>
+                                    <div class="border border-gray-100 rounded-2xl overflow-hidden">
+                                        <button onclick="toggleFaq(<%= i %>)"
+                                            class="w-full text-right flex items-center justify-between p-4 font-bold text-gray-800 hover:bg-gray-50 transition-colors">
+                                            <span>
+                                                <%= item.question %>
+                                            </span>
+                                            <svg id="faq-icon-<%= i %>"
+                                                class="w-5 h-5 text-gray-400 transition-transform shrink-0" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+                                        <div id="faq-answer-<%= i %>"
+                                            class="hidden px-4 pb-4 text-gray-600 text-sm leading-relaxed">
+                                            <%= item.answer %>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                            </div>
+                        </div>
+                        <% } %>
+
+                            <!-- Related Coupons -->
+                            <% if (relatedCoupons && relatedCoupons.length> 0) { %>
+                                <div class="mb-8">
+                                    <h2 class="text-2xl font-black text-gray-800 mb-6 flex items-center gap-2">
+                                        <span class="text-blue-600">🎫</span> كوبونات ذات صلة
+                                    </h2>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                        <% relatedCoupons.forEach(coupon=> { %>
+                                            <%- include('../partials/coupon-card', { coupon, storeMap, categories,
+                                                countryCode }) %>
+                                                <% }) %>
+                                    </div>
+                                </div>
+                                <% } %>
+
+                                    <!-- Share Buttons -->
+                                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                                        <h3 class="font-bold text-gray-800 mb-4">شارك المقال</h3>
+                                        <div class="flex gap-3">
+                                            <a href="https://twitter.com/intent/tweet?url=<%= encodeURIComponent(meta.canonical) %>&text=<%= encodeURIComponent(post.title) %>"
+                                                target="_blank" rel="noopener noreferrer"
+                                                class="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-gray-800 transition-colors">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                                </svg>
+                                                تويتر
+                                            </a>
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u=<%= encodeURIComponent(meta.canonical) %>"
+                                                target="_blank" rel="noopener noreferrer"
+                                                class="flex items-center gap-2 bg-[#1877F2] text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-700 transition-colors">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                                                </svg>
+                                                فيسبوك
+                                            </a>
+                                            <a href="https://wa.me/?text=<%= encodeURIComponent(post.title + ' ' + meta.canonical) %>"
+                                                target="_blank" rel="noopener noreferrer"
+                                                class="flex items-center gap-2 bg-[#25D366] text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-green-600 transition-colors">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                                </svg>
+                                                واتساب
+                                            </a>
+                                        </div>
+                                    </div>
+        </article>
+
+        <!-- Sidebar -->
+        <aside class="w-full lg:w-80 shrink-0">
+            <%- include('../partials/sidebar', { adBanners, recentPosts, socialConfig, countryCode, allStores: [],
+                coupons: relatedCoupons || [] }) %>
+        </aside>
+    </div>
+</main>
+
+<script>
+    function toggleFaq(index) {
+        const answer = document.getElementById('faq-answer-' + index);
+        const icon = document.getElementById('faq-icon-' + index);
+        const isHidden = answer.classList.contains('hidden');
+        answer.classList.toggle('hidden', !isHidden);
+        icon.style.transform = isHidden ? 'rotate(180deg)' : '';
+    }
+</script>

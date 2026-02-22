@@ -1,0 +1,59 @@
+<div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+        <h3 class="text-lg font-black text-gray-800">قائمة المتاجر</h3>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-blue-700 transition-all">➕
+            أضف متجر</button>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-right">
+            <thead class="bg-gray-50 text-gray-500 text-xs font-bold uppercase tracking-wider">
+                <tr>
+                    <th class="px-6 py-4">المتجر</th>
+                    <th class="px-6 py-4">الslug</th>
+                    <th class="px-6 py-4">الدول</th>
+                    <th class="px-6 py-4">الحالة</th>
+                    <th class="px-6 py-4">الإجراءات</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                <% stores.forEach(store=> { %>
+                    <tr class="hover:bg-gray-50 transition-all">
+                        <td class="px-6 py-4 flex items-center gap-4">
+                            <img src="<%= store.logoUrl %>"
+                                class="w-10 h-10 rounded-full object-contain border border-gray-100" alt="">
+                            <span class="font-bold text-gray-800">
+                                <%= store.name %>
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            <%= store.slug %>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-1">
+                                <% store.countryCodes.forEach(code=> { %>
+                                    <span class="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded uppercase">
+                                        <%= code %>
+                                    </span>
+                                    <% }) %>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span
+                                class="px-3 py-1 rounded-full text-[10px] font-bold <%= store.isActive !== false ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' %>">
+                                <%= store.isActive !==false ? 'نشط' : 'معطل' %>
+                            </span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex gap-2">
+                                <button class="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-all"
+                                    title="تعديل">✏️</button>
+                                <button class="p-2 hover:bg-red-50 text-red-600 rounded-lg transition-all"
+                                    title="حذف">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>

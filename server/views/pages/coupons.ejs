@@ -1,0 +1,68 @@
+<main class="container mx-auto px-4 py-10">
+    <div class="flex flex-col lg:flex-row gap-8">
+        <div class="flex-1 min-w-0">
+            <div class="mb-8">
+                <h1 class="text-3xl font-black text-gray-800 mb-2">جميع الكوبونات والعروض</h1>
+                <p class="text-gray-500">أحدث الكوبونات والخصومات في <%= country ? country.name : '' %>
+                </p>
+            </div>
+
+            <!-- Filters -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 mb-6 flex flex-wrap gap-3">
+                <!-- Store Filter -->
+                <form action="/<%= countryCode %>/coupons" method="GET" class="flex gap-2 flex-wrap">
+                    <select name="store" onchange="this.form.submit()"
+                        class="bg-gray-100 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                        <option value="">جميع المتاجر</option>
+                        <% stores.forEach(s=> { %>
+                            <option value="<%= s.id %>" <%=selectedStore===s.id ? 'selected' : '' %>><%= s.name %>
+                            </option>
+                            <% }) %>
+                    </select>
+                    <% if (selectedStore || selectedCategory) { %>
+                        <a href="/<%= countryCode %>/coupons"
+                            class="bg-gray-200 text-gray-600 font-medium px-4 py-2.5 rounded-xl text-sm hover:bg-gray-300 transition-colors">مسح
+                            الفلتر</a>
+                        <% } %>
+                </form>
+            </div>
+
+            <!-- Category Pills -->
+            <% if (categories && categories.length> 0) { %>
+                <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide mb-8">
+                    <a href="/<%= countryCode %>/coupons<%= selectedStore ? '?store=' + selectedStore : '' %>"
+                        class="shrink-0 px-4 py-2 rounded-xl text-sm font-bold transition-all <%= !selectedCategory ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-400' %>">الكل</a>
+                    <% categories.forEach(cat=> { %>
+                        <a href="/<%= countryCode %>/coupons?category=<%= cat.slug %><%= selectedStore ? '&store=' + selectedStore : '' %>"
+                            class="shrink-0 px-4 py-2 rounded-xl text-sm font-bold transition-all <%= selectedCategory === cat.slug ? 'bg-blue-600 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-400' %>">
+                            <%= cat.name %>
+                        </a>
+                        <% }) %>
+                </div>
+                <% } %>
+
+                    <!-- Coupons Grid -->
+                    <% if (coupons.length> 0) { %>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                            <% coupons.forEach(coupon=> { %>
+                                <%- include('../partials/coupon-card', { coupon, storeMap, categories, countryCode }) %>
+                                    <% }) %>
+                        </div>
+                        <% } else { %>
+                            <div class="text-center py-20 bg-white rounded-2xl border border-gray-100">
+                                <div class="text-6xl mb-4">🎫</div>
+                                <p class="text-gray-500 font-medium">لا توجد كوبونات تطابق الفلتر المحدد</p>
+                                <a href="/<%= countryCode %>/coupons"
+                                    class="text-blue-600 text-sm mt-2 inline-block hover:underline">عرض جميع
+                                    الكوبونات</a>
+                            </div>
+                            <% } %>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="w-full lg:w-80 shrink-0">
+            <%- include('../partials/sidebar', { adBanners, recentPosts, socialConfig, countryCode, allStores: stores,
+                coupons }) %>
+        </aside>
+    </div>
+</main>

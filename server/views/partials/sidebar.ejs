@@ -1,0 +1,156 @@
+<aside class="space-y-8">
+
+    <!-- Dynamic Ads -->
+    <% if (typeof adBanners !=='undefined' && adBanners.length> 0) { %>
+        <% adBanners.forEach(ad=> { %>
+            <div class="rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all group bg-white">
+                <% if (ad.type==='html' && ad.htmlContent) { %>
+                    <%- ad.htmlContent %>
+                        <% } else { %>
+                            <a href="<%= ad.linkUrl %>" target="_blank" rel="noopener noreferrer"
+                                class="block relative">
+                                <img src="<%= ad.imageUrl %>" alt="<%= ad.altText || 'Advertisement' %>"
+                                    class="w-full h-auto object-cover">
+                                <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors">
+                                </div>
+                                <span
+                                    class="absolute top-2 right-2 bg-white/90 text-[10px] font-bold px-2 py-0.5 rounded text-blue-600 shadow-sm">عرض
+                                    مميز</span>
+                            </a>
+                            <% } %>
+            </div>
+            <% }) %>
+                <% } %>
+
+                    <!-- Newsletter -->
+                    <div class="bg-blue-600 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+                        <div
+                            class="absolute top-0 left-0 text-white opacity-10 text-9xl transform -translate-x-4 -translate-y-4">
+                            ✉️</div>
+                        <h3 class="font-bold text-lg mb-2 relative z-10">نشــرة العروض السرية</h3>
+                        <p class="text-blue-100 text-sm mb-4 relative z-10">اشترك لتصلك أقوى الكوبونات الحصرية التي لا
+                            ننشرها على الموقع.</p>
+                        <div class="relative z-10 space-y-2">
+                            <input type="email" placeholder="بريدك الإلكتروني"
+                                class="w-full px-4 py-2 rounded-lg text-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300">
+                            <button
+                                class="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold py-2 rounded-lg text-sm transition-colors">اشترك
+                                الآن</button>
+                        </div>
+                    </div>
+
+                    <!-- Site Stats -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <h3 class="font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2">
+                            <span>📊</span> إحصائيات الموقع
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-500 text-sm">عدد المتاجر</span>
+                                <span class="font-bold bg-gray-100 px-2 py-1 rounded text-xs">
+                                    <%= typeof allStores !=='undefined' ? allStores.length : (typeof stores
+                                        !=='undefined' ? stores.length : 0) %>
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-500 text-sm">كوبونات فعالة</span>
+                                <span class="font-bold bg-green-100 text-green-700 px-2 py-1 rounded text-xs">
+                                    <%= typeof coupons !=='undefined' ? coupons.length : 0 %>
+                                </span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-500 text-sm">مستخدمين سعداء</span>
+                                <span
+                                    class="font-bold bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs">+5000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Blog Posts -->
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                        <h3 class="font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2">
+                            <span>📝</span> مقالات جديدة
+                        </h3>
+                        <div class="space-y-4">
+                            <% if (typeof recentPosts !=='undefined' && recentPosts.length> 0) { %>
+                                <% recentPosts.forEach(post=> { %>
+                                    <a href="/<%= countryCode %>/blog/<%= post.slug %>" class="flex gap-3 group">
+                                        <img src="<%= post.image %>" class="w-16 h-16 rounded-lg object-cover shrink-0"
+                                            alt="<%= post.title %>">
+                                        <div>
+                                            <h4
+                                                class="text-sm font-bold text-gray-800 group-hover:text-blue-600 line-clamp-2 transition-colors">
+                                                <%= post.title %>
+                                            </h4>
+                                            <span class="text-xs text-gray-400 mt-1 block">
+                                                <%= post.date %>
+                                            </span>
+                                        </div>
+                                    </a>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <p class="text-xs text-gray-400 text-center py-2">لا توجد مقالات جديدة
+                                                حالياً.</p>
+                                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <% if (typeof socialConfig !=='undefined' && socialConfig) { %>
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                            <h3 class="font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2">
+                                <span>📲</span> تابعنا
+                            </h3>
+                            <div class="flex gap-3 justify-center flex-wrap">
+                                <% if (socialConfig.facebook) { %>
+                                    <a href="<%= socialConfig.facebook %>" target="_blank"
+                                        class="w-10 h-10 rounded-full bg-white border border-gray-200 text-[#1877F2] flex items-center justify-center hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all shadow-sm transform hover:scale-110">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                                        </svg>
+                                    </a>
+                                    <% } %>
+                                        <% if (socialConfig.instagram) { %>
+                                            <a href="<%= socialConfig.instagram %>" target="_blank"
+                                                class="w-10 h-10 rounded-full bg-white border border-gray-200 text-[#E4405F] flex items-center justify-center hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:text-white hover:border-transparent transition-all shadow-sm transform hover:scale-110">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                                                </svg>
+                                            </a>
+                                            <% } %>
+                                                <% if (socialConfig.twitter) { %>
+                                                    <a href="<%= socialConfig.twitter %>" target="_blank"
+                                                        class="w-10 h-10 rounded-full bg-white border border-gray-200 text-black flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-all shadow-sm transform hover:scale-110">
+                                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path
+                                                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                                        </svg>
+                                                    </a>
+                                                    <% } %>
+                                                        <% if (socialConfig.youtube) { %>
+                                                            <a href="<%= socialConfig.youtube %>" target="_blank"
+                                                                class="w-10 h-10 rounded-full bg-white border border-gray-200 text-[#FF0000] flex items-center justify-center hover:bg-[#FF0000] hover:text-white hover:border-[#FF0000] transition-all shadow-sm transform hover:scale-110">
+                                                                <svg class="w-5 h-5" fill="currentColor"
+                                                                    viewBox="0 0 24 24">
+                                                                    <path
+                                                                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                                                                </svg>
+                                                            </a>
+                                                            <% } %>
+                                                                <% if (socialConfig.tiktok) { %>
+                                                                    <a href="<%= socialConfig.tiktok %>" target="_blank"
+                                                                        class="w-10 h-10 rounded-full bg-white border border-gray-200 text-black flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition-all shadow-sm transform hover:scale-110">
+                                                                        <svg class="w-5 h-5" fill="currentColor"
+                                                                            viewBox="0 0 24 24">
+                                                                            <path
+                                                                                d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.65-1.55-1.12v8.43c0 1.08-.2 2.16-.62 3.16-1.07 2.44-3.59 4.29-6.31 4.5-2.67.21-5.46-1-7.06-3.13-1.66-2.22-1.74-5.26-.22-7.56 1.43-2.18 4.02-3.46 6.64-3.29V14.15c-1.1-.17-2.3.26-3.11 1.05-.88.85-1.22 2.14-1 3.33.2 1.15 1.04 2.16 2.13 2.58 1.15.43 2.52.19 3.49-.66.82-.73 1.25-1.84 1.21-2.94V.02h.7z" />
+                                                                        </svg>
+                                                                    </a>
+                                                                    <% } %>
+                            </div>
+                        </div>
+                        <% } %>
+
+</aside>

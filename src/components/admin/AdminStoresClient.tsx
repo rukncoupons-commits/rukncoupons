@@ -205,7 +205,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                         </h4>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">اسم المتجر</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">اسم المتجر</label>
                                                 <input
                                                     type="text" required
                                                     value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })}
@@ -213,7 +213,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">الاسم اللطيف (Slug)</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">الاسم اللطيف (Slug)</label>
                                                 <input
                                                     type="text" required
                                                     value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })}
@@ -221,7 +221,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">التصنيف</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">التصنيف</label>
                                                 <select
                                                     required
                                                     value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}
@@ -234,7 +234,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 </select>
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">الحالة</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">الحالة</label>
                                                 <div className="flex bg-slate-50 p-1.5 rounded-2xl">
                                                     <button
                                                         type="button"
@@ -259,7 +259,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                         </h4>
                                         <div className="space-y-6">
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">رابط الشعار (Logo URL)</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">رابط الشعار (Logo URL)</label>
                                                 <input
                                                     type="text" required
                                                     value={formData.logoUrl} onChange={e => setFormData({ ...formData, logoUrl: e.target.value })}
@@ -267,7 +267,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">رابط الأفلييت (Affiliate URL)</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">رابط الأفلييت (Affiliate URL)</label>
                                                 <input
                                                     type="text"
                                                     value={formData.storeUrl} onChange={e => setFormData({ ...formData, storeUrl: e.target.value })}
@@ -316,7 +316,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                         </h4>
                                         <div className="space-y-6">
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">وصف مختصر</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">وصف مختصر</label>
                                                 <textarea
                                                     rows={3}
                                                     value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
@@ -324,7 +324,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 ></textarea>
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">وصف تفصيلي (HTML)</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">وصف تفصيلي (HTML)</label>
                                                 <div className="block mt-2">
                                                     <RichTextEditor
                                                         value={formData.longDescription || ""}

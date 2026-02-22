@@ -44,24 +44,24 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
     return (
         <div className="flex flex-wrap items-center gap-1 p-3 bg-white border-b border-slate-100 rounded-t-[2rem]">
-            <button onClick={() => editor.chain().focus().toggleBold().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('bold') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><Bold size={16} /></button>
-            <button onClick={() => editor.chain().focus().toggleItalic().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('italic') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><Italic size={16} /></button>
-            <button onClick={() => editor.chain().focus().toggleUnderline().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('underline') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><UnderlineIcon size={16} /></button>
-            <button onClick={() => editor.chain().focus().toggleStrike().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('strike') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><Strikethrough size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleBold().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('bold') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><Bold size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleItalic().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('italic') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><Italic size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleUnderline().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('underline') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><UnderlineIcon size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleStrike().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('strike') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><Strikethrough size={16} /></button>
             <div className="w-px h-6 bg-slate-200 mx-1"></div>
-            <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('heading', { level: 2 }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><Heading2 size={16} /></button>
-            <button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('heading', { level: 3 }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><Heading3 size={16} /></button>
-            <button onClick={() => editor.chain().focus().toggleBlockquote().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('blockquote') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><Quote size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('heading', { level: 2 }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><Heading2 size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('heading', { level: 3 }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><Heading3 size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleBlockquote().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('blockquote') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><Quote size={16} /></button>
             <div className="w-px h-6 bg-slate-200 mx-1"></div>
-            <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('bulletList') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><List size={16} /></button>
-            <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('orderedList') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><ListOrdered size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('bulletList') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><List size={16} /></button>
+            <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive('orderedList') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><ListOrdered size={16} /></button>
             <div className="w-px h-6 bg-slate-200 mx-1"></div>
-            <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive({ textAlign: 'right' }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><AlignRight size={16} /></button>
-            <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive({ textAlign: 'center' }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><AlignCenter size={16} /></button>
-            <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive({ textAlign: 'left' }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><AlignLeft size={16} /></button>
+            <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive({ textAlign: 'right' }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><AlignRight size={16} /></button>
+            <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive({ textAlign: 'center' }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><AlignCenter size={16} /></button>
+            <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={cn("p-2 rounded-xl transition-colors", editor.isActive({ textAlign: 'left' }) ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><AlignLeft size={16} /></button>
             <div className="w-px h-6 bg-slate-200 mx-1"></div>
-            <button onClick={setLink} className={cn("p-2 rounded-xl transition-colors", editor.isActive('link') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-600")} type="button"><Link2 size={16} /></button>
-            <button onClick={addImage} className="p-2 rounded-xl hover:bg-slate-100 text-slate-600 transition-colors" type="button"><ImageIcon size={16} /></button>
+            <button onClick={setLink} className={cn("p-2 rounded-xl transition-colors", editor.isActive('link') ? "bg-blue-100 text-blue-700" : "hover:bg-slate-100 text-slate-800")} type="button"><Link2 size={16} /></button>
+            <button onClick={addImage} className="p-2 rounded-xl hover:bg-slate-100 text-slate-800 transition-colors" type="button"><ImageIcon size={16} /></button>
         </div>
     );
 };
@@ -88,7 +88,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
         immediatelyRender: false,
         editorProps: {
             attributes: {
-                class: 'prose prose-sm sm:prose-base focus:outline-none min-h-[250px] w-full max-w-none p-6 text-slate-700',
+                class: 'prose prose-sm sm:prose-base focus:outline-none min-h-[250px] w-full max-w-none p-6 text-slate-900',
                 dir: 'rtl'
             },
         },
@@ -109,7 +109,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: RichTex
             <MenuBar editor={editor} />
             <div className="relative">
                 {editor?.isEmpty && placeholder && (
-                    <div className="absolute top-6 right-6 text-slate-400 pointer-events-none select-none">
+                    <div className="absolute top-6 right-6 text-slate-500 pointer-events-none select-none">
                         {placeholder}
                     </div>
                 )}

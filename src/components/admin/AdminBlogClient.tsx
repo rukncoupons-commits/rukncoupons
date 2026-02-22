@@ -217,7 +217,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                         <h4 className="text-xs font-black text-blue-600 uppercase tracking-widest flex items-center gap-2">المعلومات المرجعية</h4>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">عنوان المقال</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">عنوان المقال</label>
                                                 <input
                                                     type="text" required
                                                     value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })}
@@ -225,7 +225,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">رابط المقال (Slug)</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">رابط المقال (Slug)</label>
                                                 <input
                                                     type="text" required
                                                     value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })}
@@ -233,7 +233,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">التصنيف</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">التصنيف</label>
                                                 <select
                                                     required
                                                     value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}
@@ -244,7 +244,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 </select>
                                             </div>
                                             <div className="space-y-4">
-                                                <label className="text-sm font-black text-slate-700 pr-2 flex items-center gap-2">
+                                                <label className="text-sm font-black text-slate-900 pr-2 flex items-center gap-2">
                                                     <Globe size={14} /> الدول المستهدفة
                                                 </label>
                                                 <div className="flex gap-2 flex-wrap">
@@ -286,7 +286,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                         <h4 className="text-xs font-black text-purple-600 uppercase tracking-widest flex items-center gap-2">الوسائط والمؤلف</h4>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">رابط صورة الغلاف</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">رابط صورة الغلاف</label>
                                                 <input
                                                     type="text" required
                                                     value={formData.image} onChange={e => setFormData({ ...formData, image: e.target.value })}
@@ -294,7 +294,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">الكاتب</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">الكاتب</label>
                                                 <input
                                                     type="text" required
                                                     value={formData.author} onChange={e => setFormData({ ...formData, author: e.target.value })}
@@ -335,7 +335,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                         <h4 className="text-xs font-black text-green-600 uppercase tracking-widest flex items-center gap-2">إعدادات الـ SEO المتقدمة (اختياري)</h4>
                                         <div className="grid grid-cols-1 gap-6 bg-green-50/30 p-8 rounded-[2rem] border border-green-100/50">
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">عنوان الميتا (Meta Title)</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">عنوان الميتا (Meta Title)</label>
                                                 <input
                                                     type="text"
                                                     placeholder="يُترك فارغاً لاعتماد عنوان المقال الأساسي..."
@@ -345,7 +345,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">وصف الميتا (Meta Description)</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">وصف الميتا (Meta Description)</label>
                                                 <textarea
                                                     rows={3}
                                                     placeholder="يُترك فارغاً لاعتماد مقتطف تلقائي من المحتوى..."
@@ -355,7 +355,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-700 pr-2">الرابط المرجعي الأساسي (Canonical URL)</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">الرابط المرجعي الأساسي (Canonical URL)</label>
                                                 <input
                                                     type="text"
                                                     placeholder="URL لدعم أولوية الفهرسة..."

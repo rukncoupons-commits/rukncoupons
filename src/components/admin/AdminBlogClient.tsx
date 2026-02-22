@@ -114,9 +114,9 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="بحث في المقالات..."
-                        className="w-full bg-white border-2 border-slate-100 pr-12 pl-4 py-4 rounded-3xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold placeholder:text-slate-300"
+                        className="w-full bg-white border-2 border-slate-100 pr-12 pl-4 py-4 rounded-3xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold placeholder:text-slate-500 text-slate-900"
                     />
-                    <Search className="absolute right-4 top-4.5 text-slate-300 group-focus-within:text-blue-500 transition-colors" size={20} />
+                    <Search className="absolute right-4 top-4.5 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={20} />
                 </div>
                 <button
                     onClick={() => { resetForm(); setIsFormOpen(true); }}
@@ -150,12 +150,12 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                     <Tag size={10} />
                                     {categories.find(c => c.slug === post.category)?.name || "بدون تصنيف"}
                                 </span>
-                                <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1">
+                                <span className="text-[10px] text-slate-500 font-bold flex items-center gap-1">
                                     <Calendar size={12} />
                                     {post.createdAt ? post.createdAt.split('T')[0] : ''}
                                 </span>
                                 {post.countryCodes && post.countryCodes.length > 0 && (
-                                    <span className="text-[10px] text-slate-400 font-bold flex items-center gap-1 uppercase">
+                                    <span className="text-[10px] text-slate-500 font-bold flex items-center gap-1 uppercase">
                                         <Globe size={12} />
                                         {post.countryCodes.join(", ")}
                                     </span>
@@ -200,10 +200,10 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                     </div>
                                     <div>
                                         <h3 className="text-2xl font-black text-slate-800">{editingPost ? "تعديل المقال" : "كتابة مقال جديد"}</h3>
-                                        <p className="text-sm font-medium text-slate-400">شارك المعرفة والعروض مع الزوار.</p>
+                                        <p className="text-sm font-medium text-slate-500">شارك المعرفة والعروض مع الزوار.</p>
                                     </div>
                                 </div>
-                                <button onClick={resetForm} className="p-3 hover:bg-slate-50 text-slate-400 rounded-2xl transition-all">
+                                <button onClick={resetForm} className="p-3 hover:bg-slate-50 text-slate-500 rounded-2xl transition-all">
                                     <X size={24} />
                                 </button>
                             </div>
@@ -221,7 +221,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 <input
                                                     type="text" required
                                                     value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-lg"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 text-lg"
                                                 />
                                             </div>
                                             <div className="space-y-2">
@@ -229,7 +229,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 <input
                                                     type="text" required
                                                     value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 dir-ltr"
                                                 />
                                             </div>
                                             <div className="space-y-2">
@@ -237,7 +237,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 <select
                                                     required
                                                     value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold appearance-none"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 appearance-none text-slate-900"
                                                 >
                                                     <option value="">اختر تصنيف...</option>
                                                     {categories.map(c => <option key={c.id} value={c.slug}>{c.name}</option>)}
@@ -290,7 +290,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 <input
                                                     type="text" required
                                                     value={formData.image} onChange={e => setFormData({ ...formData, image: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr text-sm"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 dir-ltr text-sm"
                                                 />
                                             </div>
                                             <div className="space-y-2">
@@ -298,7 +298,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 <input
                                                     type="text" required
                                                     value={formData.author} onChange={e => setFormData({ ...formData, author: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900"
                                                 />
                                             </div>
                                         </div>
@@ -373,7 +373,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                             <div className="p-10 border-t border-slate-100 sticky bottom-0 bg-white/95 backdrop-blur z-10 flex gap-4">
                                 <button
                                     type="button" onClick={resetForm}
-                                    className="flex-1 py-5 rounded-3xl border-2 border-slate-100 font-black text-slate-400 hover:bg-slate-50 transition-all"
+                                    className="flex-1 py-5 rounded-3xl border-2 border-slate-100 font-black text-slate-500 hover:bg-slate-50 transition-all"
                                 >إلغاء</button>
                                 <button
                                     type="submit" form="post-form"

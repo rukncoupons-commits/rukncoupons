@@ -119,7 +119,7 @@ export default function AdminNewsletterClient({ initialSubscribers }: Props) {
                             <tbody>
                                 {subscribers.map((sub) => (
                                     <tr key={sub.id} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                                        <td className="px-6 py-4 font-mono text-sm text-slate-700">{sub.email}</td>
+                                        <td className="px-6 py-4 font-mono text-sm text-slate-900">{sub.email}</td>
                                         <td className="px-6 py-4 text-sm text-slate-500">
                                             {new Date(sub.subscribedAt).toLocaleDateString("ar-SA")}
                                         </td>
@@ -160,23 +160,23 @@ export default function AdminNewsletterClient({ initialSubscribers }: Props) {
                     </div>
 
                     <div>
-                        <label className="block text-sm font-black text-slate-700 mb-2">موضوع الرسالة</label>
+                        <label className="block text-sm font-black text-slate-900 mb-2">موضوع الرسالة</label>
                         <input
                             value={subject}
                             onChange={e => setSubject(e.target.value)}
                             placeholder="مثال: 🔥 عروض رمضان الحصرية - خصم يصل إلى 70%"
-                            className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500 outline-none transition"
+                            className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500 outline-none transition text-slate-900"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-black text-slate-700 mb-2">محتوى الرسالة (HTML أو نص عادي)</label>
+                        <label className="block text-sm font-black text-slate-900 mb-2">محتوى الرسالة (HTML أو نص عادي)</label>
                         <textarea
                             value={emailBody}
                             onChange={e => setEmailBody(e.target.value)}
                             placeholder={`<div dir="rtl">\n  <h2>عروض مميزة هذا الأسبوع</h2>\n  <p>أعزاءنا المشتركين، لدينا اليوم أقوى العروض...</p>\n</div>`}
                             rows={12}
-                            className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm font-mono focus:border-blue-500 outline-none transition resize-none"
+                            className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm font-mono focus:border-blue-500 outline-none transition resize-none text-slate-900"
                         />
                     </div>
 
@@ -213,26 +213,26 @@ export default function AdminNewsletterClient({ initialSubscribers }: Props) {
                             { label: "بريد المرسل", key: "senderEmail", placeholder: "no-reply@rukncoupons.com", type: "email" },
                         ].map(field => (
                             <div key={field.key}>
-                                <label className="block text-sm font-black text-slate-700 mb-2">{field.label}</label>
+                                <label className="block text-sm font-black text-slate-900 mb-2">{field.label}</label>
                                 <input
                                     type={field.type}
                                     value={(settings as any)[field.key]}
                                     onChange={e => setSettings(prev => ({ ...prev, [field.key]: field.type === "number" ? +e.target.value : e.target.value }))}
                                     placeholder={field.placeholder}
-                                    className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500 outline-none transition"
+                                    className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500 outline-none transition text-slate-900"
                                 />
                             </div>
                         ))}
 
                         <div>
-                            <label className="block text-sm font-black text-slate-700 mb-2">SMTP Password (كلمة المرور)</label>
+                            <label className="block text-sm font-black text-slate-900 mb-2">SMTP Password (كلمة المرور)</label>
                             <div className="relative">
                                 <input
                                     type={showPass ? "text" : "password"}
                                     value={settings.smtpPass}
                                     onChange={e => setSettings(prev => ({ ...prev, smtpPass: e.target.value }))}
                                     placeholder="كلمة مرور التطبيق"
-                                    className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500 outline-none transition pl-12"
+                                    className="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-blue-500 outline-none transition text-slate-900 pl-12"
                                 />
                                 <button onClick={() => setShowPass(!showPass)} className="absolute left-3 top-3.5 text-slate-400 hover:text-slate-600">
                                     {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}

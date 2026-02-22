@@ -80,9 +80,9 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="بحث في التصنيفات..."
-                        className="w-full bg-white border-2 border-slate-100 pr-12 pl-4 py-4 rounded-3xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold placeholder:text-slate-300 shadow-sm"
+                        className="w-full bg-white border-2 border-slate-100 pr-12 pl-4 py-4 rounded-3xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold placeholder:text-slate-500 text-slate-900 shadow-sm"
                     />
-                    <Search className="absolute right-4 top-4.5 text-slate-300 group-focus-within:text-blue-500 transition-colors" size={20} />
+                    <Search className="absolute right-4 top-4.5 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={20} />
                 </div>
                 <button
                     onClick={() => { resetForm(); setIsFormOpen(true); }}
@@ -106,7 +106,7 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                             </div>
                             <div className="space-y-1">
                                 <h3 className="font-black text-slate-800 text-lg group-hover:text-blue-600 transition-colors">{cat.name}</h3>
-                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest font-mono">{cat.slug}</p>
+                                <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest font-mono">{cat.slug}</p>
                                 <div className="flex gap-2">
                                     <span className="text-[9px] font-black px-2 py-0.5 rounded-full bg-purple-50 text-purple-600 border border-purple-100">
                                         {cat.type === "store" ? "متاجر" : "مقالات"}
@@ -150,10 +150,10 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                                 </div>
                                 <div>
                                     <h3 className="text-2xl font-black text-slate-800">{editingCategory ? "تعديل التصنيف" : "تصنيف جديد"}</h3>
-                                    <p className="text-sm font-medium text-slate-400">نظّم محتواك باحترافية.</p>
+                                    <p className="text-sm font-medium text-slate-500">نظّم محتواك باحترافية.</p>
                                 </div>
                             </div>
-                            <button onClick={resetForm} className="p-3 hover:bg-slate-50 text-slate-400 rounded-2xl transition-all">
+                            <button onClick={resetForm} className="p-3 hover:bg-slate-50 text-slate-500 rounded-2xl transition-all">
                                 <X size={24} />
                             </button>
                         </div>
@@ -165,7 +165,7 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                                     <input
                                         type="text" required
                                         value={formData.icon} onChange={e => setFormData({ ...formData, icon: e.target.value })}
-                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-2 rounded-2xl outline-none transition-all font-bold text-center text-2xl"
+                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-2 rounded-2xl outline-none transition-all font-bold text-slate-900 text-center text-2xl"
                                         placeholder="🏷️"
                                     />
                                 </div>
@@ -174,7 +174,7 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                                     <input
                                         type="text" required
                                         value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-lg"
+                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 text-lg"
                                     />
                                 </div>
                             </div>
@@ -184,7 +184,7 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                                 <input
                                     type="text" required
                                     value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })}
-                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
+                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 dir-ltr"
                                 />
                             </div>
 
@@ -195,12 +195,12 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                                         <button
                                             type="button"
                                             onClick={() => setFormData({ ...formData, type: "store" })}
-                                            className={cn("flex-1 py-3 rounded-[0.8rem] font-black text-xs transition-all", formData.type === "store" ? "bg-white text-blue-600 shadow-sm" : "text-slate-400")}
+                                            className={cn("flex-1 py-3 rounded-[0.8rem] font-black text-xs transition-all", formData.type === "store" ? "bg-white text-blue-600 shadow-sm" : "text-slate-500")}
                                         >متاجر</button>
                                         <button
                                             type="button"
                                             onClick={() => setFormData({ ...formData, type: "blog" })}
-                                            className={cn("flex-1 py-3 rounded-[0.8rem] font-black text-xs transition-all", formData.type === "blog" ? "bg-white text-purple-600 shadow-sm" : "text-slate-400")}
+                                            className={cn("flex-1 py-3 rounded-[0.8rem] font-black text-xs transition-all", formData.type === "blog" ? "bg-white text-purple-600 shadow-sm" : "text-slate-500")}
                                         >مقالات</button>
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                                     </label>
                                     <select
                                         value={formData.countryCode} onChange={e => setFormData({ ...formData, countryCode: e.target.value })}
-                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold appearance-none text-sm"
+                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 appearance-none text-slate-900 text-sm"
                                     >
                                         <option value="">جميع الدول</option>
                                         {countries.map(c => <option key={c.id} value={c.code}>{c.name}</option>)}
@@ -221,7 +221,7 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                             <div className="flex gap-4 pt-6">
                                 <button
                                     type="button" onClick={resetForm}
-                                    className="flex-1 py-5 rounded-[1.5rem] border-2 border-slate-100 font-black text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-all text-sm"
+                                    className="flex-1 py-5 rounded-[1.5rem] border-2 border-slate-100 font-black text-slate-500 hover:bg-slate-50 hover:text-slate-600 transition-all text-sm"
                                 >إلغاء</button>
                                 <button
                                     type="submit"

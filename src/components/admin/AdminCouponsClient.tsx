@@ -139,18 +139,18 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="بحث في الكوبونات..."
-                            className="w-full bg-slate-50 border-2 border-transparent pr-12 pl-4 py-4 rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold placeholder:text-slate-300"
+                            className="w-full bg-slate-50 border-2 border-transparent pr-12 pl-4 py-4 rounded-2xl focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold placeholder:text-slate-500 text-slate-900"
                         />
-                        <Search className="absolute right-4 top-4 text-slate-300 group-focus-within:text-blue-500 transition-colors" size={20} />
+                        <Search className="absolute right-4 top-4 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={20} />
                     </div>
 
                     <div className="flex flex-wrap items-center gap-4 w-full xl:w-2/3 justify-start xl:justify-end">
                         <div className="flex items-center gap-2 bg-slate-50 p-1.5 rounded-2xl border border-slate-100">
-                            <Filter size={16} className="text-slate-400 mr-2" />
+                            <Filter size={16} className="text-slate-500 mr-2" />
                             <select
                                 value={storeFilter}
                                 onChange={e => setStoreFilter(e.target.value)}
-                                className="bg-transparent text-sm font-bold text-slate-600 outline-none pr-2"
+                                className="bg-transparent text-sm font-bold text-slate-900 outline-none pr-2"
                             >
                                 <option value="">كل المتاجر</option>
                                 {stores.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
@@ -164,7 +164,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                     onClick={() => setStatusFilter(status)}
                                     className={cn(
                                         "px-4 py-2 rounded-xl text-xs font-black transition-all",
-                                        statusFilter === status ? "bg-white text-blue-600 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                                        statusFilter === status ? "bg-white text-blue-600 shadow-sm" : "text-slate-500 hover:text-slate-600"
                                     )}
                                 >
                                     {status === "all" ? "الكل" : status === "active" ? "نشط" : status === "disabled" ? "معطل" : "منتهي"}
@@ -187,7 +187,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
             <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
                 <table className="w-full text-right border-collapse">
                     <thead>
-                        <tr className="bg-slate-50/50 text-xs font-black text-slate-400 uppercase tracking-widest border-b border-slate-100">
+                        <tr className="bg-slate-50/50 text-xs font-black text-slate-500 uppercase tracking-widest border-b border-slate-100">
                             <th className="px-8 py-6 text-right">العرض / الكود</th>
                             <th className="px-8 py-6 text-right">المتجر</th>
                             <th className="px-8 py-6 text-right">الحالة</th>
@@ -241,7 +241,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                     <td className="px-8 py-6">
                                         <div className="flex flex-col">
                                             <span className="text-sm font-black text-slate-700">{coupon.usedCount || 0}</span>
-                                            <span className="text-[10px] text-slate-400 font-bold">عملية استخدام</span>
+                                            <span className="text-[10px] text-slate-500 font-bold">عملية استخدام</span>
                                         </div>
                                     </td>
                                     <td className="px-8 py-6">
@@ -268,9 +268,9 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                 {filteredCoupons.length === 0 && (
                     <div className="py-20 text-center space-y-4">
                         <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-dashed border-slate-200">
-                            <TicketIcon size={32} className="text-slate-300" />
+                            <TicketIcon size={32} className="text-slate-500" />
                         </div>
-                        <p className="text-slate-400 font-black">لا توجد نتائج تطابق بحثك</p>
+                        <p className="text-slate-500 font-black">لا توجد نتائج تطابق بحثك</p>
                     </div>
                 )}
             </div>
@@ -290,10 +290,10 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                     </div>
                                     <div>
                                         <h3 className="text-2xl font-black text-slate-800">{editingCoupon ? "تعديل العرض" : "إضافة عرض جديد"}</h3>
-                                        <p className="text-sm font-medium text-slate-400">تحكم بمحتوى العرض وظهوره للزوار.</p>
+                                        <p className="text-sm font-medium text-slate-500">تحكم بمحتوى العرض وظهوره للزوار.</p>
                                     </div>
                                 </div>
-                                <button onClick={resetForm} className="p-3 hover:bg-slate-50 text-slate-400 rounded-2xl transition-all">
+                                <button onClick={resetForm} className="p-3 hover:bg-slate-50 text-slate-500 rounded-2xl transition-all">
                                     <X size={24} />
                                 </button>
                             </div>
@@ -313,7 +313,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                                 <select
                                                     required
                                                     value={formData.storeId} onChange={e => setFormData({ ...formData, storeId: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold appearance-none"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 appearance-none text-slate-900"
                                                 >
                                                     <option value="">-- اختر المتجر --</option>
                                                     {stores.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
@@ -325,7 +325,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                                     type="text"
                                                     value={formData.code} onChange={e => setFormData({ ...formData, code: e.target.value })}
                                                     placeholder="اتركه فارغاً للعروض"
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-black text-center dir-ltr uppercase tracking-widest placeholder:text-slate-200"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-black text-center dir-ltr uppercase tracking-widest placeholder:text-slate-500 text-slate-900"
                                                 />
                                             </div>
                                         </div>
@@ -342,7 +342,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                                 <input
                                                     type="text" required
                                                     value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900"
                                                 />
                                             </div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -361,9 +361,9 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                                         <input
                                                             type="date"
                                                             value={formData.expiryDate} onChange={e => setFormData({ ...formData, expiryDate: e.target.value })}
-                                                            className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-center"
+                                                            className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 text-center"
                                                         />
-                                                        <Calendar size={18} className="absolute left-6 top-4.5 text-slate-300 pointer-events-none" />
+                                                        <Calendar size={18} className="absolute left-6 top-4.5 text-slate-500 pointer-events-none" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -372,7 +372,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                                 <textarea
                                                     rows={3}
                                                     value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900"
                                                 ></textarea>
                                             </div>
                                         </div>
@@ -397,7 +397,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                                         "flex flex-col items-center justify-center p-6 rounded-3xl border-2 transition-all gap-3",
                                                         formData[toggle.field as keyof Coupon]
                                                             ? "bg-slate-900 border-slate-900 text-white shadow-xl"
-                                                            : "bg-white border-slate-100 text-slate-400 hover:border-slate-300"
+                                                            : "bg-white border-slate-100 text-slate-500 hover:border-slate-300"
                                                     )}
                                                 >
                                                     <toggle.icon size={24} />
@@ -417,7 +417,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                             <input
                                                 type="text"
                                                 value={formData.affiliateLink} onChange={e => setFormData({ ...formData, affiliateLink: e.target.value })}
-                                                className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr text-blue-600"
+                                                className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 dir-ltr text-blue-600"
                                             />
                                         </div>
                                     </div>
@@ -454,7 +454,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
 
                                     {/* Categories */}
                                     <div className="space-y-6 pb-20">
-                                        <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                                        <h4 className="text-xs font-black text-slate-500 uppercase tracking-[0.2em] flex items-center gap-2">
                                             <Layout size={16} /> التصنيفات
                                         </h4>
                                         <div className="flex gap-2 flex-wrap">
@@ -484,7 +484,7 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                 <button
                                     type="button"
                                     onClick={resetForm}
-                                    className="flex-1 py-5 rounded-3xl border-2 border-slate-100 font-black text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-all"
+                                    className="flex-1 py-5 rounded-3xl border-2 border-slate-100 font-black text-slate-500 hover:bg-slate-50 hover:text-slate-600 transition-all"
                                 >إلغاء</button>
                                 <button
                                     type="submit"

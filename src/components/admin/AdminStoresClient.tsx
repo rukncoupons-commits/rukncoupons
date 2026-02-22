@@ -109,9 +109,9 @@ export default function AdminStoresClient({ initialStores, categories, countries
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="بحث عن متجر بالاسم أو الرابط..."
-                        className="w-full bg-white border-2 border-slate-100 pr-12 pl-4 py-4 rounded-3xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold placeholder:text-slate-300"
+                        className="w-full bg-white border-2 border-slate-100 pr-12 pl-4 py-4 rounded-3xl focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all font-bold placeholder:text-slate-500 text-slate-900"
                     />
-                    <Search className="absolute right-4 top-4.5 text-slate-300 group-focus-within:text-blue-500 transition-colors" size={20} />
+                    <Search className="absolute right-4 top-4.5 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={20} />
                 </div>
                 <button
                     onClick={() => { resetForm(); setIsFormOpen(true); }}
@@ -136,7 +136,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                             <div className="flex justify-between items-start mb-2">
                                 <h3 className="font-black text-slate-800 truncate text-lg">{store.name}</h3>
                             </div>
-                            <p className="text-xs text-slate-400 font-bold mb-3 truncate font-mono">{store.slug}</p>
+                            <p className="text-xs text-slate-500 font-bold mb-3 truncate font-mono">{store.slug}</p>
                             <div className="flex items-center gap-3">
                                 <span className="bg-slate-50 text-slate-500 px-3 py-1 rounded-full text-[10px] font-black border border-slate-100 flex items-center gap-1">
                                     <Layout size={10} />
@@ -185,10 +185,10 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                     </div>
                                     <div>
                                         <h3 className="text-2xl font-black text-slate-800">{editingStore ? "تعديل المتجر" : "إضافة متجر جديد"}</h3>
-                                        <p className="text-sm font-medium text-slate-400">تحكم في تفاصيل المتجر وظهوره.</p>
+                                        <p className="text-sm font-medium text-slate-500">تحكم في تفاصيل المتجر وظهوره.</p>
                                     </div>
                                 </div>
-                                <button onClick={resetForm} className="p-3 hover:bg-slate-50 text-slate-400 rounded-2xl transition-all">
+                                <button onClick={resetForm} className="p-3 hover:bg-slate-50 text-slate-500 rounded-2xl transition-all">
                                     <X size={24} />
                                 </button>
                             </div>
@@ -209,7 +209,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 <input
                                                     type="text" required
                                                     value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900"
                                                 />
                                             </div>
                                             <div className="space-y-2">
@@ -217,7 +217,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 <input
                                                     type="text" required
                                                     value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 dir-ltr"
                                                 />
                                             </div>
                                             <div className="space-y-2">
@@ -225,7 +225,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 <select
                                                     required
                                                     value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold appearance-none"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 appearance-none text-slate-900"
                                                 >
                                                     <option value="">اختر تصنيف...</option>
                                                     {categories.map(cat => (
@@ -239,12 +239,12 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                     <button
                                                         type="button"
                                                         onClick={() => setFormData({ ...formData, isActive: true })}
-                                                        className={cn("flex-1 py-3 rounded-[0.8rem] font-black text-sm transition-all", formData.isActive ? "bg-white text-green-600 shadow-sm" : "text-slate-400")}
+                                                        className={cn("flex-1 py-3 rounded-[0.8rem] font-black text-sm transition-all", formData.isActive ? "bg-white text-green-600 shadow-sm" : "text-slate-500")}
                                                     >نشط</button>
                                                     <button
                                                         type="button"
                                                         onClick={() => setFormData({ ...formData, isActive: false })}
-                                                        className={cn("flex-1 py-3 rounded-[0.8rem] font-black text-sm transition-all", !formData.isActive ? "bg-white text-red-600 shadow-sm" : "text-slate-400")}
+                                                        className={cn("flex-1 py-3 rounded-[0.8rem] font-black text-sm transition-all", !formData.isActive ? "bg-white text-red-600 shadow-sm" : "text-slate-500")}
                                                     >معطل</button>
                                                 </div>
                                             </div>
@@ -263,7 +263,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 <input
                                                     type="text" required
                                                     value={formData.logoUrl} onChange={e => setFormData({ ...formData, logoUrl: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 dir-ltr"
                                                 />
                                             </div>
                                             <div className="space-y-2">
@@ -271,7 +271,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 <input
                                                     type="text"
                                                     value={formData.storeUrl} onChange={e => setFormData({ ...formData, storeUrl: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 dir-ltr"
                                                 />
                                             </div>
                                         </div>
@@ -320,7 +320,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                 <textarea
                                                     rows={3}
                                                     value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold"
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900"
                                                 ></textarea>
                                             </div>
                                             <div className="space-y-2">
@@ -344,7 +344,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                 <button
                                     type="button"
                                     onClick={resetForm}
-                                    className="flex-1 py-5 rounded-2xl border-2 border-slate-100 font-black text-slate-400 hover:bg-slate-50 hover:text-slate-600 transition-all"
+                                    className="flex-1 py-5 rounded-2xl border-2 border-slate-100 font-black text-slate-500 hover:bg-slate-50 hover:text-slate-600 transition-all"
                                 >إلغاء</button>
                                 <button
                                     type="submit"

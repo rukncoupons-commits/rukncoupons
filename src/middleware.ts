@@ -28,7 +28,6 @@ const BYPASS_PATHS = [
     '/sitemap.xml',
     '/api',
     '/_next',
-    '/admin', // Bypassing admin as well to be safe
 ];
 
 const MARKETING_PARAMS = ['utm_', 'gclid', 'fbclid'];
@@ -38,8 +37,26 @@ export function middleware(request: NextRequest) {
     const url = request.nextUrl;
     const pathname = url.pathname;
 
-    // 1. PATH EXCLUSIONS - Fast exit for static/api/admin routes
+    // 1. PATH EXCLUSIONS - Fast exit for static/api routes
     if (BYPASS_PATHS.some((path) => pathname.startsWith(path))) {
+        return NextResponse.next();
+    }
+
+    // 1.5 ADMIN AUTHENTICATION
+    const token = request.cookies.get("admin_token");
+    const isLoginPage = pathname === "/login";
+    const isAdminPage = pathname.startsWith("/admin");
+
+    if (isAdminPage && (!token || token.value !== "valid_session")) {
+        return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    if (isLoginPage && token?.value === "valid_session") {
+        return NextResponse.redirect(new URL("/admin", request.url));
+    }
+
+    // Stop execution if we are in admin so we don't run geo logic
+    if (isAdminPage || isLoginPage) {
         return NextResponse.next();
     }
 
@@ -129,6 +146,24 @@ export function middleware(request: NextRequest) {
             const redirectResponse = NextResponse.redirect(redirectUrl, 307);
             // Do NOT set cookie for bots.
             return redirectResponse;
+        }
+    }
+
+    // 6. PHASE 6: A/B TESTING (Blog Placements)
+    const isBlogPost = pathname.match(/\/[a-z]{2}\/blog\/.+/);
+    if (isBlogPost) {
+        const existingVariant = request.cookies.get('ab_placement')?.value;
+        if (!existingVariant) {
+            const bucket = Math.random() < 0.5 ? 'A' : 'B';
+            response.cookies.set('ab_placement', bucket, {
+                httpOnly: true,
+                sameSite: 'strict',
+                maxAge: 60 * 60 * 24 * 7,
+                path: '/'
+            });
+            response.headers.set('x-ab-placement', bucket);
+        } else {
+            response.headers.set('x-ab-placement', existingVariant);
         }
     }
 

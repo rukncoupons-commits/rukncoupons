@@ -28,15 +28,3 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-
-@layer utilities {
-  .pb-safe {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .pb-safe-offset-4 {
-    padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
-  }
-  .pb-safe-offset-8 {
-    padding-bottom: calc(env(safe-area-inset-bottom) + 2rem);
-  }
-}

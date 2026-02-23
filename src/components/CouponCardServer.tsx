@@ -8,10 +8,8 @@ import React from "react";
 import Image from "next/image";
 import { Coupon, Store } from "@/lib/types";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-
-const CopyButton = dynamic(() => import("./CopyButton"), { ssr: false });
-const CouponViewTracker = dynamic(() => import("./CouponViewTracker"), { ssr: false });
+import CopyButton from "./CopyButton";
+import CouponViewTracker from "./CouponViewTracker";
 
 interface Props {
     coupon: Coupon;

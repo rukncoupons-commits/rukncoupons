@@ -3,10 +3,8 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { buildOrganizationSchema, SITE_URL } from "@/lib/seo-helpers";
-import dynamic from "next/dynamic";
-
-const GeoSuggestionPopup = dynamic(() => import("@/components/GeoSuggestionPopup"), { ssr: false });
-const WebVitalsLogger = dynamic(() => import("@/components/WebVitalsLogger"), { ssr: false });
+import GeoSuggestionPopup from "@/components/GeoSuggestionPopup";
+import WebVitalsLogger from "@/components/WebVitalsLogger";
 
 const inter = Inter({
   subsets: ["latin"],

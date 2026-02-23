@@ -265,11 +265,8 @@ export function countActiveCoupons(coupons: { expiryDate?: string; isActive?: bo
 }
 
 /**
- * PHASE 1 — Dynamic Store Title Generator
- * Returns 3 A/B variants optimized for Arabic coupon SERP CTR
- *
- * Variant selection is deterministic based on store slug hash
- * (so the same store always gets the same variant = stable indexing)
+ * PHASE 1 — Dynamic Store Title Generator (SEO Hardened)
+ * Forces uniqueness and structural consistency
  */
 export function buildDynamicStoreTitle(params: {
     storeName: string;
@@ -277,35 +274,21 @@ export function buildDynamicStoreTitle(params: {
     countryCode?: string;
     maxDiscount: number | null;
     activeCouponCount: number;
-    customTitle?: string;          // Admin override from countrySeo
+    customTitle?: string;
 }): string {
-    const { storeName, countryName, maxDiscount, activeCouponCount, customTitle } = params;
-    const year = new Date().getFullYear();
+    const { storeName, customTitle } = params;
 
     // Admin override always wins
     if (customTitle) return customTitle;
 
-    const discountStr = maxDiscount ? `خصم حتى ${maxDiscount}%` : "عروض حصرية";
-    const countStr = activeCouponCount > 0 ? `${activeCouponCount} كوبون فعال` : "";
-
-    // 3 A/B variant templates — proven CTR patterns for Arabic coupon SERPs
-    const variants = [
-        // Variant A: Year + discount + freshness (most direct commercial intent)
-        `كود خصم ${storeName} ${countryName} ${year} ─ ${discountStr} فعّال اليوم`,
-        // Variant B: Brackets + emoji + count (visual CTR boost)
-        `🔥 [حصري] كود خصم ${storeName} ${countryName} ─ ${discountStr}${countStr ? ` ─ ${countStr}` : ""}`,
-        // Variant C: Question-style + numbers (featured snippet targeting)
-        `كود خصم ${storeName} ${year} في ${countryName} ─ [توفير حتى ${maxDiscount || 50}%]`,
-    ];
-
-    // Deterministic selection: pick variant based on store name char code sum
-    const charSum = storeName.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
-    return variants[charSum % variants.length];
+    const year = new Date().getFullYear();
+    // Unique pattern strictly aligned with prompt guidelines
+    return `كود خصم ${storeName} ${year} | أحدث كوبونات فعالة`;
 }
 
 /**
  * PHASE 2 — Dynamic Meta Description with Psychology Triggers
- * Uses: scarcity, freshness, coupon count, discount %, direct CTA
+ * Enforces uniqueness by mixing dynamic variables and no duplication
  */
 export function buildDynamicStoreDescription(params: {
     storeName: string;
@@ -313,26 +296,41 @@ export function buildDynamicStoreDescription(params: {
     maxDiscount: number | null;
     activeCouponCount: number;
     storeDescription?: string;
-    customDescription?: string;    // Admin override
+    customDescription?: string;
 }): string {
     const { storeName, countryName, maxDiscount, activeCouponCount, storeDescription, customDescription } = params;
 
-    // Admin override always wins
     if (customDescription) return customDescription;
 
-    const discountStr = maxDiscount ? `حتى ${maxDiscount}%` : "عروض مميزة";
-    const today = new Date();
-    const monthNames = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
-    const monthStr = monthNames[today.getMonth()];
+    const discountStr = maxDiscount ? `حتى ${maxDiscount}%` : "خصومات كبرى";
+
+    // Fallback descriptor based on content length
+    const descChunk = storeDescription && storeDescription.length > 50
+        ? `${storeDescription.substring(0, 70)}...`
+        : `أقوى عروض والتخفيضات`;
 
     if (activeCouponCount > 0) {
-        // High-intent: has active coupons → scarcity + CTA
-        return `⚡ استخدم أحدث كود خصم ${storeName} في ${countryName} اليوم ووفّر ${discountStr} 🔥 ${activeCouponCount} كوبون فعّال ${monthStr} ${today.getFullYear()} — انسخ الكود واستفد من العرض قبل انتهائه.`;
-    } else {
-        // Low-intent fallback: trust + freshness
-        const base = storeDescription ? `${storeDescription.substring(0, 60)}. ` : "";
-        return `${base}تابع أحدث عروض وخصومات ${storeName} في ${countryName} على موقع ركن الكوبونات. يتم تحديث الكوبونات يومياً — لا تفوّت أي عرض حصري.`;
+        return `استفد من كود خصم ${storeName} في ${countryName} للحصول على توفير ${discountStr}. ${activeCouponCount} كوبون متاح حالياً. ${descChunk}`;
     }
+
+    return `تسوق في ${storeName} داخل ${countryName} واستمتع بأفضل الأسعار. احصل على أحدث الخصومات والتنزيلات الحصرية فور توفرها. ${descChunk}`;
+}
+
+/**
+ * PHASE 7 — Thin Content Validator
+ * Validates aggregate words and assigns indexing logic
+ */
+export function validateContentDepth(content: string = "") {
+    // Basic word count splitting by whitespace and arabic formatting
+    const wordCount = content.trim().split(/\s+/).filter(w => w.length > 1).length;
+    const isThin = wordCount < 300;
+
+    return {
+        isThin,
+        wordCount,
+        seoAction: isThin ? "noindex, follow" : "index, follow",
+        fallbackEnabled: isThin
+    };
 }
 
 /**

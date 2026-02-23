@@ -50,7 +50,7 @@ export default function LandingClient({ countries }: Props) {
                                 <div className="w-24 h-24 mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300 rounded-full shadow-lg overflow-hidden bg-gray-50 border-2 border-white">
                                     <img
                                         src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/flags/1x1/${country.code}.svg`}
-                                        alt={country.name}
+                                        alt={`علم ${country.name}`}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>

@@ -17,6 +17,7 @@ import {
     getMaxDiscountPercent,
     countActiveCoupons,
     getTopCouponsForSnippet,
+    validateContentDepth
 } from "@/lib/seo-helpers";
 
 // ISR: Regenerate every hour
@@ -69,6 +70,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     });
 
     const canonicalUrl = buildAbsoluteUrl(`/${country}/${storeSlug}`);
+    const longDescription = (store.longDescriptions && store.longDescriptions[country]) || store.longDescription || "";
+    const { isThin, seoAction } = validateContentDepth(longDescription);
 
     return {
         title: finalTitle,
@@ -85,7 +88,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             canonical: seo?.canonicalUrl || canonicalUrl,
             languages: buildHreflangAlternates(`/${storeSlug}`),
         },
-        robots: seo?.noIndex
+        robots: seo?.noIndex || isThin
             ? "noindex, nofollow"
             : { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
     };

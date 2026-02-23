@@ -7,7 +7,9 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
-      { protocol: "https", hostname: "**" }, // Allow all remote images (tighten in production)
+      { protocol: "https", hostname: "firebasestorage.googleapis.com" },
+      { protocol: "https", hostname: "storage.googleapis.com" },
+      { protocol: "https", hostname: "cdnjs.cloudflare.com" },
     ],
     minimumCacheTTL: 86400, // 24 hours
   },

@@ -91,7 +91,7 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
                                     <img
                                         src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/flags/1x1/${currentCountry.code}.svg`}
                                         className="w-6 h-6 object-cover rounded-full shadow-sm border border-gray-100"
-                                        alt={currentCountry.name}
+                                        alt={`علم ${currentCountry.name}`}
                                     />
                                     <span className="text-sm font-bold text-gray-800">{currentCountry.name}</span>
                                 </>
@@ -125,7 +125,7 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
                                         <img
                                             src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/flags/1x1/${country.code}.svg`}
                                             className="w-5 h-5 object-cover rounded-full shadow-sm border border-gray-100"
-                                            alt={country.name}
+                                            alt={`علم ${country.name}`}
                                         />
                                         <span className="text-gray-700 font-medium">{country.name}</span>
                                     </button>

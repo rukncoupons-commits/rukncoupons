@@ -9,7 +9,7 @@ import CouponCard from "@/components/CouponCard";
 import Script from "next/script";
 import { processBlogContent, extractToc } from "@/lib/auto-link";
 import { User, ChevronDown, Facebook, Twitter, Mail, Tag } from "lucide-react";
-import { buildHreflangAlternates } from "@/lib/seo-helpers";
+import { buildHreflangAlternates, buildAbsoluteUrl, validateContentDepth } from "@/lib/seo-helpers";
 
 import { injectCouponSSR } from "@/lib/ssr-injector";
 import { BlogPost } from "@/lib/types";
@@ -133,7 +133,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     const title = post.seo?.metaTitle || post.title;
     const description = post.seo?.metaDescription || post.excerpt;
-    const canonical = post.seo?.canonicalUrl || `/${country}/blog/${slug}`;
+    const canonical = post.seo?.canonicalUrl || buildAbsoluteUrl(`/${country}/blog/${slug}`);
+
+    // Validate thin content against the raw DB content string
+    const { isThin } = validateContentDepth(post.content || "");
 
     return {
         title: `${title} | ركن الكوبونات`,
@@ -147,6 +150,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             canonical,
             languages: buildHreflangAlternates(`/blog/${slug}`),
         },
+        robots: post.seo?.noIndex || isThin
+            ? "noindex, nofollow"
+            : { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
     };
 }
 

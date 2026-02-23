@@ -70,7 +70,7 @@ export default async function AnalyticsDashboardPage({
             {/* Header & Filters */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h2 className="text-3xl font-black text-slate-800 mb-2">لوحة التحليلات المتقدمة 📈</h2>
+                    <h1 className="text-3xl font-black text-slate-800 mb-2">لوحة التحليلات المتقدمة 📈</h1>
                     <p className="text-slate-500 font-medium">نظرة شاملة على أداء الزوار، التفاعلات الفعالة، والعائد المادي المقدر.</p>
                 </div>
                 <div className="flex gap-2 bg-white p-1 rounded-xl shadow-sm border border-slate-200">
@@ -85,7 +85,7 @@ export default async function AnalyticsDashboardPage({
                 <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl flex items-start gap-4 shadow-sm border-y border-y-amber-100 border-r border-r-amber-100">
                     <div className="p-2 bg-white rounded-full"><Activity className="text-amber-500" size={20} /></div>
                     <div>
-                        <h4 className="font-bold text-amber-900 mb-1">تنبيه أداء (معدل الارتداد مرتفع)</h4>
+                        <h2 className="font-bold text-amber-900 mb-1 text-base">تنبيه أداء (معدل الارتداد مرتفع)</h2>
                         <p className="text-sm text-amber-800">معدل الارتداد الحالي ({data.bounceRate.toFixed(1)}%) مرتفع جداً. يرجى مراجعة سرعة الموقع وجودة صفحات الهبوط حيث يغادر الزوار بدون أي تفاعل.</p>
                     </div>
                 </div>
@@ -106,7 +106,7 @@ export default async function AnalyticsDashboardPage({
                         </div>
                         <div>
                             <p className="text-slate-500 text-xs font-black mb-2">{kpi.title}</p>
-                            <h3 className="text-3xl font-black text-slate-900 tracking-tight">{kpi.value}</h3>
+                            <p className="text-3xl font-black text-slate-900 tracking-tight">{kpi.value}</p>
                         </div>
                     </div>
                 ))}

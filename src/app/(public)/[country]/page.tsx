@@ -95,6 +95,7 @@ export default async function HomePage({ params, searchParams }: PageProps) {
                                     href={slide.linkUrl || "#"}
                                     className="flex-shrink-0 w-full snap-start relative h-[200px] md:h-[320px] block"
                                     style={{ minWidth: "100%" }}
+                                    aria-label={slide.title ? `عرض: ${slide.title}` : "نظرة على العرض"}
                                 >
                                     <img
                                         src={slide.image}
@@ -131,6 +132,7 @@ export default async function HomePage({ params, searchParams }: PageProps) {
                                 href={`/${country}/${store.slug}`}
                                 prefetch={false}
                                 className="flex flex-col items-center gap-2 min-w-[72px] group"
+                                aria-label={`متجر ${store.name}`}
                             >
                                 <div className="w-16 h-16 rounded-full border-2 border-white bg-white shadow-md flex items-center justify-center overflow-hidden">
                                     <img
@@ -164,6 +166,7 @@ export default async function HomePage({ params, searchParams }: PageProps) {
                                 key={category.id}
                                 href={`/${country}?cat=${category.slug}`}
                                 className={`px-5 py-2 rounded-xl text-sm font-bold whitespace-nowrap flex items-center gap-1.5 transition-colors ${cat === category.slug ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                                aria-label={`تصفية حسب تصنيف ${category.name}`}
                             >
                                 <span aria-hidden="true">{category.icon}</span>
                                 {category.name}
@@ -211,6 +214,7 @@ export default async function HomePage({ params, searchParams }: PageProps) {
                             <Link
                                 href={`/${country}/coupons`}
                                 className="inline-flex items-center gap-2 bg-white border-2 border-gray-100 hover:border-blue-500 text-gray-700 hover:text-blue-600 font-bold py-4 px-10 rounded-2xl shadow-sm hover:shadow-md transition-all"
+                                aria-label="عرض كل الكوبونات المتاحة"
                             >
                                 <span>عرض جميع الكوبونات</span>
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

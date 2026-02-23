@@ -58,10 +58,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 isSidebarOpen ? "w-72" : "w-20"
             )}>
                 <div className="h-20 flex items-center justify-between px-6 border-b border-slate-100">
-                    <div className={cn("flex items-center gap-3 text-blue-700 transition-opacity", !isSidebarOpen && "opacity-0 invisible")}>
+                    <Link href="/admin" className={cn("flex items-center gap-3 text-blue-700 transition-opacity", !isSidebarOpen && "opacity-0 invisible")} aria-label="الرئيسية للوحة التحكم">
                         <div className="w-10 h-10 bg-blue-600 rounded-[1rem] flex items-center justify-center text-xl font-black text-white shadow-lg shadow-blue-500/20 rotate-3">R</div>
                         <h1 className="text-xl font-black tracking-tight">ركن الكوبونات</h1>
-                    </div>
+                    </Link>
                     <button
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                         className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400"
@@ -91,6 +91,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                                         ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
                                                         : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                                                 )}
+                                                aria-label={item.label}
                                             >
                                                 <item.icon className={cn("w-5 h-5 shrink-0", isActive ? "text-white" : "text-slate-400 group-hover:text-blue-600")} />
                                                 {isSidebarOpen && <span className="flex-1 truncate">{item.label}</span>}
@@ -107,7 +108,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </nav>
 
                 <div className="p-6 border-t border-slate-100 space-y-3">
-                    <Link href="/" className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-colors group">
+                    <Link href="/" className="flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-colors group" aria-label="زيارة الموقع كزائر">
                         <Home className="w-5 h-5 text-slate-400 group-hover:text-blue-600" />
                         {isSidebarOpen && <span>زيارة الموقع</span>}
                     </Link>

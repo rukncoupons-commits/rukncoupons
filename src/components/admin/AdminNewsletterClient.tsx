@@ -201,7 +201,7 @@ export default function AdminNewsletterClient({ initialSubscribers }: Props) {
                 <div className="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 p-8 space-y-6">
                     <div className="bg-amber-50 border border-amber-100 rounded-2xl p-4 text-sm text-amber-700 font-medium">
                         <Settings className="inline w-4 h-4 ml-1" />
-                        لإرسال الرسائل، قم بإدخال بيانات SMTP. للـ Gmail: استخدم <code className="bg-white px-1 rounded font-mono">smtp.gmail.com</code> مع <a href="https://myaccount.google.com/apppasswords" target="_blank" className="underline">كلمة مرور التطبيق</a>.
+                        لإرسال الرسائل، قم بإدخال بيانات SMTP. للـ Gmail: استخدم <code className="bg-white px-1 rounded font-mono">smtp.gmail.com</code> مع <a href="https://myaccount.google.com/apppasswords" target="_blank" rel="noopener noreferrer" className="underline">كلمة مرور التطبيق</a>.
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

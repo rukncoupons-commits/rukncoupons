@@ -45,7 +45,7 @@ export default function CouponCardServer({ coupon, store, categoryName = "عرض
             )}
 
             {/* Store logo — links to store page */}
-            <Link href={storeHref} className="mb-3 block" tabIndex={-1} aria-hidden="true">
+            <Link href={storeHref} className="mb-3 block" tabIndex={-1} aria-hidden="true" aria-label={`صورة شعار متجر ${store?.name || ""}`}>
                 <div className="w-[84px] h-[84px] rounded-full border border-gray-100 shadow-sm bg-white overflow-hidden p-1 flex items-center justify-center mx-auto">
                     {store?.logoUrl ? (
                         <Image

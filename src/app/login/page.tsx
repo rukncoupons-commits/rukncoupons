@@ -36,7 +36,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans text-right" dir="rtl">
+        <main className="min-h-screen bg-slate-50 flex items-center justify-center p-4 font-sans text-right" dir="rtl">
             <div className="max-w-md w-full bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100 animate-in fade-in slide-in-from-bottom-5 duration-500">
 
                 {/* Header */}
@@ -45,7 +45,7 @@ export default function LoginPage() {
                     <div className="w-20 h-20 bg-white/20 rounded-[2rem] flex items-center justify-center mx-auto mb-6 backdrop-blur-md shadow-inner rotate-3">
                         <Lock className="w-10 h-10 text-white" />
                     </div>
-                    <h2 className="text-3xl font-black text-white mb-2">تسجيل الدخول</h2>
+                    <h1 className="text-3xl font-black text-white mb-2">تسجيل الدخول</h1>
                     <p className="text-blue-100 text-sm font-medium">لوحة تحكم ركن الكوبونات</p>
                 </div>
 
@@ -125,13 +125,13 @@ export default function LoginPage() {
                     </form>
 
                     <div className="mt-8 text-center">
-                        <Link href="/" className="text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2">
+                        <Link href="/" className="text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2" aria-label="العودة للصفحة الرئيسية">
                             <ArrowLeft size={16} />
                             <span>العودة للصفحة الرئيسية</span>
                         </Link>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }

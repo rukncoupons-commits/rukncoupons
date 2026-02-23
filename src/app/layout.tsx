@@ -32,7 +32,6 @@ export const metadata: Metadata = {
 export const viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1, // Prevents iOS input auto-zoom on mobile forms
   themeColor: "#2563eb", // blue-600
 };
 

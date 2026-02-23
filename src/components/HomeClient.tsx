@@ -79,6 +79,7 @@ export default function HomeClient({
                                 <Link
                                     key={slide.id}
                                     href={slide.linkUrl || "#"}
+                                    aria-label={slide.title ? `عرض: ${slide.title}` : "نظرة على العرض"}
                                     className={`absolute inset-0 transition-opacity duration-700 ease-in-out block ${currentSlide === i ? "opacity-100 z-10" : "opacity-0 z-0"
                                         }`}
                                 >
@@ -139,6 +140,7 @@ export default function HomeClient({
                             <Link
                                 key={store.id}
                                 href={`/${countryCode}/${store.slug}`}
+                                aria-label={`متجر ${store.name}`}
                                 className="flex flex-col items-center gap-3 min-w-[80px] snap-start group cursor-pointer py-2"
                             >
                                 <div className="w-20 h-20 rounded-full border-2 border-white p-1 bg-white shadow-md group-hover:border-blue-500 group-hover:shadow-lg group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center overflow-hidden">
@@ -236,7 +238,7 @@ export default function HomeClient({
                         )}
 
                         <div className="mt-12 text-center">
-                            <Link href={`/${countryCode}/coupons`} className="inline-flex items-center gap-3 bg-white border-2 border-gray-100 hover:border-blue-500 text-gray-700 hover:text-blue-600 font-bold py-4 px-10 rounded-2xl shadow-sm hover:shadow-md transition-all">
+                            <Link href={`/${countryCode}/coupons`} className="inline-flex items-center gap-3 bg-white border-2 border-gray-100 hover:border-blue-500 text-gray-700 hover:text-blue-600 font-bold py-4 px-10 rounded-2xl shadow-sm hover:shadow-md transition-all" aria-label="عرض كافة الكوبونات">
                                 <span>عرض جميع الكوبونات</span>
                                 <ArrowLeft className="w-5 h-5" />
                             </Link>

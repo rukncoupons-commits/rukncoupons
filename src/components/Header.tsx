@@ -50,13 +50,13 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
         <header className="bg-white shadow-sm sticky top-0 z-50">
             <div className="container mx-auto px-4 h-24 flex items-center justify-between gap-4">
                 {/* Logo */}
-                <Link href={`/${currentCountry?.code || ""}`} className="flex items-center gap-2 shrink-0">
+                <Link href={`/${currentCountry?.code || ""}`} className="flex items-center gap-2 shrink-0" aria-label="الرئيسية">
                     <div className="bg-blue-600 text-white p-1.5 rounded-lg font-bold text-xl">ركن</div>
-                    <span className="text-lg md:text-xl font-bold text-gray-800">الكوبونات</span>
+                    <span className="text-xl font-bold text-gray-800">الكوبونات</span>
                 </Link>
 
                 {/* Search */}
-                <div className="hidden md:flex flex-1 mx-8 max-w-xl">
+                <div className="flex-1 mx-8 max-w-xl">
                     <form onSubmit={onSearch} className="relative w-full">
                         <input
                             type="text"
@@ -110,7 +110,7 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
                         )}
 
                         {/* Dropdown */}
-                        <div className={`absolute top-full right-0 w-48 pt-2 ${isCountryOpen ? 'block' : 'hidden md:group-hover:block'} animate-in fade-in slide-in-from-top-1 duration-200 z-50`}>
+                        <div className={`absolute top-full right-0 w-48 pt-2 ${isCountryOpen ? 'block' : 'group-hover:block'} animate-in fade-in slide-in-from-top-1 duration-200 z-50`}>
                             <div className="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
                                 {Array.from(new Map(countries.map(c => [c.code, c])).values()).map((country, idx) => (
                                     <button

@@ -43,7 +43,7 @@ async function renderBlogContent(post: BlogPost, html: string, countryCode: stri
                             <div className="flex items-center gap-3">
                                 <img src={store.logoUrl} alt={store.name} className="w-10 h-10 rounded-full bg-white border border-gray-100" />
                                 <div>
-                                    <h4 className="font-bold text-gray-800 text-sm">هل تبحث عن خصم لمتجر {store.name}؟</h4>
+                                    <p className="font-bold text-gray-800 text-sm">هل تبحث عن خصم لمتجر {store.name}؟</p>
                                     <p className="text-xs text-gray-500">لدينا عروض فعالة الآن.</p>
                                 </div>
                             </div>
@@ -56,9 +56,9 @@ async function renderBlogContent(post: BlogPost, html: string, countryCode: stri
                     couponBlockNode = (
                         <div className="my-10 bg-white rounded-3xl p-6 border-2 border-slate-100 shadow-sm relative">
                             <span className="absolute -top-3 right-6 bg-slate-800 text-white text-[10px] font-black px-3 py-1 rounded-full">أفضل الخيارات المتاحة</span>
-                            <h3 className="text-xl font-black mb-6 text-gray-800 flex items-center gap-2">
+                            <h2 className="text-xl font-black mb-6 text-gray-800 flex items-center gap-2">
                                 عروض <span className="text-blue-600">{store.name}</span> المقترحة
-                            </h3>
+                            </h2>
                             <div className="flex flex-col gap-4">
                                 {activeCoupons.slice(0, 2).map((coupon: any) => (
                                     <CouponCardServer key={coupon.id} coupon={coupon} store={store} countryCode={countryCode} />
@@ -69,9 +69,9 @@ async function renderBlogContent(post: BlogPost, html: string, countryCode: stri
                 } else {
                     couponBlockNode = (
                         <div className="my-10 bg-blue-50/30 rounded-3xl p-6 md:p-8 border-2 border-dashed border-blue-100/50 relative overflow-hidden group">
-                            <h3 className="text-2xl font-black mb-6 flex items-center gap-3 text-gray-800">
+                            <h2 className="text-2xl font-black mb-6 flex items-center gap-3 text-gray-800">
                                 <span className="leading-tight">أقوى وأحدث كوبونات <span className="text-blue-600">{store.name}</span></span>
-                            </h3>
+                            </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10 w-full mb-2">
                                 {activeCoupons.map((coupon: any) => (
                                     <CouponCardServer key={coupon.id} coupon={coupon} store={store} countryCode={countryCode} />
@@ -246,13 +246,13 @@ export default async function BlogPostPage({ params }: PageProps) {
 
                                     {toc.length > 0 && (
                                         <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 md:w-2/3">
-                                            <h4 className="font-bold text-gray-800 mb-4 text-sm flex items-center gap-2">
+                                            <p className="font-bold text-gray-800 mb-4 text-sm flex items-center gap-2">
                                                 <span>📋</span> محتويات المقال:
-                                            </h4>
+                                            </p>
                                             <ul className="space-y-2 text-sm text-blue-600 font-bold">
                                                 {toc.map((item) => (
                                                     <li key={item.id} style={{ paddingRight: (item.level - 2) * 20 }}>
-                                                        <a href={`#${item.id}`} className="hover:underline transition-colors flex items-center gap-1">
+                                                        <a href={`#${item.id}`} className="hover:underline transition-colors flex items-center gap-1" aria-label={`انتقل إلى: ${item.text}`}>
                                                             <span>•</span>
                                                             {item.text}
                                                         </a>
@@ -271,9 +271,9 @@ export default async function BlogPostPage({ params }: PageProps) {
                                 {/* FAQ */}
                                 {post.faq && post.faq.length > 0 && (
                                     <div className="mt-12 bg-blue-50/50 rounded-3xl p-8 border border-blue-100">
-                                        <h3 className="text-2xl font-black text-gray-800 mb-8 flex items-center gap-3">
+                                        <h2 className="text-2xl font-black text-gray-800 mb-8 flex items-center gap-3">
                                             <span className="text-3xl">❓</span> الأسئلة الشائعة
-                                        </h3>
+                                        </h2>
                                         <div className="space-y-4">
                                             {post.faq.map((item, i) => (
                                                 <details key={i} className="group bg-white rounded-2xl border border-blue-100 overflow-hidden shadow-sm transition-all duration-300">
@@ -293,9 +293,9 @@ export default async function BlogPostPage({ params }: PageProps) {
                                 {/* Related Coupons */}
                                 {allRelatedCoupons.length > 0 && (
                                     <div className="mt-16 pt-12 border-t border-gray-100">
-                                        <h3 className="text-2xl font-black text-gray-800 mb-8 flex items-center gap-3">
+                                        <h2 className="text-2xl font-black text-gray-800 mb-8 flex items-center gap-3">
                                             <span className="text-3xl">🔥</span> كوبونات وعروض موصى بها
-                                        </h3>
+                                        </h2>
                                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                                             {allRelatedCoupons.map((coupon) => (
                                                 <CouponCard

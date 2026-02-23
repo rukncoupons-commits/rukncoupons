@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
+import MobileHeader from "@/components/mobile/MobileHeader";
 import Footer from "@/components/Footer";
 import { getCountries } from "@/lib/data-service";
 import { redirect } from "next/navigation";
@@ -34,8 +35,21 @@ export default async function PublicLayout({ children, params }: LayoutProps) {
 
     return (
         <>
-            <Header countries={countries} currentCountry={currentCountry} />
-            {children}
+            <main className="flex-1 flex flex-col min-h-screen relative w-full overflow-x-hidden md:bg-gray-50/50">
+                {/* Desktop Header: Hidden on mobile (<1024px) */}
+                <div className="hidden lg:block">
+                    <Header countries={countries} currentCountry={currentCountry} />
+                </div>
+
+                {/* Mobile Header: Hidden on desktop (>=1024px) */}
+                <div className="lg:hidden">
+                    <MobileHeader countries={countries} currentCountry={currentCountry} />
+                </div>
+
+                <div className="container mx-auto px-4 py-8 max-w-7xl flex gap-8">
+                    {children}
+                </div>
+            </main>
             <Footer currentCountryCode={country} />
         </>
     );

@@ -337,6 +337,7 @@ export default async function StorePage({ params }: PageProps) {
                                             key={s.id}
                                             href={`/${country}/${s.slug}`}
                                             className="bg-white rounded-xl border border-gray-100 p-3 flex flex-col items-center text-center hover:shadow-md hover:border-blue-200 transition-all group"
+                                            aria-label={`تصفح متجر ${s.name}`}
                                         >
                                             <img
                                                 src={s.logoUrl}

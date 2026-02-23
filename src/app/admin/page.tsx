@@ -53,11 +53,11 @@ export default async function AdminDashboard() {
             {/* Welcome Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h2 className="text-3xl font-black text-slate-800 mb-2">أهلاً بك مرة أخرى 👋</h2>
+                    <h1 className="text-3xl font-black text-slate-800 mb-2">أهلاً بك مرة أخرى 👋</h1>
                     <p className="text-slate-500 font-medium">إليك نظرة سريعة على أداء موقع ركن الكوبونات اليوم.</p>
                 </div>
                 <div className="flex gap-3">
-                    <Link href="/admin/coupons" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-2xl font-black shadow-xl shadow-blue-500/20 transition-all active:scale-95 text-sm">
+                    <Link href="/admin/coupons" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3.5 rounded-2xl font-black shadow-xl shadow-blue-500/20 transition-all active:scale-95 text-sm" aria-label="إضافة كوبون جديد">
                         <Plus size={18} />
                         <span>إضافة كوبون جديد</span>
                     </Link>
@@ -78,7 +78,7 @@ export default async function AdminDashboard() {
                         </div>
                         <div>
                             <p className="text-slate-500 text-sm font-black mb-1">{stat.label}</p>
-                            <h3 className="text-4xl font-black text-slate-900 tracking-tight">{stat.value}</h3>
+                            <p className="text-4xl font-black text-slate-900 tracking-tight">{stat.value}</p>
                         </div>
                         <div className="mt-auto pt-6 flex items-center justify-between">
                             <span className="text-xs text-slate-400 font-bold">{stat.detail}</span>
@@ -98,7 +98,7 @@ export default async function AdminDashboard() {
                             <AlertTriangle size={32} />
                         </div>
                         <div>
-                            <h4 className="font-black text-xl text-red-900 mb-1">تنبيه كوبونات منتهية</h4>
+                            <h2 className="font-black text-xl text-red-900 mb-1">تنبيه كوبونات منتهية</h2>
                             <p className="text-sm text-red-700 font-medium">يوجد {expiredActiveCoupons.length} كوبون منتهي الصلاحية وما زال نشطاً في الموقع. يرجى مراجعتها فوراً.</p>
                         </div>
                     </div>
@@ -111,10 +111,10 @@ export default async function AdminDashboard() {
             {/* Recent Activity / Quick Links (Placeholder for now) */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div className="bg-white rounded-[2rem] p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
-                    <h3 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-2">
+                    <h2 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-2">
                         <Ticket className="text-blue-600" size={24} />
                         <span>آخر الكوبونات المضافة</span>
-                    </h3>
+                    </h2>
                     <div className="space-y-4">
                         {coupons.slice(0, 5).map((coupon, i) => (
                             <div key={i} className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 group">
@@ -134,16 +134,16 @@ export default async function AdminDashboard() {
                             </div>
                         ))}
                     </div>
-                    <Link href="/admin/coupons" className="mt-8 flex items-center justify-center gap-2 text-sm font-black text-blue-600 hover:text-blue-700 py-4 rounded-2xl border-2 border-dashed border-slate-100 hover:border-blue-100 transition-all">
+                    <Link href="/admin/coupons" className="mt-8 flex items-center justify-center gap-2 text-sm font-black text-blue-600 hover:text-blue-700 py-4 rounded-2xl border-2 border-dashed border-slate-100 hover:border-blue-100 transition-all" aria-label="عرض كافة الكوبونات">
                         عرض كل الكوبونات
                     </Link>
                 </div>
 
                 <div className="bg-white rounded-[2rem] p-8 shadow-xl shadow-slate-200/50 border border-slate-100">
-                    <h3 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-2">
+                    <h2 className="text-xl font-black text-slate-800 mb-6 flex items-center gap-2">
                         <Store className="text-purple-600" size={24} />
                         <span>أبرز المتاجر</span>
-                    </h3>
+                    </h2>
                     <div className="grid grid-cols-2 gap-4">
                         {stores.slice(0, 6).map((store, i) => (
                             <div key={i} className="bg-slate-50 p-6 rounded-3xl border border-slate-100 flex flex-col items-center text-center group hover:bg-white hover:shadow-xl transition-all duration-300">
@@ -153,7 +153,7 @@ export default async function AdminDashboard() {
                             </div>
                         ))}
                     </div>
-                    <Link href="/admin/stores" className="mt-8 flex items-center justify-center gap-2 text-sm font-black text-purple-600 hover:text-purple-700 py-4 rounded-2xl border-2 border-dashed border-slate-100 hover:border-purple-100 transition-all">
+                    <Link href="/admin/stores" className="mt-8 flex items-center justify-center gap-2 text-sm font-black text-purple-600 hover:text-purple-700 py-4 rounded-2xl border-2 border-dashed border-slate-100 hover:border-purple-100 transition-all" aria-label="إدارة كافة المتاجر">
                         إدارة المتاجر
                     </Link>
                 </div>

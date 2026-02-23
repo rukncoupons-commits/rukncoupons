@@ -61,7 +61,7 @@ export default async function BlogListPage({ params }: PageProps) {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {data.blogPosts.map((post) => (
                                     <article key={post.id} className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 flex flex-col h-full">
-                                        <Link href={`/${country}/blog/${post.slug}`} className="block h-56 overflow-hidden relative group">
+                                        <Link href={`/${country}/blog/${post.slug}`} className="block h-56 overflow-hidden relative group" aria-label={`صورة المقال: ${post.title}`}>
                                             <img src={post.image} alt={post.title} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" />
                                             <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
                                         </Link>
@@ -79,7 +79,7 @@ export default async function BlogListPage({ params }: PageProps) {
                                                 <Link href={`/${country}/blog/${post.slug}`}>{post.title}</Link>
                                             </h2>
                                             <p className="text-gray-500 text-sm line-clamp-3 mb-6 flex-1">{post.excerpt}</p>
-                                            <Link href={`/${country}/blog/${post.slug}`} className="text-blue-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all">
+                                            <Link href={`/${country}/blog/${post.slug}`} className="text-blue-600 font-bold text-sm flex items-center gap-2 hover:gap-3 transition-all" aria-label={`قراءة المزيد عن: ${post.title}`}>
                                                 <span>قراءة المزيد</span>
                                                 <span>←</span>
                                             </Link>

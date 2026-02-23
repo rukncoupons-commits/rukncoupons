@@ -133,6 +133,7 @@ export default function StoresClient({
                                         key={store.id}
                                         href={`/${countryCode}/${store.slug}`}
                                         className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all group flex flex-col items-center text-center relative"
+                                        aria-label={`تصفح متجر ${store.name}`}
                                     >
                                         {store.category && (
                                             <span className="absolute top-3 right-3 text-[10px] bg-gray-50 text-gray-400 px-2 py-0.5 rounded-full">
@@ -142,9 +143,9 @@ export default function StoresClient({
                                         <div className="w-20 h-20 rounded-full border border-gray-100 p-2 mb-4 bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
                                             <Image src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" width={80} height={80} sizes="80px" loading="lazy" />
                                         </div>
-                                        <h3 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">
+                                        <h2 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">
                                             كود خصم {store.name}
-                                        </h3>
+                                        </h2>
                                         {store.description && (
                                             <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-2 px-1">
                                                 {store.description}
@@ -176,6 +177,7 @@ export default function StoresClient({
                                         key={store.id}
                                         href={`/${countryCode}/${store.slug}`}
                                         className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all group flex flex-col items-center text-center relative"
+                                        aria-label={`تصفح متجر ${store.name}`}
                                     >
                                         {store.category && (
                                             <span className="absolute top-3 right-3 text-[10px] bg-gray-50 text-gray-400 px-2 py-0.5 rounded-full">
@@ -185,9 +187,9 @@ export default function StoresClient({
                                         <div className="w-20 h-20 rounded-full border border-gray-100 p-2 mb-4 bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
                                             <Image src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" width={80} height={80} sizes="80px" loading="lazy" />
                                         </div>
-                                        <h3 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">
+                                        <h2 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">
                                             كود خصم {store.name}
-                                        </h3>
+                                        </h2>
                                         {store.description && (
                                             <p className="text-xs text-gray-500 leading-relaxed line-clamp-2 mb-2 px-1">
                                                 {store.description}

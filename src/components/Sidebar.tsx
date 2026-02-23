@@ -51,7 +51,7 @@ export default function Sidebar({ ads, recentPosts, socialConfig, storesCount, c
                     {ad.type === "html" && ad.htmlContent ? (
                         <div dangerouslySetInnerHTML={{ __html: ad.htmlContent }} />
                     ) : (
-                        <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer" className="block relative">
+                        <a href={ad.linkUrl} target="_blank" rel="noopener noreferrer" className="block relative" aria-label={`إعلان: ${ad.altText || "إعلان مميز"}`}>
                             <img
                                 src={ad.imageUrl}
                                 alt={ad.altText || "إعلان"}
@@ -111,7 +111,7 @@ export default function Sidebar({ ads, recentPosts, socialConfig, storesCount, c
                     </h3>
                     <div className="space-y-4">
                         {recentPosts.map((post) => (
-                            <Link key={post.id} href={`/${countryCode}/blog/${post.slug}`} className="flex gap-3 group">
+                            <Link key={post.id} href={`/${countryCode}/blog/${post.slug}`} className="flex gap-3 group" aria-label={`اقرأ مقال: ${post.title}`}>
                                 <img
                                     src={post.image}
                                     className="w-16 h-16 rounded-lg object-cover shrink-0"

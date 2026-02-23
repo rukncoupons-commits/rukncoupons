@@ -136,7 +136,7 @@ export default function CouponsClient({
                         ) : (
                             <div className="bg-white p-20 rounded-3xl text-center border-2 border-dashed border-gray-200 w-full mt-4">
                                 <div className="text-6xl mb-6">🔍</div>
-                                <h3 className="text-xl font-bold text-gray-800 mb-3">لا توجد نتائج</h3>
+                                <h2 className="text-xl font-bold text-gray-800 mb-3">لا توجد نتائج</h2>
                                 <p className="text-gray-500">جرب تغيير خيارات التصفية للعثور على عروض أكثر.</p>
                             </div>
                         )}

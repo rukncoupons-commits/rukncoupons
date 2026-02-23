@@ -93,9 +93,10 @@ export default async function CouponsPage({ params, searchParams }: PageProps) {
                                             key={s.id}
                                             href={`/${country}/coupons?store=${s.id}${cat ? `&cat=${cat}` : ""}`}
                                             className={`px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap border transition-colors flex items-center gap-1.5 ${storeParam === s.id ? "bg-blue-600 text-white border-blue-600" : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"}`}
+                                            aria-label={`تصفية حسب متجر ${s.name}`}
                                         >
                                             <img src={s.logoUrl} alt="" className="w-4 h-4 rounded-full object-contain" loading="lazy" width={16} height={16} />
-                                            {s.name}
+                                            <span aria-hidden="true">{s.name}</span>
                                         </Link>
                                     ))}
                                 </div>
@@ -114,6 +115,7 @@ export default async function CouponsPage({ params, searchParams }: PageProps) {
                                         key={category.id}
                                         href={`/${country}/coupons?cat=${category.slug}${storeParam ? `&store=${storeParam}` : ""}`}
                                         className={`px-4 py-2 rounded-lg text-xs font-bold whitespace-nowrap flex items-center gap-1 ${cat === category.slug ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                                        aria-label={`تصفية حسب تصنيف ${category.name}`}
                                     >
                                         <span aria-hidden="true">{category.icon}</span>
                                         {category.name}

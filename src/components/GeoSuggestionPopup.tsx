@@ -42,21 +42,38 @@ export default function GeoSuggestionPopup() {
         // or just make a fast API call that reads request.geo.
         const fetchGeo = async () => {
             try {
-                const res = await fetch("/api/geo-detect");
-                if (res.ok) {
-                    const data = await res.json();
-                    const detected = data.country?.toLowerCase();
-
-                    if (detected && COUNTRY_MAP[detected]) {
-                        const pathParts = pathname.split("/").filter(Boolean);
-                        const currentUrlCountry = (pathParts[0] || "").toLowerCase();
-
-                        // If the URL country matches the detected country, no need to show
-                        if (currentUrlCountry === detected) return;
-
-                        setDetectedCountry(detected);
-                        setShowPopup(true);
+                // 1. Try backend headers first (works if behind Cloudflare/Vercel)
+                let detected = "";
+                try {
+                    const res = await fetch("/api/geo-detect");
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data.country && data.country !== 'sa') {
+                            detected = data.country.toLowerCase();
+                        }
                     }
+                } catch { }
+
+                // 2. If backend failed (e.g. direct Cloud Run / bare metal without CDN), use client-side fallback API
+                if (!detected) {
+                    const fallbackRes = await fetch("https://get.geojs.io/v1/ip/country.json");
+                    if (fallbackRes.ok) {
+                        const fallbackData = await fallbackRes.json();
+                        detected = fallbackData.country?.toLowerCase();
+                    }
+                }
+
+                if (!detected) detected = 'sa';
+
+                if (detected && COUNTRY_MAP[detected]) {
+                    const pathParts = pathname.split("/").filter(Boolean);
+                    const currentUrlCountry = (pathParts[0] || "").toLowerCase();
+
+                    // If the URL country matches the detected country, no need to show
+                    if (currentUrlCountry === detected) return;
+
+                    setDetectedCountry(detected);
+                    setShowPopup(true);
                 }
             } catch (err) {
                 console.error("Failed to detect geo", err);

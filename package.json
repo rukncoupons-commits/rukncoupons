@@ -20,7 +20,6 @@
     "clsx": "^2.1.1",
     "cookie": "^1.1.1",
     "dom-serializer": "^2.0.0",
-    "firebase": "^12.9.0",
     "firebase-admin": "^13.6.1",
     "html-react-parser": "^5.2.17",
     "htmlparser2": "^10.1.0",

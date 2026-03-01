@@ -6,11 +6,20 @@ const privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
 if (!admin.apps.length) {
     if (projectId && clientEmail && privateKey) {
+        let formattedKey = privateKey;
+        try {
+            // Sometimes it's passed as a JSON string like "\"-----BEGIN PRIVATE KEY-----\\n...\""
+            formattedKey = JSON.parse(privateKey);
+        } catch (e) {
+            // Or just a string with escaped literal \n
+            formattedKey = privateKey.replace(/\\n/g, "\n");
+        }
+
         admin.initializeApp({
             credential: admin.credential.cert({
                 projectId,
                 clientEmail,
-                privateKey: privateKey.replace(/\\n/g, "\n"),
+                privateKey: formattedKey,
             }),
         });
     } else {

@@ -1,7 +1,6 @@
 .next
 node_modules
 .git
-.env.local
 .env.development
 .env.test
 legacy-angular

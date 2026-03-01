@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { adminDb } from "./firebase-admin";
 import { redirect } from "next/navigation";
 import { getSession } from "./auth-actions";
@@ -19,6 +19,7 @@ export async function createStoreAction(data: any) {
         ...data,
         updatedAt: new Date().toISOString()
     });
+    revalidateTag("stores", { expire: 0 });
     revalidatePath("/admin/stores");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true, id: docRef.id };
@@ -30,6 +31,7 @@ export async function updateStoreAction(id: string, data: any) {
         ...data,
         updatedAt: new Date().toISOString()
     });
+    revalidateTag("stores", { expire: 0 });
     revalidatePath("/admin/stores");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -38,6 +40,7 @@ export async function updateStoreAction(id: string, data: any) {
 export async function deleteStoreAction(id: string) {
     await ensureAuth();
     await adminDb.collection("stores").doc(id).delete();
+    revalidateTag("stores", { expire: 0 });
     revalidatePath("/admin/stores");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -52,6 +55,7 @@ export async function createCouponAction(data: any) {
         usedCount: 0,
         updatedAt: new Date().toISOString()
     });
+    revalidateTag("coupons", { expire: 0 });
     revalidatePath("/admin/coupons");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true, id: docRef.id };
@@ -63,6 +67,7 @@ export async function updateCouponAction(id: string, data: any) {
         ...data,
         updatedAt: new Date().toISOString()
     });
+    revalidateTag("coupons", { expire: 0 });
     revalidatePath("/admin/coupons");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -71,6 +76,7 @@ export async function updateCouponAction(id: string, data: any) {
 export async function deleteCouponAction(id: string) {
     await ensureAuth();
     await adminDb.collection("coupons").doc(id).delete();
+    revalidateTag("coupons", { expire: 0 });
     revalidatePath("/admin/coupons");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -81,6 +87,7 @@ export async function deleteCouponAction(id: string) {
 export async function createCategoryAction(data: any) {
     await ensureAuth();
     await adminDb.collection("categories").add(data);
+    revalidateTag("categories", { expire: 0 });
     revalidatePath("/admin/categories");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -89,6 +96,7 @@ export async function createCategoryAction(data: any) {
 export async function updateCategoryAction(id: string, data: any) {
     await ensureAuth();
     await adminDb.collection("categories").doc(id).update(data);
+    revalidateTag("categories", { expire: 0 });
     revalidatePath("/admin/categories");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -98,6 +106,7 @@ export async function updateCategoryAction(id: string, data: any) {
 export async function deleteCategoryAction(id: string) {
     await ensureAuth();
     await adminDb.collection("categories").doc(id).delete();
+    revalidateTag("categories", { expire: 0 });
     revalidatePath("/admin/categories");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -111,6 +120,7 @@ export async function createBlogPostAction(data: any) {
         ...data,
         updatedAt: new Date().toISOString()
     });
+    revalidateTag("blogPosts", { expire: 0 });
     revalidatePath("/admin/blog");
     revalidatePath("/(public)/[country]/blog", "layout");
     return { success: true, id: docRef.id };
@@ -122,6 +132,7 @@ export async function updateBlogPostAction(id: string, data: any) {
         ...data,
         updatedAt: new Date().toISOString()
     });
+    revalidateTag("blogPosts", { expire: 0 });
     revalidatePath("/admin/blog");
     revalidatePath("/(public)/[country]/blog", "layout");
     return { success: true };
@@ -131,6 +142,7 @@ export async function updateBlogPostAction(id: string, data: any) {
 export async function deleteBlogPostAction(id: string) {
     await ensureAuth();
     await adminDb.collection("blogPosts").doc(id).delete();
+    revalidateTag("blogPosts", { expire: 0 });
     revalidatePath("/admin/blog");
     revalidatePath("/(public)/[country]/blog", "layout");
     return { success: true };
@@ -141,6 +153,7 @@ export async function deleteBlogPostAction(id: string) {
 export async function createSliderAction(data: any) {
     await ensureAuth();
     await adminDb.collection("slides").add(data);
+    revalidateTag("slides", { expire: 0 });
     revalidatePath("/(public)/[country]", "layout");
     revalidatePath("/admin/sliders");
     return { success: true };
@@ -149,6 +162,7 @@ export async function createSliderAction(data: any) {
 export async function updateSliderAction(id: string, data: any) {
     await ensureAuth();
     await adminDb.collection("slides").doc(id).update(data);
+    revalidateTag("slides", { expire: 0 });
     revalidatePath("/(public)/[country]", "layout");
     revalidatePath("/admin/sliders");
     return { success: true };
@@ -157,6 +171,7 @@ export async function updateSliderAction(id: string, data: any) {
 export async function deleteSliderAction(id: string) {
     await ensureAuth();
     await adminDb.collection("slides").doc(id).delete();
+    revalidateTag("slides", { expire: 0 });
     revalidatePath("/(public)/[country]", "layout");
     revalidatePath("/admin/sliders");
     return { success: true };
@@ -167,6 +182,7 @@ export async function deleteSliderAction(id: string) {
 export async function createBannerAction(data: any) {
     await ensureAuth();
     await adminDb.collection("adBanners").add(data);
+    revalidateTag("adBanners", { expire: 0 });
     revalidatePath("/(public)/[country]", "layout");
     revalidatePath("/admin/banners");
     return { success: true };
@@ -175,6 +191,7 @@ export async function createBannerAction(data: any) {
 export async function updateBannerAction(id: string, data: any) {
     await ensureAuth();
     await adminDb.collection("adBanners").doc(id).update(data);
+    revalidateTag("adBanners", { expire: 0 });
     revalidatePath("/(public)/[country]", "layout");
     revalidatePath("/admin/banners");
     return { success: true };
@@ -184,6 +201,7 @@ export async function updateBannerAction(id: string, data: any) {
 export async function deleteBannerAction(id: string) {
     await ensureAuth();
     await adminDb.collection("adBanners").doc(id).delete();
+    revalidateTag("adBanners", { expire: 0 });
     revalidatePath("/(public)/[country]", "layout");
     revalidatePath("/admin/banners");
     return { success: true };
@@ -197,6 +215,7 @@ export async function createRuleAction(data: any) {
         ...data,
         updatedAt: new Date().toISOString()
     });
+    revalidateTag("rules", { expire: 0 });
     revalidatePath("/admin/rules");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -208,6 +227,7 @@ export async function updateRuleAction(id: string, data: any) {
         ...data,
         updatedAt: new Date().toISOString()
     });
+    revalidateTag("rules", { expire: 0 });
     revalidatePath("/admin/rules");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -217,6 +237,7 @@ export async function updateRuleAction(id: string, data: any) {
 export async function deleteRuleAction(id: string) {
     await ensureAuth();
     await adminDb.collection("rules").doc(id).delete();
+    revalidateTag("rules", { expire: 0 });
     revalidatePath("/admin/rules");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -227,6 +248,7 @@ export async function deleteRuleAction(id: string) {
 export async function updateTrackingConfigAction(data: any) {
     await ensureAuth();
     await adminDb.collection("settings").doc("tracking").set(data, { merge: true });
+    revalidateTag("tracking", { expire: 0 });
     revalidatePath("/admin/tracking");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
@@ -235,6 +257,7 @@ export async function updateTrackingConfigAction(data: any) {
 export async function updateSocialConfigAction(data: any) {
     await ensureAuth();
     await adminDb.collection("settings").doc("social").set(data, { merge: true });
+    revalidateTag("social", { expire: 0 });
     revalidatePath("/admin/social");
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };

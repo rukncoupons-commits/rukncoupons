@@ -49,7 +49,7 @@ export default function CouponCardServer({ coupon, store, categoryName = "عرض
                 <div className="w-[84px] h-[84px] rounded-full border border-gray-100 shadow-sm bg-white overflow-hidden p-1 flex items-center justify-center mx-auto">
                     {store?.logoUrl ? (
                         <Image
-                            src={store.logoUrl}
+                            src={store.logoUrl.trim()}
                             alt={store.name || "متجر"}
                             className="w-full h-full object-contain rounded-full"
                             loading="lazy"

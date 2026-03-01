@@ -98,7 +98,7 @@ export default function AdminSlidersClient({ initialSlides, countries, stores }:
                 {slides.map((slide) => (
                     <div key={slide.id} className="bg-white rounded-[2.5rem] border-2 border-slate-100 overflow-hidden group hover:shadow-2xl transition-all relative">
                         <div className="aspect-[21/9] w-full bg-slate-100 relative overflow-hidden">
-                            <img src={slide.image} alt={slide.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                            <img src={slide.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt={slide.title || "صورة متحركة للعرض"} />
                             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex items-end p-8">
                                 <div className="text-white space-y-1">
                                     <h3 className="text-lg font-black">{slide.title || "بدون عنوان"}</h3>

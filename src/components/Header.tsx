@@ -52,7 +52,7 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
                 {/* Logo */}
                 <Link href={`/${currentCountry?.code || ""}`} className="flex items-center gap-2 shrink-0" aria-label="الرئيسية">
                     <div className="bg-blue-600 text-white p-1.5 rounded-lg font-bold text-xl">ركن</div>
-                    <span className="text-xl font-bold text-gray-800">الكوبونات</span>
+                    <span className="text-lg md:text-xl font-bold text-gray-800">الكوبونات</span>
                 </Link>
 
                 {/* Search */}

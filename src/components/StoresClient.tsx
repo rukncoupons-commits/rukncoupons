@@ -126,8 +126,9 @@ export default function StoresClient({
 
                         {/* Grid */}
                         <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6" style={{ contentVisibility: 'auto', containIntrinsicSize: '0 800px' }}>
-                            {filteredStores.slice(0, 12).map((store) => {
+                            {filteredStores.slice(0, 12).map((store, index) => {
                                 const count = getCouponCount(store.id);
+                                const isLCP = index < 4; // Top 4 images in grid are likely LCP
                                 return (
                                     <Link
                                         key={store.id}
@@ -141,7 +142,16 @@ export default function StoresClient({
                                             </span>
                                         )}
                                         <div className="w-20 h-20 rounded-full border border-gray-100 p-2 mb-4 bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                                            <Image src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" width={80} height={80} sizes="80px" loading="lazy" />
+                                            <Image
+                                                src={store.logoUrl}
+                                                alt={store.name}
+                                                className="w-full h-full object-contain rounded-full"
+                                                width={80}
+                                                height={80}
+                                                sizes="80px"
+                                                priority={isLCP}
+                                                loading={isLCP ? "eager" : "lazy"}
+                                            />
                                         </div>
                                         <h2 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">
                                             كود خصم {store.name}

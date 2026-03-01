@@ -154,7 +154,7 @@ export function buildStorePageSchema(params: {
             "image": store.logoUrl,
             "description": store.description,
             "url": store.storeUrl || storeUrl,
-            "areaServed": countryName,
+            "areaServed": countryName
         },
         {
             "@type": "BreadcrumbList",
@@ -282,8 +282,13 @@ export function buildDynamicStoreTitle(params: {
     if (customTitle) return customTitle;
 
     const year = new Date().getFullYear();
-    // Unique pattern strictly aligned with prompt guidelines
-    return `كود خصم ${storeName} ${year} | أحدث كوبونات فعالة`;
+
+    // Deterministic selection of CTR modifiers based on storeName length to prevent footprint
+    const modifiers = ["فعال 100%", "مُجرب اليوم", "يعمل الآن", "أحدث العروض"];
+    const modifier = modifiers[storeName.length % modifiers.length];
+
+    // Less spammy, more varied natural titles
+    return `كود خصم ${storeName} السعودية ${year} | ${modifier}`;
 }
 
 /**
@@ -298,22 +303,14 @@ export function buildDynamicStoreDescription(params: {
     storeDescription?: string;
     customDescription?: string;
 }): string {
-    const { storeName, countryName, maxDiscount, activeCouponCount, storeDescription, customDescription } = params;
+    const { storeName, customDescription } = params;
 
     if (customDescription) return customDescription;
 
-    const discountStr = maxDiscount ? `حتى ${maxDiscount}%` : "خصومات كبرى";
+    const year = new Date().getFullYear();
 
-    // Fallback descriptor based on content length
-    const descChunk = storeDescription && storeDescription.length > 50
-        ? `${storeDescription.substring(0, 70)}...`
-        : `أقوى عروض والتخفيضات`;
-
-    if (activeCouponCount > 0) {
-        return `استفد من كود خصم ${storeName} في ${countryName} للحصول على توفير ${discountStr}. ${activeCouponCount} كوبون متاح حالياً. ${descChunk}`;
-    }
-
-    return `تسوق في ${storeName} داخل ${countryName} واستمتع بأفضل الأسعار. احصل على أحدث الخصومات والتنزيلات الحصرية فور توفرها. ${descChunk}`;
+    // Strict phase 1 meta description format
+    return `احصل على أحدث كود خصم ${storeName} في السعودية لعام ${year}. كوبونات مفعلة يوميًا مع شرح طريقة الاستخدام وتوفير حقيقي.`;
 }
 
 /**

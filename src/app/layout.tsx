@@ -46,7 +46,6 @@ export default function RootLayout({
         {/* Preconnect to critical domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
         <link rel="dns-prefetch" href="https://storage.googleapis.com" />
       </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased font-sans bg-gray-50`}>

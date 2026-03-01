@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "firebasestorage.googleapis.com" },
       { protocol: "https", hostname: "storage.googleapis.com" },
       { protocol: "https", hostname: "cdnjs.cloudflare.com" },
+      { protocol: "https", hostname: "i.postimg.cc" },
     ],
     minimumCacheTTL: 86400, // 24 hours
   },

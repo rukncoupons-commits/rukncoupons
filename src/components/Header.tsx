@@ -47,7 +47,7 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
     };
 
     return (
-        <header className="bg-white shadow-sm sticky top-0 z-50">
+        <header className="hidden lg:block bg-white shadow-sm sticky top-0 z-50">
             <div className="container mx-auto px-4 h-24 flex items-center justify-between gap-4">
                 {/* Logo */}
                 <Link href={`/${currentCountry?.code || ""}`} className="flex items-center gap-2 shrink-0" aria-label="الرئيسية">

@@ -12,8 +12,10 @@ export default function robots(): MetadataRoute.Robots {
                     "/admin/",
                     "/login",
                     "/api/",
-                    "/*?*",          // Block all query strings (filters, search params)
-                    "/*/coupons?*",  // Block filter-based coupon URLs
+                    "/*/coupons?*",   // Block filter-based coupon URLs
+                    "/*?cat=*",       // Block category filter params
+                    "/*?store=*",     // Block store filter params
+                    "/*?q=*",         // Block search query params
                 ],
             },
             {

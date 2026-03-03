@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ country: 
     const { country } = await params;
     return {
         alternates: {
-            canonical: buildAbsoluteUrl(`/${country}`),
+            // canonical is set by each individual page, not the layout
             languages: buildHreflangAlternates(),
         },
     };

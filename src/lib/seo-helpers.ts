@@ -56,8 +56,8 @@ export function buildHreflangAlternates(pathSuffix: string = "") {
         const hreflang = getHreflangByCountry(code);
         languages[hreflang] = buildAbsoluteUrl(`/${code}${pathSuffix}`);
     }
-    // x-default → Saudi Arabia
-    languages["x-default"] = buildAbsoluteUrl(`/sa${pathSuffix}`);
+    // x-default → root domain (auto-detects country)
+    languages["x-default"] = buildAbsoluteUrl(`/${pathSuffix || "/"}`);
     return languages;
 }
 
@@ -93,7 +93,11 @@ export function buildOrganizationSchema() {
                     "@type": "ImageObject",
                     "url": `${SITE_URL}/logo.png`,
                 },
-                "sameAs": [],
+                "sameAs": [
+                    "https://twitter.com/rukncoupons",
+                    "https://facebook.com/rukncoupons",
+                    "https://instagram.com/rukncoupons"
+                ],
                 "description": "منصة عربية متخصصة في أكواد الخصم والكوبونات لأشهر المتاجر في السعودية، الإمارات، مصر، الكويت، قطر، البحرين وعُمان.",
             },
             {
@@ -287,8 +291,8 @@ export function buildDynamicStoreTitle(params: {
     const modifiers = ["فعال 100%", "مُجرب اليوم", "يعمل الآن", "أحدث العروض"];
     const modifier = modifiers[storeName.length % modifiers.length];
 
-    // Less spammy, more varied natural titles
-    return `كود خصم ${storeName} السعودية ${year} | ${modifier}`;
+    // Use actual country name for localized titles
+    return `كود خصم ${storeName} ${params.countryName} ${year} | ${modifier}`;
 }
 
 /**
@@ -309,8 +313,8 @@ export function buildDynamicStoreDescription(params: {
 
     const year = new Date().getFullYear();
 
-    // Strict phase 1 meta description format
-    return `احصل على أحدث كود خصم ${storeName} في السعودية لعام ${year}. كوبونات مفعلة يوميًا مع شرح طريقة الاستخدام وتوفير حقيقي.`;
+    // Use actual country name for localized descriptions
+    return `احصل على أحدث كود خصم ${storeName} في ${params.countryName} لعام ${year}. كوبونات مفعلة يوميًا مع شرح طريقة الاستخدام وتوفير حقيقي.`;
 }
 
 /**

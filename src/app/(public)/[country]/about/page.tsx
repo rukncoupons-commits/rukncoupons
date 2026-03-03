@@ -2,6 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
+import { buildAbsoluteUrl, buildHreflangAlternates } from "@/lib/seo-helpers";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +19,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
         title: `عن موقع ركن الكوبونات | كوبونات خصم لـ ${currentCountry.name}`,
         description: "تعرف على مهمتنا في توفير أفضل كوبونات الخصم والعروض الحصرية في الشرق الأوسط. موقع ركن الكوبونات هو وجهتك للتسوق الذكي.",
+        alternates: {
+            canonical: buildAbsoluteUrl(`/${country}/about`),
+            languages: buildHreflangAlternates("/about"),
+        },
     };
 }
 

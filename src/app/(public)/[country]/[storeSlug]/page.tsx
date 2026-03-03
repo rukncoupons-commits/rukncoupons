@@ -18,7 +18,8 @@ import {
     getMaxDiscountPercent,
     countActiveCoupons,
     getTopCouponsForSnippet,
-    validateContentDepth
+    validateContentDepth,
+    COUNTRY_CONFIG
 } from "@/lib/seo-helpers";
 
 // ISR: Regenerate every hour
@@ -83,7 +84,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             title: seo?.ogTitle || finalTitle,
             description: seo?.ogDescription || description,
             images: [{ url: store.logoUrl, width: 400, height: 400, alt: `شعار ${store.name}` }],
-            locale: country === "eg" ? "ar_EG" : country === "ae" ? "ar_AE" : "ar_SA",
+            locale: COUNTRY_CONFIG[country]?.locale || "ar_SA",
             type: "website",
             url: canonicalUrl,
         },

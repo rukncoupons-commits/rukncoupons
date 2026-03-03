@@ -4,7 +4,7 @@ import Link from "next/link";
 import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
 import Script from "next/script";
-import { buildAbsoluteUrl, buildHreflangAlternates } from "@/lib/seo-helpers";
+import { buildAbsoluteUrl, buildHreflangAlternates, SITE_URL, COUNTRY_CONFIG } from "@/lib/seo-helpers";
 import { Calendar, Tag } from "lucide-react";
 
 // ISR: Regenerate every hour
@@ -27,6 +27,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             canonical: buildAbsoluteUrl(`/${currentCountry.code}/blog`),
             languages: buildHreflangAlternates("/blog"),
         },
+        openGraph: {
+            title: `مدونة نصائح التسوق في ${currentCountry.name} | ركن الكوبونات`,
+            description: `تعرف على طرق التوفير وأسرار التسوق الذكي في ${currentCountry.name}. شروحات للكوبونات وعروض المتاجر.`,
+            images: [
+                {
+                    url: `${SITE_URL}/og-blog.jpg`,
+                    width: 1200,
+                    height: 630,
+                    alt: "مدونة ركن الكوبونات",
+                }
+            ],
+            locale: COUNTRY_CONFIG[currentCountry.code]?.locale || "ar_SA",
+            type: "website",
+        }
     };
 }
 

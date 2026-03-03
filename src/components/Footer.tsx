@@ -49,7 +49,7 @@ export default function Footer({ currentCountryCode = "sa" }: FooterProps) {
                         <div className="bg-blue-600 text-white p-1 rounded font-bold">ركن</div>
                         <span className="text-xl font-bold text-white">الكوبونات</span>
                     </div>
-                    <p className="text-sm leading-relaxed">منصتك الأولى للحصول على أحدث كوبونات الخصم والعروض في السعودية، مصر، والإمارات.</p>
+                    <p className="text-sm leading-relaxed">منصتك الأولى للحصول على أحدث كوبونات الخصم والعروض لأفضل المتاجر الإلكترونية في العالم العربي.</p>
                 </div>
                 <div>
                     <h3 className="text-white font-bold mb-4">روابط سريعة</h3>
@@ -75,17 +75,17 @@ export default function Footer({ currentCountryCode = "sa" }: FooterProps) {
                     <h3 className="text-white font-bold mb-4">أقسام مشهورة</h3>
                     <ul className="space-y-2 text-sm">
                         <li>
-                            <Link href={`/${currentCountryCode}/stores`} className="hover:text-white transition">
+                            <Link href={`/${currentCountryCode}/coupons?cat=fashion`} className="hover:text-white transition">
                                 أزياء وموضة
                             </Link>
                         </li>
                         <li>
-                            <Link href={`/${currentCountryCode}/stores`} className="hover:text-white transition">
+                            <Link href={`/${currentCountryCode}/coupons?cat=electronics`} className="hover:text-white transition">
                                 إلكترونيات
                             </Link>
                         </li>
                         <li>
-                            <Link href={`/${currentCountryCode}/stores`} className="hover:text-white transition">
+                            <Link href={`/${currentCountryCode}/coupons?cat=grocery`} className="hover:text-white transition">
                                 بقالة
                             </Link>
                         </li>

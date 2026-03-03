@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
 import ContactClient from "@/components/ContactClient";
+import { buildAbsoluteUrl, buildHreflangAlternates } from "@/lib/seo-helpers";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
         title: `اتصل بنا | موقع ركن الكوبونات لـ ${currentCountry.name}`,
         description: "تواصل مع فريق موقع ركن الكوبونات. نستقبل استفساراتكم واقتراحاتكم لتحسين خدماتنا ومساعدتكم في التوفير.",
+        alternates: {
+            canonical: buildAbsoluteUrl(`/${country}/contact`),
+            languages: buildHreflangAlternates("/contact"),
+        },
     };
 }
 

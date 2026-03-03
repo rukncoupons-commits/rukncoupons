@@ -2,34 +2,44 @@ import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
+const SUPPORTED_COUNTRIES = ['sa', 'ae', 'eg', 'kw', 'qa', 'bh', 'om'];
+
 export async function GET(request: Request) {
-    // Use precisely the same logic as the middleware to ensure consistency
-    // but we can trust the middleware's injected header x-detected-country 
-    // if it's there. 
-
+    // 1. Check middleware-injected header first
     const detectedCountry = request.headers.get('x-detected-country');
-
-    if (detectedCountry) {
-        return NextResponse.json({ country: detectedCountry });
+    if (detectedCountry && SUPPORTED_COUNTRIES.includes(detectedCountry.toLowerCase())) {
+        return NextResponse.json({ country: detectedCountry.toLowerCase() });
     }
 
-    // Fallback detection (if bypass paths like /api were hit, the header might be missing 
-    // because we skipped middleware logic for /api... oh wait!
-    // In middleware, I bypassed /api! 
-    // Let's do the manual check here.
-
+    // 2. Try CDN geo headers (CF / Vercel)
     const cfCountry = request.headers.get('CF-IPCountry');
     const vercelCountryHeaders = request.headers.get('x-vercel-ip-country');
-
-    // @ts-ignore
+    // @ts-ignore - geo is available in Vercel edge
     const vercelGeoCountry = request.geo?.country;
 
-    const finalCountry = (
-        cfCountry ||
-        vercelCountryHeaders ||
-        vercelGeoCountry ||
-        'sa'
-    ).toLowerCase();
+    const cdnCountry = (cfCountry || vercelCountryHeaders || vercelGeoCountry || '').toLowerCase();
 
-    return NextResponse.json({ country: finalCountry });
+    if (cdnCountry && SUPPORTED_COUNTRIES.includes(cdnCountry)) {
+        return NextResponse.json({ country: cdnCountry });
+    }
+
+    // 3. Fallback: use external geo API when CDN headers are unavailable
+    try {
+        const geoRes = await fetch('https://get.geojs.io/v1/ip/country.json', {
+            signal: AbortSignal.timeout(3000),
+        });
+        if (geoRes.ok) {
+            const geoData = await geoRes.json();
+            const externalCountry = (geoData.country || '').toLowerCase();
+            if (externalCountry && SUPPORTED_COUNTRIES.includes(externalCountry)) {
+                return NextResponse.json({ country: externalCountry });
+            }
+            // Country detected but not supported
+            return NextResponse.json({ country: externalCountry || 'sa', supported: false });
+        }
+    } catch {
+        // External API failed, fall through to default
+    }
+
+    return NextResponse.json({ country: 'sa' });
 }

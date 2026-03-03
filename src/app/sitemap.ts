@@ -28,12 +28,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         });
 
         // 2. Static pages
-        for (const page of ["stores", "coupons", "blog"]) {
+        for (const page of ["stores", "coupons", "blog", "about", "contact", "privacy"]) {
             entries.push({
                 url: `${SITE_URL}/${countryCode}/${page}`,
                 lastModified: now,
-                changeFrequency: "daily",
-                priority: 0.8,
+                changeFrequency: page === "privacy" ? "monthly" : "daily",
+                priority: ["about", "contact", "privacy"].includes(page) ? 0.4 : 0.8,
             });
         }
 

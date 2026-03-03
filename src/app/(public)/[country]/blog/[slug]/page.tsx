@@ -9,7 +9,7 @@ import CouponCard from "@/components/CouponCard";
 import Script from "next/script";
 import { processBlogContent, extractToc } from "@/lib/auto-link";
 import { User, ChevronDown, Facebook, Twitter, Mail, Tag } from "lucide-react";
-import { buildHreflangAlternates, buildAbsoluteUrl, validateContentDepth } from "@/lib/seo-helpers";
+import { buildHreflangAlternates, buildAbsoluteUrl, validateContentDepth, SITE_URL } from "@/lib/seo-helpers";
 
 import { injectCouponSSR } from "@/lib/ssr-injector";
 import { BlogPost } from "@/lib/types";
@@ -184,14 +184,27 @@ export default async function BlogPostPage({ params }: PageProps) {
 
     const allRelatedCoupons = [...manualCoupons, ...autoCoupons].slice(0, 4);
 
+    const canonicalUrl = buildAbsoluteUrl(`/${country}/blog/${decodedSlug}`);
+    const wordCount = (post.content || "").trim().split(/\s+/).filter(w => w.length > 1).length;
+
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": post.title,
         "image": post.image,
         "author": { "@type": "Person", "name": post.author },
+        "publisher": {
+            "@type": "Organization",
+            "name": "ركن الكوبونات",
+            "logo": { "@type": "ImageObject", "url": `${SITE_URL}/logo.png` },
+        },
         "datePublished": post.createdAt,
-        "description": post.excerpt
+        "dateModified": post.updatedAt || post.createdAt,
+        "description": post.excerpt,
+        "mainEntityOfPage": { "@type": "WebPage", "@id": canonicalUrl },
+        "wordCount": wordCount,
+        "articleSection": data.categories.find(c => c.slug === post.category)?.name || post.category,
+        "inLanguage": "ar",
     };
 
     return (
@@ -204,7 +217,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
             <div className="container mx-auto px-4">
                 {/* Breadcrumb */}
-                <nav className="flex mb-6 text-sm text-gray-500 gap-2">
+                <nav aria-label="breadcrumb" className="flex mb-6 text-sm text-gray-500 gap-2">
                     <Link href={`/${country}`} className="hover:text-blue-600">الرئيسية</Link>
                     <span>/</span>
                     <Link href={`/${country}/blog`} className="hover:text-blue-600">المدونة</Link>
@@ -217,7 +230,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                         <article className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                             {/* Header Image */}
                             <div className="h-[300px] md:h-[400px] relative">
-                                <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+                                <img src={post.image} alt={post.title} width={1200} height={630} className="w-full h-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
                                     <div className="flex gap-4 text-sm font-bold mb-4">
                                         <span className="bg-blue-600 px-3 py-1 rounded-full uppercase tracking-wider">

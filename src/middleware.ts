@@ -117,24 +117,24 @@ export function middleware(request: NextRequest) {
 
     // 5. REDIRECT LOGIC FOR ROOT DOMAIN (/)
     if (pathname === '/') {
-        // If it's a bot or marketing link, let them see the root (if root exists) or fallback
-        // Actually, for root domain, we ideally want to serve the default country or redirect.
-        // If it's safe mode, we shouldn't redirect immediately to prevent loop or SEO drop,
-        // BUT Next.js needs a valid route. If `/` doesn't map to a page, we must redirect.
-        // Let's assume `/` expects a country slug. We will do a safe 307 redirect.
-        // Wait, the prompt says: "If user enters root domain / AND no cookie exists AND not a bot -> Redirect to /country"
+        const hasRealGeoData = !!(cfCountry || vercelCountryHeaders || vercelGeoCountry);
 
         if (!isBot && !hasMarketingParam && !isFromSearchEngine && !cookieCountry) {
-            const redirectUrl = new URL(`/${detectedCountry}`, request.url);
-            const redirectResponse = NextResponse.redirect(redirectUrl, 307);
+            if (hasRealGeoData) {
+                // Real geo data available from CDN → auto-redirect
+                const redirectUrl = new URL(`/${detectedCountry}`, request.url);
+                const redirectResponse = NextResponse.redirect(redirectUrl, 307);
 
-            // Set cookie for 30 days
-            redirectResponse.cookies.set('country_preference', detectedCountry, {
-                path: '/',
-                maxAge: 60 * 60 * 24 * 30, // 30 days
-                sameSite: 'lax',
-            });
-            return redirectResponse;
+                // Set cookie for 30 days
+                redirectResponse.cookies.set('country_preference', detectedCountry, {
+                    path: '/',
+                    maxAge: 60 * 60 * 24 * 30, // 30 days
+                    sameSite: 'lax',
+                });
+                return redirectResponse;
+            }
+            // No real geo data → let the landing page handle client-side detection
+            return NextResponse.next();
         } else if (cookieCountry && !hasCountryInUrl) {
             // If they have a cookie and hit root, redirect them to their preference
             const redirectUrl = new URL(`/${cookieCountry}`, request.url);

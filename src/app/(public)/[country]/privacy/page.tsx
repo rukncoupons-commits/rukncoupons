@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
+import { buildAbsoluteUrl, buildHreflangAlternates } from "@/lib/seo-helpers";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
         title: `سياسة الخصوصية | موقع ركن الكوبونات لـ ${currentCountry.name}`,
         description: "اقرأ سياسة الخصوصية لموقع ركن الكوبونات لفهم كيفية جمعنا واستخدامنا وحمايتنا لبياناتك الشخصية وخصوصيتك.",
+        alternates: {
+            canonical: buildAbsoluteUrl(`/${country}/privacy`),
+            languages: buildHreflangAlternates("/privacy"),
+        },
     };
 }
 

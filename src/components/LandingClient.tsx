@@ -12,6 +12,17 @@ export default function LandingClient({ countries }: Props) {
     const router = useRouter();
     const [isDetecting, setIsDetecting] = useState(true);
 
+    // Sort countries: SA → AE → EG first, then the rest
+    const priorityOrder = ["sa", "ae", "eg"];
+    const sortedCountries = [...countries].sort((a, b) => {
+        const aIdx = priorityOrder.indexOf(a.code);
+        const bIdx = priorityOrder.indexOf(b.code);
+        if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+        if (aIdx !== -1) return -1;
+        if (bIdx !== -1) return 1;
+        return 0;
+    });
+
     useEffect(() => {
         // 1. Check localStorage first (user previously chose a country)
         const saved = localStorage.getItem("user_country");
@@ -75,14 +86,14 @@ export default function LandingClient({ countries }: Props) {
 
                 {!isDetecting && (
                     <>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-in slide-in-from-bottom-5 duration-700">
-                            {countries.map((country) => (
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 animate-in slide-in-from-bottom-5 duration-700">
+                            {sortedCountries.map((country) => (
                                 <button
                                     key={country.code}
                                     onClick={() => selectCountry(country.code)}
-                                    className="group relative overflow-hidden bg-white border-2 border-gray-100 hover:border-blue-500 hover:shadow-2xl rounded-3xl p-8 transition-all duration-300 transform hover:-translate-y-2"
+                                    className="group relative overflow-hidden bg-white border-2 border-gray-100 hover:border-blue-500 hover:shadow-2xl rounded-3xl p-4 md:p-8 transition-all duration-300 transform hover:-translate-y-2"
                                 >
-                                    <div className="w-24 h-24 mx-auto mb-4 transform group-hover:scale-110 transition-transform duration-300 rounded-full shadow-lg overflow-hidden bg-gray-50 border-2 border-white">
+                                    <div className="w-16 h-16 md:w-24 md:h-24 mx-auto mb-3 md:mb-4 transform group-hover:scale-110 transition-transform duration-300 rounded-full shadow-lg overflow-hidden bg-gray-50 border-2 border-white">
                                         <img
                                             src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/flags/1x1/${country.code}.svg`}
                                             alt={`علم ${country.name}`}
@@ -90,7 +101,7 @@ export default function LandingClient({ countries }: Props) {
                                         />
                                     </div>
 
-                                    <h2 className="text-xl font-black text-gray-800 group-hover:text-blue-600 transition-colors">
+                                    <h2 className="text-base md:text-xl font-black text-gray-800 group-hover:text-blue-600 transition-colors">
                                         {country.name}
                                     </h2>
                                     <span className="text-xs font-bold text-gray-400 mt-3 block opacity-0 group-hover:opacity-100 transition-opacity">

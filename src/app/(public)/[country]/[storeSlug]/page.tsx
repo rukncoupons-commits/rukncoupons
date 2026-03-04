@@ -31,7 +31,8 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const { country, storeSlug } = await params;
+    const { country, storeSlug: rawStoreSlug } = await params;
+    const storeSlug = decodeURIComponent(rawStoreSlug);
     const [storeData, countryData] = await Promise.all([
         getStoreBySlug(country, storeSlug),
         getCountryData(country),
@@ -100,7 +101,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function StorePage({ params }: PageProps) {
-    const { country, storeSlug } = await params;
+    const { country, storeSlug: rawStoreSlug } = await params;
+    const storeSlug = decodeURIComponent(rawStoreSlug);
     const storeData = await getStoreBySlug(country, storeSlug);
     const data = await getCountryData(country);
     const socialConfig = await getSocialConfig();

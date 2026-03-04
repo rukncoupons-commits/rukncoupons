@@ -47,7 +47,7 @@ export default function CouponCard({ coupon, store, categoryName = "عرض خا�
                 {/* LOGO */}
                 <div className="w-[84px] h-[84px] mb-3 rounded-full border border-gray-100 shadow-sm bg-white overflow-hidden p-1 flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                     {store?.logoUrl ? (
-                        <Image src={store.logoUrl} alt={store.name || "متجر"} className="w-full h-full object-contain rounded-full" width={84} height={84} sizes="84px" loading="lazy" />
+                        <Image src={store.logoUrl?.trim()} alt={store.name || "متجر"} className="w-full h-full object-contain rounded-full" width={84} height={84} sizes="84px" loading="lazy" />
                     ) : (
                         <span className="text-3xl">🛍️</span>
                     )}

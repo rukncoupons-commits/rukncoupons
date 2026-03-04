@@ -143,7 +143,7 @@ export default function StoresClient({
                                         )}
                                         <div className="w-20 h-20 rounded-full border border-gray-100 p-2 mb-4 bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
                                             <Image
-                                                src={store.logoUrl}
+                                                src={store.logoUrl.trim()}
                                                 alt={store.name}
                                                 className="w-full h-full object-contain rounded-full"
                                                 width={80}
@@ -195,7 +195,7 @@ export default function StoresClient({
                                             </span>
                                         )}
                                         <div className="w-20 h-20 rounded-full border border-gray-100 p-2 mb-4 bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
-                                            <Image src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" width={80} height={80} sizes="80px" loading="lazy" />
+                                            <Image src={store.logoUrl.trim()} alt={store.name} className="w-full h-full object-contain rounded-full" width={80} height={80} sizes="80px" loading="lazy" />
                                         </div>
                                         <h2 className="font-bold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">
                                             كود خصم {store.name}

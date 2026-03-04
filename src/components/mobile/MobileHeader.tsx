@@ -3,16 +3,30 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { Country, Store } from "@/lib/types";
+import { Country, Store, Category, Coupon } from "@/lib/types";
 import MobileDrawer from "./MobileDrawer";
+import { Search, ChevronDown, Store as StoreIconLucide, Folder, TicketPercent } from "lucide-react";
 
 interface MobileHeaderProps {
     countries: Country[];
     currentCountry?: Country;
     stores?: Store[];
+    categories?: Category[];
+    coupons?: Coupon[];
 }
 
-export default function MobileHeader({ countries, currentCountry, stores = [] }: MobileHeaderProps) {
+// Unified Search Result Type
+type SearchResultItem = {
+    id: string;
+    type: 'store' | 'category' | 'coupon';
+    title: string;
+    url: string;
+    imageUrl?: string;
+    subtitle?: string;
+    score: number;
+};
+
+export default function MobileHeader({ countries, currentCountry, stores = [], categories = [], coupons = [] }: MobileHeaderProps) {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -51,6 +65,64 @@ export default function MobileHeader({ countries, currentCountry, stores = [] }:
             setSearchOpen(false);
         }
     };
+
+    // Smart Multi-Entity Fuzzy Search
+    const suggestedItems = React.useMemo(() => {
+        if (!searchQuery.trim()) return [];
+
+        const queryWords = searchQuery.trim().toLowerCase().split(/\s+/);
+        const results: SearchResultItem[] = [];
+
+        // 1. Search Stores
+        stores.forEach(store => {
+            const searchIndex = `متجر موقع كود خصم كوبون ${store.name} ${(store as any).nameEn || ''} ${store.slug}`.toLowerCase();
+            const isMatch = queryWords.every(word => searchIndex.includes(word));
+            if (isMatch) {
+                results.push({
+                    id: `store-${store.id}`,
+                    type: 'store',
+                    title: store.name,
+                    url: `/${countryCode}/${store.slug}`,
+                    imageUrl: store.logoUrl,
+                    score: 3
+                });
+            }
+        });
+
+        // 2. Search Categories
+        categories.forEach(category => {
+            const searchIndex = `قسم تصنيف ${category.name} ${category.slug}`.toLowerCase();
+            const isMatch = queryWords.every(word => searchIndex.includes(word));
+            if (isMatch) {
+                results.push({
+                    id: `cat-${category.id}`,
+                    type: 'category',
+                    title: category.name,
+                    url: `/${countryCode}/categories/${category.slug}`,
+                    score: 2
+                });
+            }
+        });
+
+        // 3. Search Coupons
+        coupons.forEach(coupon => {
+            const storeName = stores.find(s => s.id === coupon.storeId)?.name || '';
+            const searchIndex = `كوبون كود عرض خصم ${coupon.title} ${storeName} ${coupon.code}`.toLowerCase();
+            const isMatch = queryWords.every(word => searchIndex.includes(word));
+            if (isMatch) {
+                results.push({
+                    id: `coup-${coupon.id}`,
+                    type: 'coupon',
+                    title: coupon.title,
+                    subtitle: storeName ? `كوبون يعرّض في ${storeName}` : undefined,
+                    url: `/${countryCode}/coupons?q=${encodeURIComponent(coupon.title)}`,
+                    score: 1
+                });
+            }
+        });
+
+        return results.sort((a, b) => b.score - a.score).slice(0, 10);
+    }, [searchQuery, stores, categories, coupons, countryCode]);
 
     return (
         <>
@@ -149,6 +221,77 @@ export default function MobileHeader({ countries, currentCountry, stores = [] }:
                             بحث
                         </button>
                     </form>
+
+                    {/* Auto-Suggestions Dropdown for Mobile */}
+                    {searchOpen && searchQuery.trim().length > 0 && (
+                        <div style={{ backgroundColor: '#fff', borderTop: '1px solid #e5e7eb', maxHeight: '60vh', overflowY: 'auto' }}>
+                            {suggestedItems.length > 0 ? (
+                                <div>
+                                    <div style={{ padding: '8px 16px', background: '#f9fafb', fontSize: '12px', fontWeight: 'bold', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #f3f4f6' }}>
+                                        <StoreIconLucide size={14} />
+                                        <span>نتائج بحث ذكية</span>
+                                    </div>
+                                    {suggestedItems.map((item) => (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => {
+                                                setSearchOpen(false);
+                                                setSearchQuery("");
+                                                router.push(item.url);
+                                            }}
+                                            style={{
+                                                width: '100%',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '12px',
+                                                padding: '12px 16px',
+                                                borderBottom: '1px solid #f9fafb',
+                                                background: 'none',
+                                                borderLeft: 'none',
+                                                borderRight: 'none',
+                                                borderTop: 'none',
+                                                cursor: 'pointer',
+                                                textAlign: 'right'
+                                            }}
+                                        >
+                                            {/* Icon / Image based on type */}
+                                            {item.type === 'store' && item.imageUrl ? (
+                                                <div style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid #f3f4f6', backgroundColor: '#fff', padding: 4, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                                                    <img
+                                                        src={item.imageUrl.trim()}
+                                                        alt={item.title}
+                                                        style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '50%' }}
+                                                    />
+                                                </div>
+                                            ) : item.type === 'category' ? (
+                                                <div style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid #eff6ff', backgroundColor: '#eff6ff', color: '#3b82f6', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                                                    <Folder size={20} />
+                                                </div>
+                                            ) : (
+                                                <div style={{ width: 40, height: 40, borderRadius: '50%', border: '1px solid #fff7ed', backgroundColor: '#fff7ed', color: '#f97316', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                                                    <TicketPercent size={20} />
+                                                </div>
+                                            )}
+
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
+                                                <span style={{ fontWeight: 700, color: '#1f2937', fontSize: '14px', textAlign: 'right', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{item.title}</span>
+                                                {item.subtitle && (
+                                                    <span style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px', textAlign: 'right', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{item.subtitle}</span>
+                                                )}
+                                                <span style={{ fontSize: '10px', color: '#9ca3af', marginTop: '4px', padding: '2px 6px', backgroundColor: '#f3f4f6', borderRadius: '4px', display: 'inline-block' }}>
+                                                    {item.type === 'store' ? 'متجر' : item.type === 'category' ? 'قسم' : 'عرض / كوبون'}
+                                                </span>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div style={{ padding: '16px', textAlign: 'center', color: '#6b7280', fontSize: '13px' }}>
+                                    لم نجد نتائج تطابق بحثك بدقة... اضغط "بحث" لرؤية جميع النتائج.
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </header>
 

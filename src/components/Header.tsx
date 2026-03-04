@@ -3,15 +3,29 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { Country } from "@/lib/types";
-import { Search, ChevronDown } from "lucide-react";
+import { Country, Store, Category, Coupon } from "@/lib/types";
+import { Search, ChevronDown, Store as StoreIconLucide, Folder, TicketPercent } from "lucide-react";
 
 interface HeaderProps {
     countries: Country[];
     currentCountry?: Country;
+    stores?: Store[];
+    categories?: Category[];
+    coupons?: Coupon[];
 }
 
-export default function Header({ countries, currentCountry }: HeaderProps) {
+// Unified Search Result Type
+type SearchResultItem = {
+    id: string;
+    type: 'store' | 'category' | 'coupon';
+    title: string;
+    url: string;
+    imageUrl?: string;
+    subtitle?: string;
+    score: number;
+};
+
+export default function Header({ countries, currentCountry, stores = [], categories = [], coupons = [] }: HeaderProps) {
     const [searchQuery, setSearchQuery] = useState("");
     const [isCountryOpen, setIsCountryOpen] = useState(false);
     const router = useRouter();
@@ -38,13 +52,90 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
         const query = searchQuery.trim().toLowerCase();
         if (query) {
             const countryCode = currentCountry?.code || "sa";
-            // Simplified search logic for now, similar to Angular
-            // We don't have all stores here easily without passing them, 
-            // but we can just redirect to the search page.
             router.push(`/${countryCode}/coupons?q=${encodeURIComponent(query)}`);
             setSearchQuery("");
+            setShowSuggestions(false);
         }
     };
+
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+    // Smart Multi-Entity Fuzzy Search
+    const suggestedItems = React.useMemo(() => {
+        if (!searchQuery.trim()) return [];
+
+        // Split query into individual words (e.g. "كود خصم نون" -> ["كود", "خصم", "نون"])
+        const queryWords = searchQuery.trim().toLowerCase().split(/\s+/);
+        const countryCode = currentCountry?.code || "sa";
+
+        const results: SearchResultItem[] = [];
+
+        // 1. Search Stores
+        stores.forEach(store => {
+            // Create a rich searchable string map for the store (safely accessing nameEn if it exists)
+            const searchIndex = `متجر موقع كود خصم كوبون ${store.name} ${(store as any).nameEn || ''} ${store.slug}`.toLowerCase();
+
+            // fuzzy match: ALL query words must exist SOMEWHERE in the searchIndex
+            const isMatch = queryWords.every(word => searchIndex.includes(word));
+            if (isMatch) {
+                results.push({
+                    id: `store-${store.id}`,
+                    type: 'store',
+                    title: store.name,
+                    url: `/${countryCode}/${store.slug}`,
+                    imageUrl: store.logoUrl,
+                    score: 3 // highest priority
+                });
+            }
+        });
+
+        // 2. Search Categories
+        categories.forEach(category => {
+            const searchIndex = `قسم تصنيف ${category.name} ${category.slug}`.toLowerCase();
+            const isMatch = queryWords.every(word => searchIndex.includes(word));
+            if (isMatch) {
+                results.push({
+                    id: `cat-${category.id}`,
+                    type: 'category',
+                    title: category.name,
+                    url: `/${countryCode}/categories/${category.slug}`,
+                    score: 2
+                });
+            }
+        });
+
+        // 3. Search Coupons
+        coupons.forEach(coupon => {
+            const storeName = stores.find(s => s.id === coupon.storeId)?.name || '';
+            const searchIndex = `كوبون كود عرض خصم ${coupon.title} ${storeName} ${coupon.code}`.toLowerCase();
+            const isMatch = queryWords.every(word => searchIndex.includes(word));
+            if (isMatch) {
+                results.push({
+                    id: `coup-${coupon.id}`,
+                    type: 'coupon',
+                    title: coupon.title,
+                    subtitle: storeName ? `كوبون يعرّض في ${storeName}` : undefined,
+                    url: `/${countryCode}/coupons?q=${encodeURIComponent(coupon.title)}`,
+                    score: 1
+                });
+            }
+        });
+
+        // Sort by priority (Stores first, then categories, then coupons) and take top 10
+        return results.sort((a, b) => b.score - a.score).slice(0, 10);
+    }, [searchQuery, stores, categories, coupons, currentCountry]);
+
+    // Handle outside clicks
+    React.useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (!target.closest(".search-container")) {
+                setShowSuggestions(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <header className="hidden lg:block bg-white shadow-sm sticky top-0 z-50">
@@ -56,12 +147,16 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
                 </Link>
 
                 {/* Search */}
-                <div className="hidden md:flex flex-1 mx-8 max-w-xl">
+                <div className="hidden md:flex flex-1 mx-8 max-w-xl search-container relative z-50">
                     <form onSubmit={onSearch} className="relative w-full">
                         <input
                             type="text"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                setShowSuggestions(true);
+                            }}
+                            onFocus={() => setShowSuggestions(true)}
                             placeholder="ابحث عن متجر أو ماركة... (مثل نون، أمازون)"
                             className="w-full bg-white border-2 border-gray-200 rounded-full py-3 px-5 pr-14 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all text-right text-gray-800 placeholder-gray-400 min-h-[48px]"
                             dir="rtl"
@@ -74,6 +169,64 @@ export default function Header({ countries, currentCountry }: HeaderProps) {
                             <Search className="w-5 h-5" aria-hidden="true" />
                         </button>
                     </form>
+
+                    {/* Auto-Suggestions Dropdown */}
+                    {showSuggestions && searchQuery.trim().length > 0 && (
+                        <div className="absolute top-[56px] left-0 w-full bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden text-right animate-in fade-in slide-in-from-top-2 duration-200">
+                            {suggestedItems.length > 0 ? (
+                                <div className="max-h-80 overflow-y-auto">
+                                    <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
+                                        <StoreIconLucide className="w-4 h-4 text-gray-400" />
+                                        <span className="text-xs font-bold text-gray-500">نتائج بحث ذكية</span>
+                                    </div>
+                                    {suggestedItems.map((item) => (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => {
+                                                setShowSuggestions(false);
+                                                setSearchQuery("");
+                                                router.push(item.url);
+                                            }}
+                                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-blue-50 transition-colors border-b border-gray-50 last:border-0 text-right"
+                                        >
+                                            {/* Icon / Image based on type */}
+                                            {item.type === 'store' && item.imageUrl ? (
+                                                <div className="w-10 h-10 rounded-full border border-gray-100 bg-white p-1 shrink-0 flex items-center justify-center shadow-sm">
+                                                    <img
+                                                        src={item.imageUrl.trim()}
+                                                        alt={item.title}
+                                                        className="w-full h-full object-contain rounded-full"
+                                                    />
+                                                </div>
+                                            ) : item.type === 'category' ? (
+                                                <div className="w-10 h-10 rounded-full border border-gray-100 bg-blue-50 text-blue-500 shrink-0 flex items-center justify-center shadow-sm">
+                                                    <Folder className="w-5 h-5" />
+                                                </div>
+                                            ) : (
+                                                <div className="w-10 h-10 rounded-full border border-gray-100 bg-orange-50 text-orange-500 shrink-0 flex items-center justify-center shadow-sm">
+                                                    <TicketPercent className="w-5 h-5" />
+                                                </div>
+                                            )}
+
+                                            <div className="flex flex-col">
+                                                <span className="font-bold text-gray-800 line-clamp-1">{item.title}</span>
+                                                {item.subtitle && (
+                                                    <span className="text-xs text-gray-500 line-clamp-1 mt-0.5">{item.subtitle}</span>
+                                                )}
+                                                <span className="text-[10px] text-gray-400 mt-1 px-1.5 py-0.5 bg-gray-100 rounded-md w-fit">
+                                                    {item.type === 'store' ? 'متجر' : item.type === 'category' ? 'قسم' : 'عرض / كوبون'}
+                                                </span>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            ) : (
+                                <div className="p-4 text-center text-gray-500 text-sm">
+                                    لم نجد نتائج تطابق بحثك بدقة... اضغط "بحث" لرؤية جميع النتائج.
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {/* Actions */}

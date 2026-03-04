@@ -262,3 +262,39 @@ export async function updateSocialConfigAction(data: any) {
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
 }
+
+/* --- AFFILIATE PRODUCTS --- */
+
+export async function createAffiliateProductAction(data: any) {
+    await ensureAuth();
+    const docRef = await adminDb.collection("affiliateProducts").add({
+        ...data,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    });
+    revalidateTag("affiliateProducts", { expire: 0 });
+    revalidatePath("/admin/affiliate-products");
+    revalidatePath("/(public)/[country]", "layout");
+    return { success: true, id: docRef.id };
+}
+
+export async function updateAffiliateProductAction(id: string, data: any) {
+    await ensureAuth();
+    await adminDb.collection("affiliateProducts").doc(id).update({
+        ...data,
+        updatedAt: new Date().toISOString()
+    });
+    revalidateTag("affiliateProducts", { expire: 0 });
+    revalidatePath("/admin/affiliate-products");
+    revalidatePath("/(public)/[country]", "layout");
+    return { success: true };
+}
+
+export async function deleteAffiliateProductAction(id: string) {
+    await ensureAuth();
+    await adminDb.collection("affiliateProducts").doc(id).delete();
+    revalidateTag("affiliateProducts", { expire: 0 });
+    revalidatePath("/admin/affiliate-products");
+    revalidatePath("/(public)/[country]", "layout");
+    return { success: true };
+}

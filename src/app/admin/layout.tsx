@@ -31,6 +31,7 @@ const menuItems = [
     { label: "التصنيفات", icon: FolderTree, href: "/admin/categories", section: "إدارة المحتوى" },
     { label: "المدونة", icon: FileText, href: "/admin/blog", section: "إدارة المحتوى" },
     { label: "سلايدر الرئيسية", icon: ImageIcon, href: "/admin/sliders", section: "الإعلانات والمظهر" },
+    { label: "منتجات أمازون", icon: Zap, href: "/admin/affiliate-products", section: "الإعلانات والمظهر" },
     { label: "الإعلانات الجانبية", icon: Megaphone, href: "/admin/banners", section: "الإعلانات والمظهر" },
     { label: "محرك القواعد", icon: Zap, href: "/admin/rules", section: "النظام" },
     { label: "أكواد التتبع", icon: Target, href: "/admin/tracking", section: "النظام" },

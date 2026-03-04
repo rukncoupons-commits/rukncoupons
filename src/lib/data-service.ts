@@ -26,7 +26,8 @@ import {
     AdBanner,
     BlogPost,
     TrackingConfig,
-    SocialConfig
+    SocialConfig,
+    AffiliateProduct
 } from "./types";
 
 // ─── Cache TTL Constants ────────────────────────────────────────────────────
@@ -40,7 +41,18 @@ const SETTINGS_TTL = 7200;    // 2 hours — settings change rarely
 export const getCountries = unstable_cache(
     async (): Promise<Country[]> => {
         const snapshot = await adminDb.collection("countries").get();
-        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Country));
+        const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Country));
+
+        // Deduplicate countries by code to prevent UI bugs if Firestore has duplicates
+        const uniqueCountries = [];
+        const seenCodes = new Set();
+        for (const country of docs) {
+            if (country.code && !seenCodes.has(country.code)) {
+                seenCodes.add(country.code);
+                uniqueCountries.push(country);
+            }
+        }
+        return uniqueCountries;
     },
     ["countries"],
     { revalidate: CACHE_TTL, tags: ["countries"] }
@@ -89,6 +101,15 @@ export const getSlides = unstable_cache(
     },
     ["slides"],
     { revalidate: CACHE_TTL, tags: ["slides"] }
+);
+
+export const getAffiliateProducts = unstable_cache(
+    async (): Promise<AffiliateProduct[]> => {
+        const snapshot = await adminDb.collection("affiliateProducts").get();
+        return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as AffiliateProduct));
+    },
+    ["affiliateProducts"],
+    { revalidate: CACHE_TTL, tags: ["affiliateProducts"] }
 );
 
 export const getAdBanners = unstable_cache(

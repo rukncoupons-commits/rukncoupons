@@ -2,10 +2,11 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCountryData, getStoreBySlug, getCouponsForStore, getSocialConfig } from "@/lib/data-service";
+import { getCountryData, getStoreBySlug, getCouponsForStore, getSocialConfig, getAffiliateProducts } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
 import CouponListServer from "@/components/CouponListServer";
 import DynamicStoreContent from "@/components/DynamicStoreContent";
+import AmazonHubClient from "@/components/amazon/AmazonHubClient";
 import Script from "next/script";
 import { Star, ExternalLink, Truck, RotateCcw, Tag, Zap, Copy, CheckCircle } from "lucide-react";
 import {
@@ -111,6 +112,17 @@ export default async function StorePage({ params }: PageProps) {
 
     const { store } = storeData;
     const storeCoupons = await getCouponsForStore(store.id, country);
+
+    // Fetch Affiliate Products (for Amazon or other configured affiliate stores)
+    let affiliateProducts: any[] = [];
+    if (store.slug.toLowerCase().includes('amazon')) {
+        const allAffiliates = await getAffiliateProducts();
+        affiliateProducts = allAffiliates.filter(
+            p => p.storeId === store.id &&
+                p.isActive !== false &&
+                p.countryCodes.includes(country)
+        );
+    }
     const longDescription = (store.longDescriptions && store.longDescriptions[country]) || store.longDescription;
 
     // Related stores: same category, excluding current store
@@ -270,23 +282,33 @@ export default async function StorePage({ params }: PageProps) {
                             </div>
                         )}
 
-                        {/* Coupon Count Badge */}
-                        <div className="flex items-center gap-3 mb-4">
-                            <h2 className="text-xl font-black text-gray-800">
-                                أفضل كوبونات {store.name} {data.currentCountry.name}
-                            </h2>
-                            <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold">
-                                {activeCouponCount} عرض فعال
-                            </span>
-                        </div>
+                        {/* Phase 1 & 3: Specialized Amazon Store Layout Override */}
+                        {store.slug.toLowerCase().includes('amazon') ? (
+                            <AmazonHubClient
+                                countryName={data.currentCountry.name}
+                                amazonProducts={affiliateProducts}
+                            />
+                        ) : (
+                            <>
+                                {/* Coupon Count Badge */}
+                                <div className="flex items-center gap-3 mb-4">
+                                    <h2 className="text-xl font-black text-gray-800">
+                                        أفضل كوبونات {store.name} {data.currentCountry.name}
+                                    </h2>
+                                    <span className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full font-bold">
+                                        {activeCouponCount} عرض فعال
+                                    </span>
+                                </div>
 
-                        <CouponListServer
-                            store={store}
-                            coupons={storeCoupons}
-                            countryCode={country}
-                            countryName={data.currentCountry.name}
-                            categoryName={data.categories.find(c => c.slug === store.category)?.name}
-                        />
+                                <CouponListServer
+                                    store={store}
+                                    coupons={storeCoupons}
+                                    countryCode={country}
+                                    countryName={data.currentCountry.name}
+                                    categoryName={data.categories.find(c => c.slug === store.category)?.name}
+                                />
+                            </>
+                        )}
 
                         {/* Thin Content Fallback: shown when ZERO active coupons */}
                         {activeCouponCount === 0 && (

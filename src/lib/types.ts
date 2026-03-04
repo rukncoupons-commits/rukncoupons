@@ -221,3 +221,24 @@ export interface BlogPost {
         last_updated: string;
     };
 }
+
+export interface AffiliateProduct {
+    id: string;
+    storeId: string;            // Link it to the 'amazon' store
+    countryCodes: string[];    // E.g., ['sa', 'ae']
+    title: string;
+    description: string;
+    imageUrl: string;
+    price?: string;
+    oldPrice?: string;
+    discountPercent?: number;
+    rating: number;            // E.g., 4.5
+    reviewsCount: number;
+    affiliateUrl: string;
+    badge?: string;            // E.g., 'أفضل مبيعاً'
+    isActive: boolean;
+    order: number;             // For display ordering in sections
+    section: 'top_deals' | 'trending' | 'comparison' | 'none'; // Where to display it
+    createdAt: string;
+    updatedAt: string;
+}

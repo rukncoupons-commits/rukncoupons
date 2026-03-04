@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ country: 
 export default async function PublicLayout({ children, params }: LayoutProps) {
     const { country } = await params;
     const data = await getCountryData(country);
-    const { countries, currentCountry, stores } = data;
+    const { countries, currentCountry, stores, categories, coupons } = data;
 
     if (!currentCountry && country !== "temu") {
         if (countries.length > 0) {
@@ -35,8 +35,20 @@ export default async function PublicLayout({ children, params }: LayoutProps) {
 
     return (
         <>
-            <Header countries={countries} currentCountry={currentCountry} />
-            <MobileHeader countries={countries} currentCountry={currentCountry} stores={stores} />
+            <Header
+                countries={countries}
+                currentCountry={currentCountry}
+                stores={stores}
+                categories={categories}
+                coupons={coupons}
+            />
+            <MobileHeader
+                countries={countries}
+                currentCountry={currentCountry}
+                stores={stores}
+                categories={categories}
+                coupons={coupons}
+            />
             {children}
             <Footer currentCountryCode={country} />
         </>

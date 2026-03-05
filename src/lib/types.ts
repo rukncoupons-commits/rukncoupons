@@ -18,6 +18,7 @@ export interface TrackingConfig {
     enableGoogleAds: boolean;
     enableMeta: boolean;
     enableTikTok: boolean;
+    customHeadCode?: string;
 }
 
 export interface SocialConfig {

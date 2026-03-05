@@ -255,7 +255,8 @@ export const getTrackingConfig = unstable_cache(
             enableGA4: data?.enableGA4 ?? false,
             enableGoogleAds: data?.enableGoogleAds ?? false,
             enableMeta: data?.enableMeta ?? false,
-            enableTikTok: data?.enableTikTok ?? false
+            enableTikTok: data?.enableTikTok ?? false,
+            customHeadCode: data?.customHeadCode ?? ""
         };
     },
     ["tracking-config"],

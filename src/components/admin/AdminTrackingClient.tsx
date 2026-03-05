@@ -230,6 +230,26 @@ export default function AdminTrackingClient({ initialConfig }: Props) {
                     </div>
                 </div>
 
+                {/* Custom Head Code */}
+                <div className="bg-white p-10 rounded-[3rem] border-2 border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all space-y-8">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center">
+                            <Shield size={24} />
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-black text-slate-800">كود مخصص في الـ Head</h3>
+                            <p className="text-sm text-slate-400">ضع هنا أي كود تتبع إضافي مثل Google Ads conversion snippet أو أي سكربت مخصص</p>
+                        </div>
+                    </div>
+                    <textarea
+                        value={formData.customHeadCode ?? ""}
+                        onChange={e => setFormData({ ...formData, customHeadCode: e.target.value })}
+                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-purple-500 py-4 px-6 rounded-2xl outline-none transition-all font-mono text-sm dir-ltr min-h-[160px] resize-y"
+                        placeholder={"<!-- مثال: Google Ads Conversion -->\ngtag('event', 'conversion', {\n  'send_to': 'AW-XXXXXXXXX/XXXX'\n});"}
+                        dir="ltr"
+                    />
+                </div>
+
                 <div className="flex justify-center pt-10">
                     <button
                         type="submit"

@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
-import { getCountryData, getTrackingConfig, getSocialConfig } from "@/lib/data-service";
+import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
 import CouponCardServer from "@/components/CouponCardServer";
 import { buildAbsoluteUrl, buildBreadcrumbSchema, getCurrencyByCountry, buildHreflangAlternates } from "@/lib/seo-helpers";

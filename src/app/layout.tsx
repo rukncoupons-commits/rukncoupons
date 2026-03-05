@@ -5,6 +5,7 @@ import Script from "next/script";
 import { buildOrganizationSchema, SITE_URL } from "@/lib/seo-helpers";
 import GeoSuggestionPopup from "@/components/GeoSuggestionPopup";
 import WebVitalsLogger from "@/components/WebVitalsLogger";
+import TrackingScripts from "@/components/TrackingScripts";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+        <TrackingScripts />
       </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased font-sans bg-gray-50`}>
         {/* Geo Auto Suggestion Layer */}

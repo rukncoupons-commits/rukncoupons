@@ -32,6 +32,8 @@ export const revalidate = 3600;
 
 // Pre-build top stores for each country at build time
 export async function generateStaticParams() {
+    if (!process.env.FIREBASE_PROJECT_ID) return [];
+
     const stores = await getStores();
     const params: { country: string; storeSlug: string }[] = [];
     for (const cc of SUPPORTED_COUNTRIES) {

@@ -16,6 +16,8 @@ export const revalidate = 3600;
 
 // Pre-build all locale+country homepages at build time
 export function generateStaticParams() {
+    if (!process.env.FIREBASE_PROJECT_ID) return [];
+
     const params: { locale: string; country: string }[] = [];
     for (const locale of SUPPORTED_LOCALES) {
         for (const country of SUPPORTED_COUNTRIES) {

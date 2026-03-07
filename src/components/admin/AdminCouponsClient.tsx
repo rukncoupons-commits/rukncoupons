@@ -7,7 +7,7 @@ import {
     Info, Link as LinkIcon, Save, Loader2, Calendar,
     Filter, AlertCircle, Hash, Tag, Zap, Layout
 } from "lucide-react";
-import { createCouponAction, updateCouponAction, deleteCouponAction } from "@/lib/admin-actions";
+import { createCouponAction, updateCouponAction, deleteCouponAction, toggleCouponActiveAction, resetCouponStatsAction } from "@/lib/admin-actions";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -30,9 +30,12 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
     // Form State
     const [formData, setFormData] = useState<Partial<Coupon>>({
         title: "",
+        titleEn: "",
         code: "",
         description: "",
+        descriptionEn: "",
         discountValue: "",
+        discountValueEn: "",
         storeId: "",
         type: "coupon",
         expiryDate: "",
@@ -68,9 +71,12 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
     const resetForm = () => {
         setFormData({
             title: "",
+            titleEn: "",
             code: "",
             description: "",
+            descriptionEn: "",
             discountValue: "",
+            discountValueEn: "",
             storeId: "",
             type: "coupon",
             expiryDate: "",
@@ -126,6 +132,22 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
     };
 
     const getStoreName = (id: string) => stores.find(s => s.id === id)?.name || "متجر محذوف";
+
+    const handleToggleActive = async (coupon: Coupon) => {
+        const newIsActive = coupon.isActive === false ? true : false;
+        startTransition(async () => {
+            await toggleCouponActiveAction(coupon.id, newIsActive);
+            setCoupons(prev => prev.map(c => c.id === coupon.id ? { ...c, isActive: newIsActive } : c));
+        });
+    };
+
+    const handleResetStats = async (coupon: Coupon) => {
+        if (!confirm(`هل تريد تصفير إحصائيات الكوبون "${coupon.title}"؟`)) return;
+        startTransition(async () => {
+            await resetCouponStatsAction(coupon.id);
+            setCoupons(prev => prev.map(c => c.id === coupon.id ? { ...c, usedCount: 0, viewCount: 0 } : c));
+        });
+    };
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
@@ -230,18 +252,31 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                         </span>
                                     </td>
                                     <td className="px-8 py-6">
-                                        <div className={cn(
-                                            "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-[10px] font-black border",
-                                            coupon.isActive !== false ? "bg-green-50 text-green-700 border-green-100" : "bg-red-50 text-red-600 border-red-100"
-                                        )}>
+                                        <button
+                                            onClick={() => handleToggleActive(coupon)}
+                                            className={cn(
+                                                "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-[10px] font-black border cursor-pointer transition-all hover:shadow-md",
+                                                coupon.isActive !== false ? "bg-green-50 text-green-700 border-green-100 hover:bg-red-50 hover:text-red-600 hover:border-red-200" : "bg-red-50 text-red-600 border-red-100 hover:bg-green-50 hover:text-green-700 hover:border-green-200"
+                                            )}
+                                            title={coupon.isActive !== false ? "انقر للتعطيل" : "انقر للتفعيل"}
+                                        >
                                             <div className={cn("w-1.5 h-1.5 rounded-full", coupon.isActive !== false ? "bg-green-500" : "bg-red-500")}></div>
                                             {coupon.isActive !== false ? "نشط" : "معطل"}
-                                        </div>
+                                        </button>
                                     </td>
                                     <td className="px-8 py-6">
-                                        <div className="flex flex-col">
-                                            <span className="text-sm font-black text-slate-700">{coupon.usedCount || 0}</span>
-                                            <span className="text-[10px] text-slate-500 font-bold">عملية استخدام</span>
+                                        <div className="flex items-center gap-2">
+                                            <div className="flex flex-col">
+                                                <span className="text-sm font-black text-slate-700">{coupon.usedCount || 0}</span>
+                                                <span className="text-[10px] text-slate-500 font-bold">عملية استخدام</span>
+                                            </div>
+                                            <button
+                                                onClick={() => handleResetStats(coupon)}
+                                                className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                                                title="تصفير الإحصائيات"
+                                            >
+                                                <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></svg>
+                                            </button>
                                         </div>
                                     </td>
                                     <td className="px-8 py-6">
@@ -374,6 +409,44 @@ export default function AdminCouponsClient({ initialCoupons, initialStores, cate
                                                     value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
                                                     className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900"
                                                 ></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* English Content */}
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-indigo-600 uppercase tracking-[0.2em] flex items-center gap-2">
+                                            <Globe size={16} /> English Content (المحتوى الإنجليزي)
+                                        </h4>
+                                        <div className="space-y-6">
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-black text-slate-700 pr-2">Coupon Title (English)</label>
+                                                <input
+                                                    type="text"
+                                                    value={formData.titleEn || ""} onChange={e => setFormData({ ...formData, titleEn: e.target.value })}
+                                                    className="w-full bg-indigo-50/50 border-2 border-transparent focus:bg-white focus:border-indigo-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900" dir="ltr"
+                                                    placeholder="e.g. 20% off on all products"
+                                                />
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-black text-slate-700 pr-2">Discount Value (English)</label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.discountValueEn || ""} onChange={e => setFormData({ ...formData, discountValueEn: e.target.value })}
+                                                        className="w-full bg-indigo-50/50 border-2 border-transparent focus:bg-white focus:border-indigo-500 py-4 px-6 rounded-2xl outline-none transition-all font-black text-center dir-ltr text-green-600"
+                                                        placeholder="e.g. 20% OFF"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-black text-slate-700 pr-2">Description (English)</label>
+                                                    <textarea
+                                                        rows={2}
+                                                        value={formData.descriptionEn || ""} onChange={e => setFormData({ ...formData, descriptionEn: e.target.value })}
+                                                        className="w-full bg-indigo-50/50 border-2 border-transparent focus:bg-white focus:border-indigo-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900" dir="ltr"
+                                                        placeholder="e.g. Use this coupon code to get the discount"
+                                                    ></textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

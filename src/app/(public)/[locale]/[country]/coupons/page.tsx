@@ -11,22 +11,31 @@ import { buildAbsoluteUrl, getCurrencyByCountry, buildHreflangAlternates } from 
 export const revalidate = 3600;
 
 interface PageProps {
-    params: Promise<{ country: string }>;
+    params: Promise<{ locale: string; country: string }>;
     searchParams: Promise<{ store?: string; cat?: string }>;
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ country: string }> }): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
     const { country } = await params;
+    const sp = await searchParams;
+    const hasFilters = !!(sp.store || sp.cat);
     const { currentCountry } = await getCountryData(country);
     if (!currentCountry) return { title: "الكوبونات - ركن الكوبونات" };
+
+    const title = `جميع كوبونات وعروض ${currentCountry.name} | ركن الكوبونات`;
+    const description = `تصفح أحدث الكوبونات والخصومات لجميع المتاجر في ${currentCountry.name}. عروض حصرية ومتجددة يومياً.`;
+    const canonicalUrl = buildAbsoluteUrl(`/${country}/coupons`);
+
     return {
-        title: `جميع كوبونات وعروض ${currentCountry.name} | ركن الكوبونات`,
-        description: `تصفح أحدث الكوبونات والخصومات لجميع المتاجر في ${currentCountry.name}. عروض حصرية ومتجددة يومياً.`,
+        title,
+        description,
+        openGraph: { title, description, url: canonicalUrl, type: "website" },
         alternates: {
-            canonical: buildAbsoluteUrl(`/${country}/coupons`),
+            canonical: canonicalUrl,
             languages: buildHreflangAlternates("/coupons"),
         },
-        robots: "noindex, follow",
+        // Only noindex filter-based URLs to avoid thin/duplicate pages
+        robots: hasFilters ? "noindex, follow" : { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
     };
 }
 

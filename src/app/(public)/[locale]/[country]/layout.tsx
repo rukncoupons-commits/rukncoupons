@@ -6,30 +6,31 @@ import Footer from "@/components/Footer";
 import { getCountries, getCountryData } from "@/lib/data-service";
 import { redirect } from "next/navigation";
 import { buildHreflangAlternates, buildAbsoluteUrl, SUPPORTED_COUNTRIES } from "@/lib/seo-helpers";
+import { isValidLocale, DEFAULT_LOCALE, type Locale } from "@/lib/i18n";
 
 interface LayoutProps {
     children: React.ReactNode;
-    params: Promise<{ country: string }>;
+    params: Promise<{ locale: string; country: string }>;
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ country: string }> }): Promise<Metadata> {
-    const { country } = await params;
+export async function generateMetadata({ params }: { params: Promise<{ locale: string; country: string }> }): Promise<Metadata> {
+    const { locale, country } = await params;
     return {
         alternates: {
-            // canonical is set by each individual page, not the layout
-            languages: buildHreflangAlternates(),
+            languages: buildHreflangAlternates(""),
         },
     };
 }
 
 export default async function PublicLayout({ children, params }: LayoutProps) {
-    const { country } = await params;
+    const { locale: rawLocale, country } = await params;
+    const locale = isValidLocale(rawLocale) ? rawLocale : DEFAULT_LOCALE;
     const data = await getCountryData(country);
     const { countries, currentCountry, stores, categories, coupons } = data;
 
     if (!currentCountry && country !== "temu") {
         if (countries.length > 0) {
-            redirect("/sa");
+            redirect(`/${locale}/sa`);
         }
     }
 
@@ -41,6 +42,7 @@ export default async function PublicLayout({ children, params }: LayoutProps) {
                 stores={stores}
                 categories={categories}
                 coupons={coupons}
+                locale={locale}
             />
             <MobileHeader
                 countries={countries}
@@ -48,10 +50,10 @@ export default async function PublicLayout({ children, params }: LayoutProps) {
                 stores={stores}
                 categories={categories}
                 coupons={coupons}
+                locale={locale}
             />
             {children}
-            <Footer currentCountryCode={country} />
+            <Footer currentCountryCode={country} locale={locale} />
         </>
     );
 }
-

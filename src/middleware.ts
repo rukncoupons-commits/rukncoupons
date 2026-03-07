@@ -2,22 +2,20 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export const config = {
-    // Edge runtime is required for middleware
     runtime: 'experimental-edge',
     unstable_allowDynamic: [
-        '/node_modules/function-bind/**', // use a glob to allow anything in the function-bind 3rd party module
+        '/node_modules/function-bind/**',
     ],
-    // Match all paths except explicit static assets
     matcher: [
         '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|css|js)).*)',
     ],
 };
 
-// Supported countries mapping (lowercase for consistency)
 const SUPPORTED_COUNTRIES = ['sa', 'ae', 'eg', 'kw', 'qa', 'bh', 'om'];
+const SUPPORTED_LOCALES = ['ar', 'en'];
+const DEFAULT_LOCALE = 'ar';
 const FALLBACK_COUNTRY = 'sa';
 
-// SEO Safe Mode Rules
 const BOT_USER_AGENTS = [
     'Googlebot', 'Bingbot', 'AhrefsBot', 'SemrushBot', 'DotBot',
     'YandexBot', 'Baiduspider', 'DuckDuckBot', 'Slurp'
@@ -28,6 +26,7 @@ const BYPASS_PATHS = [
     '/sitemap.xml',
     '/api',
     '/_next',
+    '/manifest.json',
 ];
 
 const MARKETING_PARAMS = ['utm_', 'gclid', 'fbclid'];
@@ -37,7 +36,7 @@ export function middleware(request: NextRequest) {
     const url = request.nextUrl;
     const pathname = url.pathname;
 
-    // 1. PATH EXCLUSIONS - Fast exit for static/api routes
+    // 1. PATH EXCLUSIONS
     if (BYPASS_PATHS.some((path) => pathname.startsWith(path))) {
         return NextResponse.next();
     }
@@ -55,49 +54,57 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/admin", request.url));
     }
 
-    // Stop execution if we are in admin so we don't run geo logic
     if (isAdminPage || isLoginPage) {
         return NextResponse.next();
     }
 
-    // 2. DETECT COUNTRY (Priority Order)
+    // 2. DETECT COUNTRY
     const cookieCountry = request.cookies.get('country_preference')?.value;
     const cfCountry = request.headers.get('CF-IPCountry');
     const vercelCountryHeaders = request.headers.get('x-vercel-ip-country');
-
-    // @ts-ignore - geo is available in Vercel edge
+    // @ts-ignore
     const vercelGeoCountry = request.geo?.country;
 
     let detectedCountry = (
-        cookieCountry ||
-        cfCountry ||
-        vercelCountryHeaders ||
-        vercelGeoCountry ||
-        FALLBACK_COUNTRY
+        cookieCountry || cfCountry || vercelCountryHeaders || vercelGeoCountry || FALLBACK_COUNTRY
     ).toLowerCase();
 
-    // Validate detected country
     if (!SUPPORTED_COUNTRIES.includes(detectedCountry)) {
         detectedCountry = FALLBACK_COUNTRY;
     }
 
-    // Clone headers to inject detection result
+    // Clone headers
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('x-detected-country', detectedCountry);
 
+    // 3. PARSE URL SEGMENTS
+    const pathParts = pathname.split('/').filter(Boolean);
+    const firstSegment = pathParts[0]?.toLowerCase() || '';
+    const secondSegment = pathParts[1]?.toLowerCase() || '';
+
+    // 4. 301 REDIRECT — Old URLs without locale prefix (e.g., /sa/noon → /ar/sa/noon)
+    if (SUPPORTED_COUNTRIES.includes(firstSegment) && !SUPPORTED_LOCALES.includes(firstSegment)) {
+        // Old URL pattern: /{country}/... → redirect to /ar/{country}/...
+        const rest = pathParts.slice(0).join('/');
+        const redirectUrl = new URL(`/${DEFAULT_LOCALE}/${rest}${url.search}`, request.url);
+        return NextResponse.redirect(redirectUrl, 301);
+    }
+
+    // 5. CHECK IF URL HAS VALID LOCALE
+    const hasValidLocale = SUPPORTED_LOCALES.includes(firstSegment);
+    const currentLocale = hasValidLocale ? firstSegment : DEFAULT_LOCALE;
+    const hasCountryInUrl = hasValidLocale
+        ? SUPPORTED_COUNTRIES.includes(secondSegment)
+        : SUPPORTED_COUNTRIES.includes(firstSegment);
+
+    // Inject locale header
+    requestHeaders.set('x-locale', currentLocale);
+
     const response = NextResponse.next({
-        request: {
-            headers: requestHeaders,
-        },
+        request: { headers: requestHeaders },
     });
 
-    // 3. IDENTIFY CURRENT URL COUNTRY
-    // E.g., /sa/stores -> pathParts[1] is 'sa'
-    const pathParts = pathname.split('/').filter(Boolean);
-    const currentUrlCountry = pathParts.length > 0 ? pathParts[0].toLowerCase() : null;
-    const hasCountryInUrl = currentUrlCountry && SUPPORTED_COUNTRIES.includes(currentUrlCountry);
-
-    // 4. SEO & BOT SAFE MODE CHECKS
+    // 6. BOT & SEO SAFE MODE
     const userAgent = request.headers.get('user-agent') || '';
     const isBot = BOT_USER_AGENTS.some((bot) => userAgent.toLowerCase().includes(bot.toLowerCase()));
 
@@ -110,47 +117,35 @@ export function middleware(request: NextRequest) {
 
     const referrer = request.headers.get('referer') || '';
     const isFromSearchEngine = SEARCH_REFERRERS.some((ref) => referrer.toLowerCase().includes(ref));
-
-    // If Safe Mode is triggered, DO NOT redirect automatically.
-    // The client-side GeoSuggestionPopup will handle showing the banner.
     const isSafeModeActive = isBot || hasMarketingParam || isFromSearchEngine;
 
-    // 5. REDIRECT LOGIC FOR ROOT DOMAIN (/)
+    // 7. REDIRECT LOGIC FOR ROOT DOMAIN (/)
     if (pathname === '/') {
         const hasRealGeoData = !!(cfCountry || vercelCountryHeaders || vercelGeoCountry);
 
         if (!isBot && !hasMarketingParam && !isFromSearchEngine && !cookieCountry) {
             if (hasRealGeoData) {
-                // Real geo data available from CDN → auto-redirect
-                const redirectUrl = new URL(`/${detectedCountry}`, request.url);
+                const redirectUrl = new URL(`/${DEFAULT_LOCALE}/${detectedCountry}`, request.url);
                 const redirectResponse = NextResponse.redirect(redirectUrl, 307);
-
-                // Set cookie for 30 days
                 redirectResponse.cookies.set('country_preference', detectedCountry, {
                     path: '/',
-                    maxAge: 60 * 60 * 24 * 30, // 30 days
+                    maxAge: 60 * 60 * 24 * 30,
                     sameSite: 'lax',
                 });
                 return redirectResponse;
             }
-            // No real geo data → let the landing page handle client-side detection
             return NextResponse.next();
-        } else if (cookieCountry && !hasCountryInUrl) {
-            // If they have a cookie and hit root, redirect them to their preference
-            const redirectUrl = new URL(`/${cookieCountry}`, request.url);
+        } else if (cookieCountry) {
+            const redirectUrl = new URL(`/${DEFAULT_LOCALE}/${cookieCountry}`, request.url);
             return NextResponse.redirect(redirectUrl, 307);
-        } else if (!hasCountryInUrl) {
-            // Fallback for bots/safe mode hitting root: send them to fallback country
-            // to ensure they hit a valid localized page (required for app/[country] structure).
-            const redirectUrl = new URL(`/${detectedCountry}`, request.url);
-            const redirectResponse = NextResponse.redirect(redirectUrl, 307);
-            // Do NOT set cookie for bots.
-            return redirectResponse;
+        } else {
+            const redirectUrl = new URL(`/${DEFAULT_LOCALE}/${detectedCountry}`, request.url);
+            return NextResponse.redirect(redirectUrl, 307);
         }
     }
 
-    // 6. PHASE 6: A/B TESTING (Blog Placements)
-    const isBlogPost = pathname.match(/\/[a-z]{2}\/blog\/.+/);
+    // 8. A/B TESTING (Blog Placements)
+    const isBlogPost = pathname.match(/\/[a-z]{2}\/[a-z]{2}\/blog\/.+/);
     if (isBlogPost) {
         const existingVariant = request.cookies.get('ab_placement')?.value;
         if (!existingVariant) {
@@ -167,6 +162,5 @@ export function middleware(request: NextRequest) {
         }
     }
 
-    // Append original request headers for downstream layout.tsx access
     return response;
 }

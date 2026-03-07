@@ -10,32 +10,39 @@ import { Coupon, Store } from "@/lib/types";
 import Link from "next/link";
 import CopyButton from "./CopyButton";
 import CouponViewTracker from "./CouponViewTracker";
+import { getStoreName, getCouponTitle, getCouponDescription, getCouponDiscountValue } from "@/lib/locale-content";
 
 interface Props {
     coupon: Coupon;
     store?: Store | null;
     categoryName?: string;
     countryCode: string;
+    locale?: string;
 }
 
-export default function CouponCardServer({ coupon, store, categoryName = "عرض خاص", countryCode }: Props) {
+export default function CouponCardServer({ coupon, store, categoryName = "عرض خاص", countryCode, locale = "ar" }: Props) {
     const today = new Date().toISOString().split("T")[0];
     const isExpired = coupon.expiryDate && coupon.expiryDate < today;
-    if (isExpired) return null; // Server-filter expired coupons — never sent to browser
+    if (isExpired) return null;
+    const isEn = locale === "en";
 
-    const storeHref = store ? `/${countryCode}/${store.slug}` : "#";
+    const storeHref = store ? `/${locale}/${countryCode}/${store.slug}` : "#";
+    const displayStoreName = store ? getStoreName(locale, store) : "";
+    const displayTitle = getCouponTitle(locale, coupon);
+    const displayDescription = getCouponDescription(locale, coupon);
+    const displayDiscount = getCouponDiscountValue(locale, coupon);
 
     return (
         <article
             className="bg-white rounded-3xl border-2 border-dashed border-gray-200 shadow-sm hover:shadow-lg hover:border-blue-300 transition-shadow duration-200 p-5 flex flex-col items-center text-center relative overflow-hidden h-full"
             style={{ contentVisibility: 'auto', containIntrinsicSize: '0 400px' }}
-            aria-label={`كوبون ${store?.name || ""}: ${coupon.title}`}
+            aria-label={isEn ? `Coupon ${displayStoreName}: ${displayTitle}` : `كوبون ${displayStoreName}: ${displayTitle}`}
         >
             <CouponViewTracker couponId={coupon.id} />
             {/* Exclusive badge — static HTML, no JS */}
             {coupon.isExclusive && (
                 <div className="absolute top-0 right-0 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-2xl z-10">
-                    حصري
+                    {isEn ? "Exclusive" : "حصري"}
                 </div>
             )}
             {coupon._ruleOverrides?.badge && (
@@ -45,12 +52,12 @@ export default function CouponCardServer({ coupon, store, categoryName = "عرض
             )}
 
             {/* Store logo — links to store page */}
-            <Link href={storeHref} className="mb-3 block" tabIndex={-1} aria-hidden="true" aria-label={`صورة شعار متجر ${store?.name || ""}`}>
+            <Link href={storeHref} className="mb-3 block" tabIndex={-1} aria-hidden="true" aria-label={isEn ? `${displayStoreName} logo` : `صورة شعار متجر ${displayStoreName}`}>
                 <div className="w-[84px] h-[84px] rounded-full border border-gray-100 shadow-sm bg-white overflow-hidden p-1 flex items-center justify-center mx-auto">
                     {store?.logoUrl ? (
                         <Image
                             src={store.logoUrl.trim()}
-                            alt={store.name || "متجر"}
+                            alt={displayStoreName || (isEn ? "Store" : "متجر")}
                             className="w-full h-full object-contain rounded-full"
                             loading="lazy"
                             width={84}
@@ -65,59 +72,55 @@ export default function CouponCardServer({ coupon, store, categoryName = "عرض
 
             {/* Store name + category */}
             <Link href={storeHref} className="font-bold text-gray-900 text-sm mb-1 hover:text-blue-600 transition-colors">
-                {store?.name}
+                {displayStoreName}
             </Link>
             {categoryName && <p className="text-[10px] text-gray-500 font-medium mb-3">{categoryName}</p>}
 
             {/* Discount badge */}
             <div className="w-full bg-blue-50 text-blue-600 rounded-xl py-2 px-4 mb-3">
                 <span className="font-bold text-lg tracking-tight block" dir="ltr">
-                    {coupon.discountValue}
+                    {displayDiscount}
                 </span>
             </div>
 
             {/* Title — always visible to Googlebot */}
             <p className="text-gray-600 text-xs font-medium leading-relaxed line-clamp-2 mb-4 px-1">
-                {coupon.title}
+                {displayTitle}
             </p>
 
-            {/* Action: code reveal via details/summary (CSS only) OR direct deal button */}
+            {/* Action: code always visible, click to copy + store link below */}
             {coupon.code ? (
-                <details className="w-full group mt-auto">
-                    <summary className="w-full font-bold py-3 rounded-xl shadow-lg bg-blue-600 hover:bg-blue-700 text-white cursor-pointer flex items-center justify-center gap-2 text-sm list-none select-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 min-h-[48px]">
-                        <span>إظهار الكود</span>
-                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                <div className="w-full mt-auto space-y-2">
+                    {/* Code display — always visible */}
+                    <CopyButton
+                        couponId={coupon.id}
+                        code={coupon.code}
+                        storeName={store?.name || ""}
+                    />
+                    {/* Store link — separate button */}
+                    <a
+                        href={coupon.affiliateLink || store?.storeUrl || storeHref}
+                        target="_blank"
+                        rel="noopener noreferrer sponsored"
+                        className="w-full font-bold py-2.5 rounded-xl bg-gray-800 hover:bg-gray-900 text-white flex items-center justify-center gap-2 text-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 min-h-[44px]"
+                        aria-label={isEn ? `Go to ${displayStoreName}` : `الذهاب إلى متجر ${displayStoreName}`}
+                    >
+                        <span>{isEn ? "Visit Store" : "الذهاب للمتجر"}</span>
+                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
                         </svg>
-                    </summary>
-                    {/* Revealed on click — CSS only, no JS for the reveal */}
-                    <div className="mt-3 space-y-2">
-                        {/* Code display */}
-                        <div className="bg-gray-50 border-2 border-dashed border-blue-200 rounded-xl py-3 px-4">
-                            <span className="font-mono font-black text-blue-700 text-base tracking-widest" dir="ltr">
-                                {coupon.code}
-                            </span>
-                        </div>
-                        {/* Copy button — only client island */}
-                        <CopyButton
-                            couponId={coupon.id}
-                            code={coupon.code}
-                            storeUrl={store?.storeUrl}
-                            storeName={store?.name || ""}
-                        />
-                    </div>
-                </details>
+                    </a>
+                </div>
             ) : (
                 /* Deal without code — plain <a> tag, zero JS */
                 <a
-                    href={store?.storeUrl || storeHref}
+                    href={coupon.affiliateLink || store?.storeUrl || storeHref}
                     target="_blank"
                     rel="noopener noreferrer sponsored"
                     className="w-full font-bold py-3 rounded-xl shadow-lg bg-gray-800 hover:bg-gray-900 text-white flex items-center justify-center gap-2 text-sm mt-auto transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 min-h-[48px]"
-                    aria-label={`تفعيل عرض ${store?.name}`}
+                    aria-label={isEn ? `Activate ${displayStoreName} deal` : `تفعيل عرض ${displayStoreName}`}
                 >
-                    <span>تفعيل العرض</span>
+                    <span>{isEn ? "Activate Deal" : "تفعيل العرض"}</span>
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                     </svg>
@@ -131,7 +134,7 @@ export default function CouponCardServer({ coupon, store, categoryName = "عرض
                         <circle cx="12" cy="12" r="10" />
                         <polyline points="12 6 12 12 16 14" />
                     </svg>
-                    <span>{coupon.expiryDate ? `ينتهي ${coupon.expiryDate}` : "لفترة محدودة"}</span>
+                    <span>{coupon.expiryDate ? (isEn ? `Expires ${coupon.expiryDate}` : `ينتهي ${coupon.expiryDate}`) : (isEn ? "Limited time" : "لفترة محدودة")}</span>
                 </div>
                 {coupon.countryCodes && coupon.countryCodes.length > 0 && (
                     <div className="flex items-center gap-1">

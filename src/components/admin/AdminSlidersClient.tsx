@@ -24,14 +24,18 @@ export default function AdminSlidersClient({ initialSlides, countries, stores }:
 
     const [formData, setFormData] = useState<Partial<Slide>>({
         image: "",
+        imageUrlEn: "",
         title: "",
+        titleEn: "",
         description: "",
+        descriptionEn: "",
         linkUrl: "",
+        linkUrlEn: "",
         countryCodes: [],
     });
 
     const resetForm = () => {
-        setFormData({ image: "", title: "", description: "", linkUrl: "", countryCodes: [] });
+        setFormData({ image: "", imageUrlEn: "", title: "", titleEn: "", description: "", descriptionEn: "", linkUrl: "", linkUrlEn: "", countryCodes: [] });
         setEditingSlide(null);
         setIsFormOpen(false);
     };
@@ -154,19 +158,30 @@ export default function AdminSlidersClient({ initialSlides, countries, stores }:
 
                         <form onSubmit={handleSubmit} className="p-10 space-y-8">
                             <div className="space-y-6">
-                                <div className="space-y-2">
-                                    <label className="text-sm font-black text-slate-700 pr-2">رابط الصورة (Image URL)</label>
-                                    <input
-                                        type="text" required
-                                        value={formData.image} onChange={e => setFormData({ ...formData, image: e.target.value })}
-                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
-                                        placeholder="https://..."
-                                    />
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-slate-700 pr-2">رابط الصورة (عربي)</label>
+                                        <input
+                                            type="text" required
+                                            value={formData.image} onChange={e => setFormData({ ...formData, image: e.target.value })}
+                                            className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
+                                            placeholder="https://..."
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-slate-700 pr-2">رابط الصورة (إنجليزي) - اختياري</label>
+                                        <input
+                                            type="text"
+                                            value={formData.imageUrlEn || ""} onChange={e => setFormData({ ...formData, imageUrlEn: e.target.value })}
+                                            className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
+                                            placeholder="https://..."
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
-                                        <label className="text-sm font-black text-slate-700 pr-2">العنوان</label>
+                                        <label className="text-sm font-black text-slate-700 pr-2">العنوان (عربي)</label>
                                         <input
                                             type="text"
                                             value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })}
@@ -174,22 +189,48 @@ export default function AdminSlidersClient({ initialSlides, countries, stores }:
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <label className="text-sm font-black text-slate-700 pr-2">رابط التوجيه (Link)</label>
+                                        <label className="text-sm font-black text-slate-700 pr-2">العنوان (إنجليزي)</label>
+                                        <input
+                                            type="text"
+                                            value={formData.titleEn || ""} onChange={e => setFormData({ ...formData, titleEn: e.target.value })}
+                                            className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr text-left"
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-slate-700 pr-2">رابط التوجيه (عربي)</label>
                                         <input
                                             type="text"
                                             value={formData.linkUrl} onChange={e => setFormData({ ...formData, linkUrl: e.target.value })}
                                             className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
                                         />
                                     </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-slate-700 pr-2">رابط التوجيه (إنجليزي)</label>
+                                        <input
+                                            type="text"
+                                            value={formData.linkUrlEn || ""} onChange={e => setFormData({ ...formData, linkUrlEn: e.target.value })}
+                                            className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold dir-ltr"
+                                        />
+                                    </div>
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-sm font-black text-slate-700 pr-2">وصف قصير</label>
-                                    <textarea
-                                        rows={2}
-                                        value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold"
-                                    ></textarea>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-slate-700 pr-2">وصف قصير (عربي)</label>
+                                        <textarea
+                                            rows={2}
+                                            value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
+                                            className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold resize-none"
+                                        ></textarea>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-sm font-black text-slate-700 pr-2">وصف قصير (إنجليزي)</label>
+                                        <textarea
+                                            rows={2}
+                                            value={formData.descriptionEn || ""} onChange={e => setFormData({ ...formData, descriptionEn: e.target.value })}
+                                            className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold resize-none dir-ltr text-left"
+                                        ></textarea>
+                                    </div>
                                 </div>
 
                                 <div className="space-y-4">

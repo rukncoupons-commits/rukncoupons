@@ -4,15 +4,22 @@
  */
 "use client";
 import React, { useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function NewsletterForm() {
     const [email, setEmail] = useState("");
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [msg, setMsg] = useState("");
+    const pathname = usePathname();
+    const isEn = pathname.startsWith("/en");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!email.includes("@")) { setStatus("error"); setMsg("بريد إلكتروني غير صالح"); return; }
+        if (!email.includes("@")) {
+            setStatus("error");
+            setMsg(isEn ? "Invalid email address" : "بريد إلكتروني غير صالح");
+            return;
+        }
         setStatus("loading");
         try {
             const res = await fetch("/api/newsletter/subscribe", {
@@ -22,11 +29,14 @@ export default function NewsletterForm() {
             });
             const data = await res.json();
             setStatus(data.success ? "success" : "error");
-            setMsg(data.message);
+            setMsg(data.success
+                ? (isEn ? "Subscribed successfully!" : data.message)
+                : (isEn ? "An error occurred, please try again." : data.message)
+            );
             if (data.success) setEmail("");
         } catch {
             setStatus("error");
-            setMsg("حدث خطأ، يرجى المحاولة لاحقاً.");
+            setMsg(isEn ? "Connection error, please try again later." : "حدث خطأ، يرجى المحاولة لاحقاً.");
         }
     };
 
@@ -44,10 +54,11 @@ export default function NewsletterForm() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="بريدك الإلكتروني"
-                className="w-full px-4 py-2.5 rounded-lg bg-white text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 text-right border-0"
+                placeholder={isEn ? "Your email address" : "بريدك الإلكتروني"}
+                className={`w-full px-4 py-2.5 rounded-lg bg-white text-gray-800 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 ${isEn ? 'text-left' : 'text-right'} border-0`}
                 required
-                aria-label="بريدك الإلكتروني"
+                aria-label={isEn ? "Your email address" : "بريدك الإلكتروني"}
+                dir={isEn ? "ltr" : "rtl"}
             />
             {status === "error" && <p className="text-red-300 text-xs">{msg}</p>}
             <button
@@ -55,7 +66,7 @@ export default function NewsletterForm() {
                 disabled={status === "loading"}
                 className="w-full bg-gray-900 hover:bg-gray-800 disabled:opacity-70 text-white font-bold py-2 rounded-lg text-sm transition-colors"
             >
-                {status === "loading" ? "جاري الاشتراك..." : "اشترك الآن"}
+                {status === "loading" ? (isEn ? "Subscribing..." : "جاري الاشتراك...") : (isEn ? "Subscribe Now" : "اشترك الآن")}
             </button>
         </form>
     );

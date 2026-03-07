@@ -121,7 +121,7 @@ async function renderBlogContent(post: BlogPost, html: string, countryCode: stri
 export const revalidate = 3600;
 
 interface PageProps {
-    params: Promise<{ country: string; slug: string }>;
+    params: Promise<{ locale: string; country: string; slug: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -145,6 +145,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             title,
             description,
             images: [post.image],
+            type: "article",
         },
         alternates: {
             canonical,
@@ -187,25 +188,43 @@ export default async function BlogPostPage({ params }: PageProps) {
     const canonicalUrl = buildAbsoluteUrl(`/${country}/blog/${decodedSlug}`);
     const wordCount = (post.content || "").trim().split(/\s+/).filter(w => w.length > 1).length;
 
-    const jsonLd = {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        "headline": post.title,
-        "image": post.image,
-        "author": { "@type": "Person", "name": post.author },
-        "publisher": {
-            "@type": "Organization",
-            "name": "ركن الكوبونات",
-            "logo": { "@type": "ImageObject", "url": `${SITE_URL}/logo.png` },
+    const jsonLd: any[] = [
+        {
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            "headline": post.title,
+            "image": post.image,
+            "author": { "@type": "Person", "name": post.author },
+            "publisher": {
+                "@type": "Organization",
+                "name": "ركن الكوبونات",
+                "logo": { "@type": "ImageObject", "url": `${SITE_URL}/logo.png` },
+            },
+            "datePublished": post.createdAt,
+            "dateModified": post.updatedAt || post.createdAt,
+            "description": post.excerpt,
+            "mainEntityOfPage": { "@type": "WebPage", "@id": canonicalUrl },
+            "wordCount": wordCount,
+            "articleSection": data.categories.find(c => c.slug === post.category)?.name || post.category,
+            "inLanguage": "ar",
         },
-        "datePublished": post.createdAt,
-        "dateModified": post.updatedAt || post.createdAt,
-        "description": post.excerpt,
-        "mainEntityOfPage": { "@type": "WebPage", "@id": canonicalUrl },
-        "wordCount": wordCount,
-        "articleSection": data.categories.find(c => c.slug === post.category)?.name || post.category,
-        "inLanguage": "ar",
-    };
+    ];
+
+    // Add FAQPage schema if FAQ exists
+    if (post.faq && post.faq.length > 0) {
+        jsonLd.push({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": post.faq.map((item: { question: string; answer: string }) => ({
+                "@type": "Question",
+                "name": item.question,
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": item.answer,
+                },
+            })),
+        });
+    }
 
     return (
         <main className="min-h-screen bg-gray-50 py-10 text-right" dir="rtl">
@@ -327,15 +346,33 @@ export default async function BlogPostPage({ params }: PageProps) {
                                     <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
                                         <p className="font-black text-gray-800 text-lg">شارك الفائدة مع أصدقائك:</p>
                                         <div className="flex gap-4">
-                                            <button className="w-12 h-12 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:scale-110 transition-all shadow-md">
+                                            <a
+                                                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonicalUrl)}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-12 h-12 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:scale-110 transition-all shadow-md"
+                                                aria-label="مشاركة على فيسبوك"
+                                            >
                                                 <Facebook />
-                                            </button>
-                                            <button className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-all shadow-md">
+                                            </a>
+                                            <a
+                                                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(canonicalUrl)}&text=${encodeURIComponent(post.title)}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-all shadow-md"
+                                                aria-label="مشاركة على إكس"
+                                            >
                                                 <Twitter />
-                                            </button>
-                                            <button className="w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:scale-110 transition-all shadow-md">
+                                            </a>
+                                            <a
+                                                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(post.title + ' ' + canonicalUrl)}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:scale-110 transition-all shadow-md"
+                                                aria-label="مشاركة عبر واتساب"
+                                            >
                                                 <Mail />
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

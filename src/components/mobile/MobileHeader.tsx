@@ -13,6 +13,7 @@ interface MobileHeaderProps {
     stores?: Store[];
     categories?: Category[];
     coupons?: Coupon[];
+    locale?: string;
 }
 
 // Unified Search Result Type
@@ -26,7 +27,7 @@ type SearchResultItem = {
     score: number;
 };
 
-export default function MobileHeader({ countries, currentCountry, stores = [], categories = [], coupons = [] }: MobileHeaderProps) {
+export default function MobileHeader({ countries, currentCountry, stores = [], categories = [], coupons = [], locale = "ar" }: MobileHeaderProps) {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -36,6 +37,16 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
     const searchParams = useSearchParams();
 
     const countryCode = currentCountry?.code || "sa";
+    const isEn = locale === "en";
+
+    const switchLocale = () => {
+        const newLocale = isEn ? "ar" : "en";
+        const parts = pathname.split("/");
+        if (parts.length >= 2) {
+            parts[1] = newLocale;
+            router.push(parts.join("/"));
+        }
+    };
 
     // Auto-focus search when opened
     useEffect(() => {
@@ -47,12 +58,12 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
     const switchCountry = (code: string) => {
         document.cookie = `country_preference=${code}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
         const parts = pathname.split("/");
-        if (parts.length >= 2) {
-            parts[1] = code;
+        if (parts.length >= 3) {
+            parts[2] = code;
             const newPath = parts.join("/") || "/";
             router.push(`${newPath}${searchParams.toString() ? "?" + searchParams.toString() : ""}`);
         } else {
-            router.push(`/${code}`);
+            router.push(`/${locale}/${code}`);
         }
     };
 
@@ -60,7 +71,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
         e?.preventDefault();
         const query = searchQuery.trim().toLowerCase();
         if (query) {
-            router.push(`/${countryCode}/coupons?q=${encodeURIComponent(query)}`);
+            router.push(`/${locale}/${countryCode}/coupons?q=${encodeURIComponent(query)}`);
             setSearchQuery("");
             setSearchOpen(false);
         }
@@ -82,7 +93,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                     id: `store-${store.id}`,
                     type: 'store',
                     title: store.name,
-                    url: `/${countryCode}/${store.slug}`,
+                    url: `/${locale}/${countryCode}/${store.slug}`,
                     imageUrl: store.logoUrl,
                     score: 3
                 });
@@ -98,7 +109,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                     id: `cat-${category.id}`,
                     type: 'category',
                     title: category.name,
-                    url: `/${countryCode}/categories/${category.slug}`,
+                    url: `/${locale}/${countryCode}/categories/${category.slug}`,
                     score: 2
                 });
             }
@@ -115,7 +126,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                     type: 'coupon',
                     title: coupon.title,
                     subtitle: storeName ? `كوبون يعرّض في ${storeName}` : undefined,
-                    url: `/${countryCode}/coupons?q=${encodeURIComponent(coupon.title)}`,
+                    url: `/${locale}/${countryCode}/coupons?q=${encodeURIComponent(coupon.title)}`,
                     score: 1
                 });
             }
@@ -133,7 +144,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                     <button
                         onClick={() => setDrawerOpen(true)}
                         className="mobile-header__icon-btn"
-                        aria-label="فتح القائمة"
+                        aria-label={isEn ? "Open Menu" : "فتح القائمة"}
                         aria-expanded={drawerOpen}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -145,9 +156,9 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
 
                     {/* Centered Logo */}
                     <Link
-                        href={`/${countryCode}`}
+                        href={`/${locale}/${countryCode}`}
                         className="mobile-header__logo"
-                        aria-label="الرئيسية"
+                        aria-label={isEn ? "Home" : "الرئيسية"}
                     >
                         <div style={{
                             background: "#2563eb",
@@ -156,15 +167,26 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                             borderRadius: 6,
                             fontWeight: 700,
                             fontSize: 15,
-                        }}>ركن</div>
-                        <span style={{ fontWeight: 700, fontSize: 15, color: "#1f2937" }}>الكوبونات</span>
+                        }}>{isEn ? "Rukn" : "ركن"}</div>
+                        <span style={{ fontWeight: 700, fontSize: 15, color: "#1f2937" }}>{isEn ? "Coupons" : "الكوبونات"}</span>
                     </Link>
+
+                    {/* Language Switcher */}
+                    <button
+                        onClick={switchLocale}
+                        className="mobile-header__icon-btn"
+                        aria-label={isEn ? "Switch to Arabic" : "Switch to English"}
+                        title={isEn ? "العربية" : "English"}
+                        style={{ fontSize: 12, fontWeight: 700, minWidth: 36 }}
+                    >
+                        {isEn ? "AR" : "EN"}
+                    </button>
 
                     {/* Search toggle */}
                     <button
                         onClick={() => setSearchOpen(!searchOpen)}
                         className="mobile-header__icon-btn"
-                        aria-label={searchOpen ? "إغلاق البحث" : "فتح البحث"}
+                        aria-label={isEn ? (searchOpen ? "Close Search" : "Open Search") : (searchOpen ? "إغلاق البحث" : "فتح البحث")}
                     >
                         {searchOpen ? (
                             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
@@ -188,7 +210,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="ابحث عن متجر أو كوبون..."
+                            placeholder={isEn ? "Search for a store or coupon..." : "ابحث عن متجر أو كوبون..."}
                             dir="rtl"
                             style={{
                                 flex: 1,
@@ -216,9 +238,9 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                                 minHeight: 44,
                                 minWidth: 44,
                             }}
-                            aria-label="بحث"
+                            aria-label={isEn ? "Search" : "بحث"}
                         >
-                            بحث
+                            {isEn ? "Search" : "بحث"}
                         </button>
                     </form>
 

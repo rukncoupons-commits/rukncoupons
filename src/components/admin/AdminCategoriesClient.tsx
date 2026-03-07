@@ -20,6 +20,7 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
 
     const [formData, setFormData] = useState<Partial<Category>>({
         name: "",
+        nameEn: "",
         slug: "",
         icon: "🏷️",
         type: "store",
@@ -32,7 +33,7 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
     );
 
     const resetForm = () => {
-        setFormData({ name: "", slug: "", icon: "🏷️", type: "store", countryCode: "" });
+        setFormData({ name: "", nameEn: "", slug: "", icon: "🏷️", type: "store", countryCode: "" });
         setEditingCategory(null);
         setIsFormOpen(false);
     };
@@ -185,6 +186,19 @@ export default function AdminCategoriesClient({ initialCategories, countries }: 
                                     type="text" required
                                     value={formData.slug} onChange={e => setFormData({ ...formData, slug: e.target.value })}
                                     className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 dir-ltr"
+                                />
+                            </div>
+
+                            {/* English Name */}
+                            <div className="space-y-2">
+                                <label className="text-sm font-black text-indigo-600 pr-2 flex items-center gap-2">
+                                    <Globe size={14} /> Category Name (English)
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.nameEn || ""} onChange={e => setFormData({ ...formData, nameEn: e.target.value })}
+                                    className="w-full bg-indigo-50/50 border-2 border-transparent focus:bg-white focus:border-indigo-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 text-lg" dir="ltr"
+                                    placeholder="e.g. Electronics"
                                 />
                             </div>
 

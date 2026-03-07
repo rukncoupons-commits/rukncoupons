@@ -72,55 +72,60 @@ export default function HomeClient({
             <div className="container mx-auto py-6 space-y-10 px-4">
 
                 {/* SLIDER */}
-                <section className="w-full relative h-[200px] md:h-[300px] lg:h-[360px] rounded-3xl overflow-hidden shadow-lg group bg-gray-200">
-                    {initialSlides.length > 0 ? (
-                        <>
-                            {initialSlides.map((slide, i) => (
-                                <Link
-                                    key={slide.id}
-                                    href={slide.linkUrl || "#"}
-                                    aria-label={slide.title ? `عرض: ${slide.title}` : "نظرة على العرض"}
-                                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out block ${currentSlide === i ? "opacity-100 z-10" : "opacity-0 z-0"
-                                        }`}
-                                >
-                                    <img src={slide.image} className="w-full h-full object-cover" alt={slide.title || "Slide"} />
-                                    <div className="absolute inset-0 flex flex-col justify-end items-start p-6 pb-10 md:p-12 md:justify-center text-white bg-gradient-to-t from-black/60 to-transparent md:bg-none">
-                                        {slide.title && (
-                                            <>
-                                                <span className="bg-red-600 text-white text-[10px] md:text-sm font-bold px-3 py-1 rounded-full mb-3 shadow-sm animate-pulse">
-                                                    🔥 عروض حصرية
-                                                </span>
-                                                <h2 className="text-2xl md:text-4xl font-black mb-3 leading-tight max-w-xl drop-shadow-lg">
-                                                    {slide.title}
-                                                </h2>
-                                            </>
-                                        )}
-                                        {slide.description && (
-                                            <p className="text-sm md:text-lg text-gray-100 mb-6 max-w-lg drop-shadow-md line-clamp-2">
-                                                {slide.description}
-                                            </p>
-                                        )}
-                                        <span className="bg-white hover:bg-gray-100 text-gray-900 font-bold py-2 px-6 rounded-xl text-sm md:text-base transition-all transform hover:scale-105 shadow-lg inline-block">
-                                            احصل على الخصم
-                                        </span>
-                                    </div>
-                                </Link>
-                            ))}
-                            {/* Dots */}
-                            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                                {initialSlides.map((_, i) => (
-                                    <button
-                                        key={i}
-                                        onClick={() => setCurrentSlide(i)}
-                                        className={`h-2 rounded-full transition-all shadow-sm ${currentSlide === i ? "bg-white w-8" : "bg-white/50 w-2"
+                <section className="w-full flex flex-col gap-4">
+                    <div className="w-full relative h-[200px] md:h-[300px] lg:h-[360px] rounded-3xl overflow-hidden shadow-lg group bg-gray-200">
+                        {initialSlides.length > 0 ? (
+                            <>
+                                {initialSlides.map((slide, i) => (
+                                    <Link
+                                        key={slide.id}
+                                        href={slide.linkUrl || "#"}
+                                        aria-label={slide.title ? `عرض: ${slide.title}` : "نظرة على العرض"}
+                                        className={`absolute inset-0 transition-opacity duration-700 ease-in-out block ${currentSlide === i ? "opacity-100 z-10" : "opacity-0 z-0"
                                             }`}
-                                    />
+                                    >
+                                        <img src={slide.image} className="w-full h-full object-cover" alt={slide.title || "Slide"} />
+                                        <div className="absolute inset-0 flex flex-col justify-end items-start p-6 pb-10 md:p-12 md:justify-center text-white bg-gradient-to-t from-black/60 to-transparent md:bg-none">
+                                            {slide.title && (
+                                                <>
+                                                    <span className="bg-red-600 text-white text-[10px] md:text-sm font-bold px-3 py-1 rounded-full mb-3 shadow-sm animate-pulse">
+                                                        🔥 عروض حصرية
+                                                    </span>
+                                                    <h2 className="text-2xl md:text-4xl font-black mb-3 leading-tight max-w-xl drop-shadow-lg">
+                                                        {slide.title}
+                                                    </h2>
+                                                </>
+                                            )}
+                                            {slide.description && (
+                                                <p className="text-sm md:text-lg text-gray-100 mb-6 max-w-lg drop-shadow-md line-clamp-2">
+                                                    {slide.description}
+                                                </p>
+                                            )}
+                                            <span className="bg-white hover:bg-gray-100 text-gray-900 font-bold py-2 px-6 rounded-xl text-sm md:text-base transition-all transform hover:scale-105 shadow-lg inline-block">
+                                                احصل على الخصم
+                                            </span>
+                                        </div>
+                                    </Link>
                                 ))}
+                            </>
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-100 animate-pulse">
+                                جاري تحميل العروض...
                             </div>
-                        </>
-                    ) : (
-                        <div className="w-full h-full flex items-center justify-center text-gray-400 bg-gray-100 animate-pulse">
-                            جاري تحميل العروض...
+                        )}
+                    </div>
+                    {/* Dots placed below the slider in a professional way */}
+                    {initialSlides.length > 0 && (
+                        <div className="flex justify-center items-center gap-2 mt-2">
+                            {initialSlides.map((_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setCurrentSlide(i)}
+                                    className={`h-1.5 rounded-full transition-all duration-300 ease-in-out ${currentSlide === i ? "bg-blue-600 w-8" : "bg-gray-300 hover:bg-gray-400 w-4"
+                                        }`}
+                                    aria-label={`الذهاب إلى الشريحة ${i + 1}`}
+                                />
+                            ))}
                         </div>
                     )}
                 </section>

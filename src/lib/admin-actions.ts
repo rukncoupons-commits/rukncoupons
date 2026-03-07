@@ -46,6 +46,15 @@ export async function deleteStoreAction(id: string) {
     return { success: true };
 }
 
+export async function toggleStoreActiveAction(id: string, isActive: boolean) {
+    await ensureAuth();
+    await adminDb.collection("stores").doc(id).update({ isActive, updatedAt: new Date().toISOString() });
+    revalidateTag("stores", { expire: 0 });
+    revalidatePath("/admin/stores");
+    revalidatePath("/(public)/[country]", "layout");
+    return { success: true };
+}
+
 /* --- COUPONS --- */
 
 export async function createCouponAction(data: any) {
@@ -79,6 +88,22 @@ export async function deleteCouponAction(id: string) {
     revalidateTag("coupons", { expire: 0 });
     revalidatePath("/admin/coupons");
     revalidatePath("/(public)/[country]", "layout");
+    return { success: true };
+}
+
+export async function toggleCouponActiveAction(id: string, isActive: boolean) {
+    await ensureAuth();
+    await adminDb.collection("coupons").doc(id).update({ isActive, updatedAt: new Date().toISOString() });
+    revalidateTag("coupons", { expire: 0 });
+    revalidatePath("/admin/coupons");
+    revalidatePath("/(public)/[country]", "layout");
+    return { success: true };
+}
+
+export async function resetCouponStatsAction(id: string) {
+    await ensureAuth();
+    await adminDb.collection("coupons").doc(id).update({ usedCount: 0, viewCount: 0 });
+    revalidateTag("coupons", { expire: 0 });
     return { success: true };
 }
 
@@ -295,6 +320,16 @@ export async function deleteAffiliateProductAction(id: string) {
     await adminDb.collection("affiliateProducts").doc(id).delete();
     revalidateTag("affiliateProducts", { expire: 0 });
     revalidatePath("/admin/affiliate-products");
+    revalidatePath("/(public)/[country]", "layout");
+    return { success: true };
+}
+
+/* --- FAVICON --- */
+
+export async function updateFaviconAction(faviconUrl: string) {
+    await ensureAuth();
+    await adminDb.collection("settings").doc("general").set({ faviconUrl }, { merge: true });
+    revalidateTag("general-settings", { expire: 0 });
     revalidatePath("/(public)/[country]", "layout");
     return { success: true };
 }

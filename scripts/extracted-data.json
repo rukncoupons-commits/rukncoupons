@@ -1,0 +1,898 @@
+{
+  "stores": [
+    {
+      "id": "02IkDmPnaW2PaiVEfUoU",
+      "name": "علي إكسبرس",
+      "description": "تسوق ملايين المنتجات من الصين بأسعار الجملة.",
+      "nameEn": "Aliexpress",
+      "descriptionEn": "Best coupon codes and offers for Aliexpress"
+    },
+    {
+      "id": "24rNk0Pgw55hl9Ogiptd",
+      "name": "صيدلية وايتس",
+      "description": "منتجات العناية والجمال من أشهر الماركات.",
+      "nameEn": "Whites",
+      "descriptionEn": "Best coupon codes and offers for Whites"
+    },
+    {
+      "id": "2Q7TlJBWVrlXFvn7tHgC",
+      "name": "تويز آر أص",
+      "description": "عالم من الألعاب والمرح للأطفال.",
+      "nameEn": "Toys R Us",
+      "descriptionEn": "Best coupon codes and offers for Toys R Us"
+    },
+    {
+      "id": "3jrd2QZV2cF7A1Me9ymz",
+      "name": "إيس",
+      "description": "كل ما تحتاجه لتحسين منزلك وحديقتك.",
+      "nameEn": "Ace",
+      "descriptionEn": "Best coupon codes and offers for Ace"
+    },
+    {
+      "id": "3kXGgye09M34D52LDWD7",
+      "name": "ذا بودي شوب",
+      "description": "منتجات تجميل وعناية طبيعية وصديقة للبيئة.",
+      "nameEn": "The Body Shop",
+      "descriptionEn": "Best coupon codes and offers for The Body Shop"
+    },
+    {
+      "id": "48cIUwiWpnQtiWC7mshx",
+      "name": "كارفور",
+      "description": "تسوق المقاضي والإلكترونيات وكل مستلزمات المنزل.",
+      "nameEn": "Carrefour",
+      "descriptionEn": "Best coupon codes and offers for Carrefour"
+    },
+    {
+      "id": "4fPoAtA3szjFgMvsg9OS",
+      "name": "ماج",
+      "description": "أزياء باريسية أنيقة وعصرية.",
+      "nameEn": "Maje",
+      "descriptionEn": "Best coupon codes and offers for Maje"
+    },
+    {
+      "id": "5N52OOu6jDSPeIxZOSWz",
+      "name": "فيسز (وجوه سابقاً)",
+      "description": "وجهتك المفضلة لماركات الجمال العالمية.",
+      "nameEn": "Faces",
+      "descriptionEn": "Best coupon codes and offers for Faces"
+    },
+    {
+      "id": "61TDpWYCY5hSJHVziuqf",
+      "name": "كيابي",
+      "description": "أزياء فرنسية لكل العائلة بأسعار مميزة.",
+      "nameEn": "Kiabi",
+      "descriptionEn": "Best coupon codes and offers for Kiabi"
+    },
+    {
+      "id": "6PqF8bgdYo4HFYa6FiQ6",
+      "name": "نكست",
+      "description": "أزياء بريطانية عالية الجودة لجميع أفراد العائلة.",
+      "nameEn": "Next",
+      "descriptionEn": "Best coupon codes and offers for Next"
+    },
+    {
+      "id": "6amXvJpjqQVVrD0QI5en",
+      "name": "أول بيردز",
+      "description": "أحذية مريحة ومستدامة.",
+      "nameEn": "Allbirds",
+      "descriptionEn": "Best coupon codes and offers for Allbirds"
+    },
+    {
+      "id": "8Ek3bdykgQqMk9gsh9Wm",
+      "name": "الميثالي",
+      "description": "أدوات منزلية ومستلزمات العائلة.",
+      "nameEn": "Almaithaly",
+      "descriptionEn": "Best coupon codes and offers for Almaithaly"
+    },
+    {
+      "id": "9E2wqR7q3MmbGiBfE6my",
+      "name": "أناس",
+      "description": "متجر الأزياء الفاخرة الأول في الشرق الأوسط.",
+      "nameEn": "Ounass",
+      "descriptionEn": "Best coupon codes and offers for Ounass"
+    },
+    {
+      "id": "B9qOQlj3eRBIZ3MjUqKw",
+      "name": "فيرجن ميجاستور",
+      "description": "وجهتك للترفيه والإلكترونيات.",
+      "nameEn": "Virgin Megastore",
+      "descriptionEn": "Best coupon codes and offers for Virgin Megastore"
+    },
+    {
+      "id": "CFx1TIByOwAk7JUZPbbm",
+      "name": "وفرة",
+      "description": "مقاضي الجملة لباب بيتك.",
+      "nameEn": "Waffrah",
+      "descriptionEn": "Best coupon codes and offers for Waffrah"
+    },
+    {
+      "id": "CcU8y47jyFzusYFo51sx",
+      "name": "بي تك",
+      "description": "أكبر متاجر الإلكترونيات والأجهزة المنزلية في مصر.",
+      "nameEn": "B Tech",
+      "descriptionEn": "Best coupon codes and offers for B Tech"
+    },
+    {
+      "id": "D47UJsBqjOtdxEJK3g0t",
+      "name": "باث & بودي وركس",
+      "description": "أشهر منتجات العناية بالجسم والعطور المنزلية.",
+      "nameEn": "Bath Body Works",
+      "descriptionEn": "Best coupon codes and offers for Bath Body Works"
+    },
+    {
+      "id": "Ea3lQUlutVWL3Gxlntij",
+      "name": "فيرست كراي",
+      "description": "أكبر متجر لمنتجات الأطفال والأمومة.",
+      "nameEn": "Firstcry",
+      "descriptionEn": "Best coupon codes and offers for Firstcry"
+    },
+    {
+      "id": "FAPv8K4nwZHpCKFMNCPM",
+      "name": "ThrowMeNot",
+      "description": "متجر متخصص في الأزياء المستدامة والمنتجات الصديقة للبيئة.",
+      "nameEn": "Throwmenot",
+      "descriptionEn": "Best coupon codes and offers for Throwmenot"
+    },
+    {
+      "id": "FU6PJj7wKLxDVN5gjNvu",
+      "name": "مترو برازيل",
+      "description": "الوجهة الأولى للمشدات البرازيلية والمنتجات التجميلية الفاخرة.",
+      "nameEn": "Metro Brazil",
+      "descriptionEn": "Best coupon codes and offers for Metro Brazil"
+    },
+    {
+      "id": "IqwDQK4Cl7nUhOXMxmyq",
+      "name": "ToYou",
+      "description": null,
+      "nameEn": "Toyou",
+      "descriptionEn": ""
+    },
+    {
+      "id": "Jc6oRzbHKNnhDLp8GBBV",
+      "name": "جرير",
+      "description": "ليست مجرد مكتبة. كل ما تحتاجه من إلكترونيات وكتب.",
+      "nameEn": "Jarir",
+      "descriptionEn": "Best coupon codes and offers for Jarir"
+    },
+    {
+      "id": "LDuiDFSNMaeJRBgprONt",
+      "name": "H&M",
+      "description": "أزياء عصرية لجميع أفراد العائلة.",
+      "nameEn": "Hm",
+      "descriptionEn": "Best coupon codes and offers for Hm"
+    },
+    {
+      "id": "MsABCvjmvs3aqdlWrTEn",
+      "name": "المسافر",
+      "description": "احجز رحلات طيران وفنادق بسهولة.",
+      "nameEn": "Almosafer",
+      "descriptionEn": "Best coupon codes and offers for Almosafer"
+    },
+    {
+      "id": "NLQDenPYT8NYn4DgJkpK",
+      "name": "يوباي",
+      "description": "تسوق عالمي من أمريكا وبريطانيا يصلك لباب بيتك.",
+      "nameEn": "Ubuy",
+      "descriptionEn": "Best coupon codes and offers for Ubuy"
+    },
+    {
+      "id": "QhZMgNj2rfA95Jzb50Jr",
+      "name": "٦ ستريت",
+      "description": "تسوق أحدث الماركات للأزياء والأحذية.",
+      "nameEn": "6th Street",
+      "descriptionEn": "Best coupon codes and offers for 6th Street"
+    },
+    {
+      "id": "QiQi9j4dSPylehQaZKXy",
+      "name": "تيمو",
+      "description": "السوق الإلكتروني الأسرع نمواً. أسعار لا تقبل المنافسة.",
+      "nameEn": "Temu",
+      "descriptionEn": "Best coupon codes and offers for Temu"
+    },
+    {
+      "id": "RIwvsxyibeFyBfWAPZ1Z",
+      "name": "هوم سنتر",
+      "description": "أثاث وديكورات عصرية لمنزلك.",
+      "nameEn": "Home Centre",
+      "descriptionEn": "Best coupon codes and offers for Home Centre"
+    },
+    {
+      "id": "TqsOLaoLhVIJxvWzIChH",
+      "name": "مذركير",
+      "description": "خبرة عالمية في منتجات الأمومة والطفولة.",
+      "nameEn": "Mothercare",
+      "descriptionEn": "Best coupon codes and offers for Mothercare"
+    },
+    {
+      "id": "VVBYjWOYJdF2qcyIJ0ub",
+      "name": "فوغا كلوسيت",
+      "description": "أحدث صيحات الموضة الأوروبية تصلك لباب بيتك.",
+      "nameEn": "Vogacloset",
+      "descriptionEn": "Best coupon codes and offers for Vogacloset"
+    },
+    {
+      "id": "W94saUfEdd1k2TJ65G7P",
+      "name": "جاب",
+      "description": "أزياء أمريكية كلاسيكية وعصرية.",
+      "nameEn": "جاب",
+      "descriptionEn": "Best coupon codes and offers for جاب"
+    },
+    {
+      "id": "XHBeAptewSvjjDLvlbDH",
+      "name": "ديفاكتو",
+      "description": "موضة بأسعار معقولة للجميع.",
+      "nameEn": "Defacto",
+      "descriptionEn": "Best coupon codes and offers for Defacto"
+    },
+    {
+      "id": "ZPFRdpL4w3X3mU7kouRF",
+      "name": "بوتري بارن",
+      "description": "أثاث منزلي كلاسيكي عالي الجودة.",
+      "nameEn": "Pottery Barn",
+      "descriptionEn": "Best coupon codes and offers for Pottery Barn"
+    },
+    {
+      "id": "aZN1H6V1D5IjP365b4oQ",
+      "name": "إكسترا",
+      "description": "متجر الإلكترونيات والأجهزة المنزلية الرائد.",
+      "nameEn": "Extra",
+      "descriptionEn": "Best coupon codes and offers for Extra"
+    },
+    {
+      "id": "aqFqOXSDrkqzv2mnAjAU",
+      "name": "أمازون",
+      "description": "المتجر العالمي الأضخم بين يديك.",
+      "nameEn": "Amazon",
+      "descriptionEn": "Best coupon codes and offers for Amazon"
+    },
+    {
+      "id": "bJqJvNN1IsHLPJkA5s5a",
+      "name": "بوكينج",
+      "description": "احجز فنادق وشقق حول العالم بأفضل الأسعار.",
+      "nameEn": "Booking",
+      "descriptionEn": "Best coupon codes and offers for Booking"
+    },
+    {
+      "id": "bOM4eUmcfiQjRAsm0Ivb",
+      "name": "سامسونج",
+      "description": "المتجر الرسمي لأحدث هواتف وأجهزة سامسونج.",
+      "nameEn": "Samsung",
+      "descriptionEn": "Best coupon codes and offers for Samsung"
+    },
+    {
+      "id": "eFIyHhZseKlX5m1tAlzm",
+      "name": "جاهز",
+      "description": "اطلب طعامك من أفضل المطاعم.",
+      "nameEn": "Jahez",
+      "descriptionEn": "Best coupon codes and offers for Jahez"
+    },
+    {
+      "id": "fzv1Mm8US2egmtnp7RBE",
+      "name": "صيدلية النهدي",
+      "description": "أكبر سلسلة صيدليات في السعودية.",
+      "nameEn": "Nahdi",
+      "descriptionEn": "Best coupon codes and offers for Nahdi"
+    },
+    {
+      "id": "gKGc0J0OBRzZDpGmeBnB",
+      "name": "فيكتوريا سيكريت",
+      "description": "أشهر ماركات الملابس الداخلية والعطور.",
+      "nameEn": "Victorias Secret",
+      "descriptionEn": "Best coupon codes and offers for Victorias Secret"
+    },
+    {
+      "id": "iEdtbdu2BewCiSak1aZe",
+      "name": "نون",
+      "description": "وجهتك الأولى للتسوق أونلاين في الشرق الأوسط.",
+      "nameEn": "نون",
+      "descriptionEn": "Best coupon codes and offers for نون"
+    },
+    {
+      "id": "jQpXsV3gj4TrrJzIjsg7",
+      "name": "أمريكان إيجل",
+      "description": "أشهر ماركات الجينز والملابس الشبابية.",
+      "nameEn": "American Eagle",
+      "descriptionEn": "Best coupon codes and offers for American Eagle"
+    },
+    {
+      "id": "jf6jH1TCDRcoMb1fXkqo",
+      "name": "ايكيا",
+      "description": "حلول وأثاث منزلي بتصاميم مبتكرة.",
+      "nameEn": "Ikea",
+      "descriptionEn": "Best coupon codes and offers for Ikea"
+    },
+    {
+      "id": "kF81mKY33w1Nfpqf9AyG",
+      "name": "شي إن",
+      "description": "أحدث صيحات الموضة العالمية بأسعار تنافسية.",
+      "nameEn": "Shein",
+      "descriptionEn": "Best coupon codes and offers for Shein"
+    },
+    {
+      "id": "l5deuD0vQNp99anyX2Wh",
+      "name": "سيفي",
+      "description": "أحدث صيحات الموضة من أشهر الماركات.",
+      "nameEn": "Sivvi",
+      "descriptionEn": "Best coupon codes and offers for Sivvi"
+    },
+    {
+      "id": "mLFRIHAsiEEmyrgVrt22",
+      "name": "ليڤيل شوز",
+      "description": "وجهة الأحذية الفاخرة الأولى.",
+      "nameEn": "Level Shoes",
+      "descriptionEn": "Best coupon codes and offers for Level Shoes"
+    },
+    {
+      "id": "mkwAzNIpOIIgFEecEOFn",
+      "name": "دكتور نيوترشن",
+      "description": "مكملات غذائية وحلول صحية.",
+      "nameEn": "Doctor Nutrition",
+      "descriptionEn": "Best coupon codes and offers for Doctor Nutrition"
+    },
+    {
+      "id": "n5aDUSnelD8YfBrx3YGV",
+      "name": "سنتربوينت",
+      "description": "وجهة واحدة لأزياء كل العائلة.",
+      "nameEn": "Centrepoint",
+      "descriptionEn": "Best coupon codes and offers for Centrepoint"
+    },
+    {
+      "id": "nNMRPY6AadGGxUhP395M",
+      "name": "نمشي",
+      "description": "ماركات عالمية أصلية للأزياء والأحذية.",
+      "nameEn": "Namshi",
+      "descriptionEn": "Best coupon codes and offers for Namshi"
+    },
+    {
+      "id": "nia6sbpYksdYmm9LW9EL",
+      "name": "مجوهرات داماس",
+      "description": "أرقى المجوهرات والساعات الفاخرة.",
+      "nameEn": "Damas",
+      "descriptionEn": "Best coupon codes and offers for Damas"
+    },
+    {
+      "id": "o80qLKd8DtOBnXtiTgyZ",
+      "name": "آي هيرب",
+      "description": "منتجات صحية وطبيعية وفيتامينات من كل العالم.",
+      "nameEn": "Iherb",
+      "descriptionEn": "Best coupon codes and offers for Iherb"
+    },
+    {
+      "id": "ojY5IigIlmqc0dfiFRAr",
+      "name": "ماكس فاشون",
+      "description": "أزياء عصرية بأسعار معقولة.",
+      "nameEn": "Max Fashion",
+      "descriptionEn": "Best coupon codes and offers for Max Fashion"
+    },
+    {
+      "id": "orGKfTztiLWFe5gVKcJk",
+      "name": "Glasseslit",
+      "description": "تشكيلة واسعة من النظارات الطبية والشمسية العصرية بأسعار لا تقبل المنافسة.",
+      "nameEn": "Glasseslit",
+      "descriptionEn": "Best coupon codes and offers for Glasseslit"
+    },
+    {
+      "id": "qGdorPDIN2Eep6a8hrDO",
+      "name": "سيفورا",
+      "description": "وجهتك الأولى لأشهر ماركات المكياج والعطور.",
+      "nameEn": "Sephora",
+      "descriptionEn": "Best coupon codes and offers for Sephora"
+    },
+    {
+      "id": "r4oZVTcRUmMzFJCyb6aM",
+      "name": "سبلاش",
+      "description": "أزياء عصرية للرجال والنساء والأطفال.",
+      "nameEn": "Splash",
+      "descriptionEn": "Best coupon codes and offers for Splash"
+    },
+    {
+      "id": "r6Zi9juqzCCJe9VX695b",
+      "name": "المطار",
+      "description": "حجز طيران وفنادق بأفضل الأسعار.",
+      "nameEn": "Almatar",
+      "descriptionEn": "Best coupon codes and offers for Almatar"
+    },
+    {
+      "id": "rPbGRitp99dP84ybqaDN",
+      "name": "أجودا",
+      "description": "عروض فنادق ورحلات طيران حول العالم.",
+      "nameEn": "Agoda",
+      "descriptionEn": "Best coupon codes and offers for Agoda"
+    },
+    {
+      "id": "sW24d2JjlLegA0WWrfl4",
+      "name": "ماماز وباباز",
+      "description": "كل ما تحتاجه الأم والطفل بجودة عالية.",
+      "nameEn": "Mamas Papas",
+      "descriptionEn": "Best coupon codes and offers for Mamas Papas"
+    },
+    {
+      "id": "tdLIAm4noEeAybwUTUSY",
+      "name": "ناو ناو",
+      "description": "توصيل مقاضي وسوبرماركت في دقائق.",
+      "nameEn": "Nownow",
+      "descriptionEn": "Best coupon codes and offers for Nownow"
+    },
+    {
+      "id": "uSKS7VQnPGhsnqm6dpBW",
+      "name": "سبورتر",
+      "description": "المتجر الأول للمكملات الرياضية في المنطقة.",
+      "nameEn": "Sporter",
+      "descriptionEn": "Best coupon codes and offers for Sporter"
+    },
+    {
+      "id": "uiOkv7egsHHSFFfUXHkX",
+      "name": "800 فلاورز",
+      "description": "توصيل باقات ورد وهدايا في نفس اليوم.",
+      "nameEn": "800 Flowers",
+      "descriptionEn": "Best coupon codes and offers for 800 Flowers"
+    },
+    {
+      "id": "vW9C8rabscty0nDk22uf",
+      "name": "Bloomingdale's",
+      "description": "وجهة الفخامة الأولى للأزياء، الجمال، والمستلزمات المنزلية في الشرق الأوسط.",
+      "nameEn": "Bloomingdales",
+      "descriptionEn": "Best coupon codes and offers for Bloomingdales"
+    },
+    {
+      "id": "vrpavCc1W4qRfGZUMIOD",
+      "name": "مرسول",
+      "description": "تطبيق التوصيل الأول في السعودية.",
+      "nameEn": "Mrsool",
+      "descriptionEn": "Best coupon codes and offers for Mrsool"
+    },
+    {
+      "id": "wF5wqmlaPNMXG3Tln4TY",
+      "name": "جوميا",
+      "description": "متجر التسوق الأول في مصر.",
+      "nameEn": "Jumia",
+      "descriptionEn": "Best coupon codes and offers for Jumia"
+    },
+    {
+      "id": "xMIcEosrqpalieS9a3N3",
+      "name": "طلبات",
+      "description": "اطلب طعامك ومقاضيك بسهولة وسرعة.",
+      "nameEn": "Talabat",
+      "descriptionEn": "Best coupon codes and offers for Talabat"
+    },
+    {
+      "id": "xjot0FSRr8s99ratKtJG",
+      "name": "ممزورلد",
+      "description": "الوجهة الأولى للأم والطفل في الشرق الأوسط.",
+      "nameEn": "Mumzworld",
+      "descriptionEn": "Best coupon codes and offers for Mumzworld"
+    },
+    {
+      "id": "y009DTaqBWlvwd49ZWOC",
+      "name": "هنقرستيشن",
+      "description": "اطلب من آلاف المطاعم والمتاجر.",
+      "nameEn": "Hungerstation",
+      "descriptionEn": "Best coupon codes and offers for Hungerstation"
+    },
+    {
+      "id": "zHff3ggyhRBPEhYbS1nZ",
+      "name": "عطور ريف (Reef Perfumes)",
+      "description": "ريف للعطور – Reef Perfumes | عطور شرقية فاخرة بثبات يدوم طويلًا\n\nمتجر ريف للعطور (Reef Perfumes) من أبرز العلامات التجارية المتخصصة في بيع العطور داخل المملكة العربية السعودية ومنطقة الخليج. استطاعت العلامة خلال فترة قصيرة أن تحقق انتشارًا واسعًا بفضل جودة منتجاتها وتركيباتها العطرية المميزة التي تلبي أذواق عشاق العطور الشرقية الفاخرة.\n\nتقدم ريف للعطور مجموعة متنوعة من العطور الرجالية والنسائية التي تجمع بين الطابع العربي الأصيل واللمسة العصرية الراقية، مما يجعلها خيارًا مثاليًا للباحثين عن عطر يدوم طويلًا ويمنح حضورًا قويًا في المناسبات والاستخدام اليومي.",
+      "nameEn": "Reef Perfumes"
+    },
+    {
+      "id": "zJsM6XMfJNQTxy5pj086",
+      "name": "وست إلم",
+      "description": "أثاث وديكور منزلي عصري ومستدام.",
+      "nameEn": "West Elm",
+      "descriptionEn": "Best coupon codes and offers for West Elm"
+    }
+  ],
+  "coupons": [
+    {
+      "id": "0KO2umEijdIOgTkGXvCu",
+      "storeId": "XHBeAptewSvjjDLvlbDH",
+      "title": "خصم 10% على جميع المنتجات في الموقع",
+      "description": "خصم 10% على جميع المنتجات في الموقع للمستخدمين الجدد والقدامى\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Defacto",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Defacto.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "2EVakMjStUsYHtYoZSeU",
+      "storeId": "vW9C8rabscty0nDk22uf",
+      "title": "خصم يصل إلى 20% على المنتجات كاملة السعر وخصم 16% على المنتجات المخفضة",
+      "description": "خصم يصل إلى 20% على المنتجات كاملة السعر وخصم 16% على المنتجات المخفضة\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Bloomingdales",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Bloomingdales.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "3TYGv0fKDVfei2hRdvou",
+      "storeId": "6amXvJpjqQVVrD0QI5en",
+      "title": "خصم 10% على جميع المنتجات",
+      "description": "خصم 10% على جميع المنتجات\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Allbirds",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Allbirds.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "3c1psSur95DCcjng6SL1",
+      "storeId": "NLQDenPYT8NYn4DgJkpK",
+      "title": "خصم 4% على جميع المنتجات",
+      "description": "خصم 4% على جميع المنتجات\n",
+      "discountValue": "4%",
+      "titleEn": "4% OFF Code for Ubuy",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Ubuy.",
+      "discountValueEn": "4% OFF"
+    },
+    {
+      "id": "6GhrPIEbUMp30xJY74Xb",
+      "storeId": "61TDpWYCY5hSJHVziuqf",
+      "title": "خصم 15% على المنتجات كاملة السعر | المنتجات الجديدة والمستعملة",
+      "description": "خصم 15% على المنتجات كاملة السعر | المنتجات الجديدة والمستعملة\n",
+      "discountValue": "15%",
+      "titleEn": "15% OFF Code for Kiabi",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Kiabi.",
+      "discountValueEn": "15% OFF"
+    },
+    {
+      "id": "6h8H3lx6FZO8o2Sp1U8K",
+      "storeId": "IqwDQK4Cl7nUhOXMxmyq",
+      "title": "توصيل مجاني",
+      "description": "يسري العرض على جميع المستخدمين. الحد الأدنى لقيمة سلة المشتريات هو 49 ريال سعودي للاستفادة من العرض. شروط وأحكام رمز الخصم: يُرجى العلم أنه في حال عدم استخدام رمز الخصم الخاص بك خلال 30 يومًا، سيتم إلغاؤه تلقائيًا.\n",
+      "discountValue": "توصيل مجاني",
+      "titleEn": "Special Offer at Toyou",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Toyou.",
+      "discountValueEn": "توصيل مجاني"
+    },
+    {
+      "id": "DieUE8o3zu3aMKPbRBO7",
+      "storeId": "r6Zi9juqzCCJe9VX695b",
+      "title": "خصم 7% على الفنادق، واسترداد نقدي 5% على رحلات الطيران",
+      "description": "خصم 7% على الفنادق، واسترداد نقدي 5% على رحلات الطيران\n",
+      "discountValue": "7%",
+      "titleEn": "7% OFF Code for Almatar",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Almatar.",
+      "discountValueEn": "7% OFF"
+    },
+    {
+      "id": "Dlxyms0ghBqtkSc1khUH",
+      "storeId": "vW9C8rabscty0nDk22uf",
+      "title": "خصم يصل إلى 20% على المنتجات كاملة السعر",
+      "description": "خصم يصل إلى 20% على المنتجات كاملة السعر وخصم 16% على المنتجات المخفضة\n",
+      "discountValue": "20",
+      "titleEn": "20 Code for Bloomingdales",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Bloomingdales.",
+      "discountValueEn": "20"
+    },
+    {
+      "id": "DrmWCllbOm20sSP2ndvJ",
+      "storeId": "IqwDQK4Cl7nUhOXMxmyq",
+      "title": "توصيل مجاني للطلبات فوق 90 ريال",
+      "description": "للعملاء الجدد.",
+      "discountValue": "توصيل مجاني",
+      "titleEn": "Special Offer at Toyou",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Toyou.",
+      "discountValueEn": "توصيل مجاني"
+    },
+    {
+      "id": "EFB5JgOiwMpo1bSHGm4l",
+      "storeId": "CFx1TIByOwAk7JUZPbbm",
+      "title": "استرداد نقدي بقيمة 25 ريال سعودي",
+      "description": "استرداد نقدي بقيمة 25 ريال سعودي\n",
+      "discountValue": "25 ريال كاش باك",
+      "titleEn": "Special Offer at Waffrah",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Waffrah.",
+      "discountValueEn": "25 SAR OFF"
+    },
+    {
+      "id": "KzYcVnxzTEam180gjAF7",
+      "storeId": "FU6PJj7wKLxDVN5gjNvu",
+      "title": "خصم 10% على جميع المشدات واللانجري",
+      "description": "احصلي على قوام مثالي مع مشدات مترو برازيل الأصلية بخصم إضافي.",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Metro Brazil",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Metro Brazil.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "NBihiAddxGJtPyoEYpqk",
+      "storeId": "iEdtbdu2BewCiSak1aZe",
+      "title": "10% حتى 50 جنيهًا مصريًا إلى 5% حتى 25 جنيهًا مصريًا",
+      "description": "من 10% حتى 50 جنيهًا مصريًا إلى 5% حتى 25 جنيهًا مصريًا\n",
+      "discountValue": "10%",
+      "titleEn": "Special Offer at نون",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at نون.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "OrJH1ZQT8fzPhRBxDFA2",
+      "storeId": "zHff3ggyhRBPEhYbS1nZ",
+      "title": "خصم 5% على جميع المنتجات",
+      "description": "خصم 5% على جميع المنتجات\n",
+      "discountValue": "5%",
+      "titleEn": "5% OFF Code for Reef Perfumes",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Reef Perfumes.",
+      "discountValueEn": "5% OFF"
+    },
+    {
+      "id": "PNb0oLxzNYFrEpHlK1Kw",
+      "storeId": "jQpXsV3gj4TrrJzIjsg7",
+      "title": "أمريكان إيجل مصر - كوبون خصم 10%",
+      "description": "أمريكان إيجل مصر - كوبون خصم 10%",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for American Eagle",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at American Eagle.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "PlrtyHXzlZl1BvTeFQTs",
+      "storeId": "xjot0FSRr8s99ratKtJG",
+      "title": "خصم 10% يصل إلى 50 درهمًا إماراتيًا",
+      "description": "خصم 10% يصل إلى 50 درهمًا إماراتيًا\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Mumzworld",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Mumzworld.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "RMNJIwmMUl7zqbGd1LwB",
+      "storeId": "nNMRPY6AadGGxUhP395M",
+      "title": "العملاء الجدد والعملاء الدائمون: استرداد نقدي بنسبة 5%",
+      "description": "الحد الأقصى للاسترداد النقدي: حتى 10 دراهم إماراتية/ريال سعودي\n",
+      "discountValue": "5%",
+      "titleEn": "Special Offer at Namshi",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Namshi.",
+      "discountValueEn": "5% OFF"
+    },
+    {
+      "id": "Sxx8PQtNKNfFXblLLg64",
+      "storeId": "NLQDenPYT8NYn4DgJkpK",
+      "title": "خصم 4% على جميع المنتجات",
+      "description": "خصم 4% على جميع المنتجات\n",
+      "discountValue": "4%",
+      "titleEn": "4% OFF Code for Ubuy",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Ubuy.",
+      "discountValueEn": "4% OFF"
+    },
+    {
+      "id": "UZ7xv2IaQvzL0C7jJkbJ",
+      "storeId": "tdLIAm4noEeAybwUTUSY",
+      "title": "خصم 10% (حتى 1 درهم إماراتي) + توصيل مجاني.",
+      "description": "خصم 10% (حتى 1 درهم إماراتي) + توصيل مجاني.\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Nownow",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Nownow.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "VC4veZlAQMTnpHN4oSLi",
+      "storeId": "uSKS7VQnPGhsnqm6dpBW",
+      "title": "خصم 10%",
+      "description": "خصم 10%\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Sporter",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Sporter.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "VGGP6PboHdPb45NNI9OY",
+      "storeId": "NLQDenPYT8NYn4DgJkpK",
+      "title": "خصم 4% على جميع المنتجات",
+      "description": "خصم 4% على جميع المنتجات\n",
+      "discountValue": "4% ",
+      "titleEn": "4% OFF Code for Ubuy",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Ubuy.",
+      "discountValueEn": "4% OFF"
+    },
+    {
+      "id": "VWRKWkypfF9SyoPq9OjS",
+      "storeId": "QiQi9j4dSPylehQaZKXy",
+      "title": "حزمة كوبونات بقيمة 400 ريال/درهم",
+      "description": "للمستخدمين الجدد عند تحميل التطبيق.",
+      "discountValue": "مكافأة 400 ريال",
+      "titleEn": "Special Offer at Temu",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Temu.",
+      "discountValueEn": "400 SAR OFF"
+    },
+    {
+      "id": "WCrlXBNFCp0JEnsJxsmF",
+      "storeId": "orGKfTztiLWFe5gVKcJk",
+      "title": "20% لجميع العملاء",
+      "description": "يمكن استخدام رمز القسيمة عند الشراء بقيمة 10 دولارات أو أكثر.\n",
+      "discountValue": "20%",
+      "titleEn": "Special Offer at Glasseslit",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Glasseslit.",
+      "discountValueEn": "20% OFF"
+    },
+    {
+      "id": "Yyzus2qn2HecO3gQIy1n",
+      "storeId": "iEdtbdu2BewCiSak1aZe",
+      "title": "10% حتى 50 درهمًا كاش باك",
+      "description": "10% حتى 50 درهمًا إماراتيًا للعملاء الجدد و5% حتى 10 دراهم إماراتية للعملاء المتكررين (كاش باك)\n",
+      "discountValue": "10%",
+      "titleEn": "Special Offer at نون",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at نون.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "cyjikuSc5VsZsr8lA1E6",
+      "storeId": "iEdtbdu2BewCiSak1aZe",
+      "title": "10% كاش باك حتى 25 درهم",
+      "description": "كود خصم نون 10% كاش باك ",
+      "discountValue": "10%",
+      "titleEn": "Special Offer at نون",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at نون.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "dHTLsGWkiD4Njf2d13Ao",
+      "storeId": "8Ek3bdykgQqMk9gsh9Wm",
+      "title": "خصم حتى 10% ",
+      "description": "الفيتامينات والمعادن -10%، منتجات التخسيس -10%، الوجبات الخفيفة الصحية -10%، الباقات/الاشتراكات -10%، العروض والخصومات -2%، البروتينات والتغذية الرياضية -5%\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Almaithaly",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Almaithaly.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "e5EHc0o1Yuzg71v09Iay",
+      "storeId": "iEdtbdu2BewCiSak1aZe",
+      "title": "10% كاش باك عرض رمضان",
+      "description": "عرض رمضان من نون الإمارات10% كاش باك",
+      "discountValue": "10%",
+      "titleEn": "Special Offer at نون",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at نون.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "f9P3CD1VSXlFQ18OerI6",
+      "storeId": "W94saUfEdd1k2TJ65G7P",
+      "title": "خصم 10% على السعر الكامل وخصم 5% على السعر المخفّض",
+      "description": "خصم 10% على السعر الكامل وخصم 5% على السعر المخفّض",
+      "discountValue": "5%",
+      "titleEn": "5% OFF Code for جاب",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at جاب.",
+      "discountValueEn": "5% OFF"
+    },
+    {
+      "id": "fcdgDgWvREcRS5l85sCN",
+      "storeId": "iEdtbdu2BewCiSak1aZe",
+      "title": "عرض رمضان 10% كاش باك",
+      "description": "عرض رمضان من نون السعودية 10% كاش باك",
+      "discountValue": "10%",
+      "titleEn": "Special Offer at نون",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at نون.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "fh9cSBBiY89aQEJoUY3R",
+      "storeId": "uiOkv7egsHHSFFfUXHkX",
+      "title": "خصم 15% على جميع المنتجات",
+      "description": "خصم 15% على جميع المنتجات\n",
+      "discountValue": "15%",
+      "titleEn": "15% OFF Code for 800 Flowers",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at 800 Flowers.",
+      "discountValueEn": "15% OFF"
+    },
+    {
+      "id": "hyocqwKQRw1C2JUGJNj8",
+      "storeId": "4fPoAtA3szjFgMvsg9OS",
+      "title": "خصم 15%",
+      "description": "خصم 15%\n",
+      "discountValue": "15%",
+      "titleEn": "15% OFF Code for Maje",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Maje.",
+      "discountValueEn": "15% OFF"
+    },
+    {
+      "id": "iffBkLcFLBRHKM5oaZfr",
+      "storeId": "3kXGgye09M34D52LDWD7",
+      "title": "خصم 10% على جميع المنتجات",
+      "description": "خصم 10% على جميع المنتجات\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for The Body Shop",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at The Body Shop.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "igHbpZriAWUDO99JNcxS",
+      "storeId": "FU6PJj7wKLxDVN5gjNvu",
+      "title": "خصم 10% للعملاء الجدد والقدامى",
+      "description": null,
+      "discountValue": "10",
+      "titleEn": "10 Code for Metro Brazil",
+      "descriptionEn": "",
+      "discountValueEn": "10"
+    },
+    {
+      "id": "lPjLtR2XEYH9vKjxcoxM",
+      "storeId": "bOM4eUmcfiQjRAsm0Ivb",
+      "title": "خصم إضافي بنسبة 10% بحد أقصى 300",
+      "description": "خصم إضافي بنسبة 10% بحد أقصى 300\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Samsung",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Samsung.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "nB0cjaXKB6s7UFGQqJS2",
+      "storeId": "mkwAzNIpOIIgFEecEOFn",
+      "title": "خصم حتى 10%",
+      "description": "بروتين: 5%، رياضي: 10%، تغذية، فيتامينات ومعادن، منتجات إنقاص الوزن، وجبات خفيفة صحية، عبوات\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Doctor Nutrition",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Doctor Nutrition.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "rT9f3ZlVJb1PzKsmb1jd",
+      "storeId": "nia6sbpYksdYmm9LW9EL",
+      "title": "خصم 5% على المنتجات كاملة السعر",
+      "description": "خصم 5% فقط على المنتجات كاملة السعر. لا يسري هذا الخصم على شراء العلامات التجارية العالمية.\n",
+      "discountValue": "5%",
+      "titleEn": "5% OFF Code for Damas",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Damas.",
+      "discountValueEn": "5% OFF"
+    },
+    {
+      "id": "shIBO84r8J2YukpBlTi6",
+      "storeId": "sW24d2JjlLegA0WWrfl4",
+      "title": "خصم 15% على المنتجات كاملة السعر",
+      "description": "خصم 15% على المنتجات كاملة السعر وخصم 10% على المنتجات المخفضة\n",
+      "discountValue": null,
+      "titleEn": "Discount Code for Mamas Papas",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Mamas Papas.",
+      "discountValueEn": ""
+    },
+    {
+      "id": "v4hx50zUpLryCekpKkeM",
+      "storeId": "VVBYjWOYJdF2qcyIJ0ub",
+      "title": "خصومات متغيرة (خصم مختلف لكل منتج) تتراوح من 20% إلى 80% (باستثناء منتجات التجميل)",
+      "description": "خصومات متغيرة (خصم مختلف لكل منتج) تتراوح من 20% إلى 80% (باستثناء منتجات التجميل)",
+      "discountValue": "20%",
+      "titleEn": "20% OFF Code for Vogacloset",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Vogacloset.",
+      "discountValueEn": "20% OFF"
+    },
+    {
+      "id": "vzauPdBRxl4Gw5mpGPfh",
+      "storeId": "3jrd2QZV2cF7A1Me9ymz",
+      "title": "خصم 10% على جميع المنتجات",
+      "description": "خصم 10% على جميع المنتجات (الإلكترونيات، والهدايا الترويجية، والخدمات الترويجية - باستثناء التركيب المجاني)\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for Ace",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Ace.",
+      "discountValueEn": "10% OFF"
+    },
+    {
+      "id": "xZ8Esbb22yWk5AT12Rub",
+      "storeId": "FU6PJj7wKLxDVN5gjNvu",
+      "title": "خصم 10% لكل العملاء",
+      "description": "خصم 10% لكل العملاء",
+      "discountValue": "20%",
+      "titleEn": "20% OFF Code for Metro Brazil",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Metro Brazil.",
+      "discountValueEn": "20% OFF"
+    },
+    {
+      "id": "yCeGkuEIZE0t8aehtdRg",
+      "storeId": "02IkDmPnaW2PaiVEfUoU",
+      "title": "خصم حتى 60% ",
+      "description": "خصم حتى 60% في رمضان",
+      "discountValue": "60%",
+      "titleEn": "60% OFF Code for Aliexpress",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at Aliexpress.",
+      "discountValueEn": "60% OFF"
+    },
+    {
+      "id": "yMGFUUyx7yOtUO6iiKyS",
+      "storeId": "3kXGgye09M34D52LDWD7",
+      "title": "خصم 10% على جميع المنتجات",
+      "description": "خصم 10% على جميع المنتجات\n",
+      "discountValue": "10%",
+      "titleEn": "10% OFF Code for The Body Shop",
+      "descriptionEn": "Use this coupon code at checkout to get the best deal at The Body Shop.",
+      "discountValueEn": "10% OFF"
+    }
+  ]
+}

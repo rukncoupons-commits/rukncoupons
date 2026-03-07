@@ -55,6 +55,7 @@ export interface Rule {
 export interface Category {
     id: string;
     name: string;
+    nameEn?: string;
     icon?: string;
     slug: string;
     type?: 'store' | 'blog';
@@ -66,6 +67,7 @@ export interface Country {
     id: string;
     code: string;
     name: string;
+    nameEn?: string;
     currency: string;
     introTitle: string;
     introDesc: string;
@@ -75,9 +77,13 @@ export interface Country {
 export interface Slide {
     id: string;
     image: string;
+    imageUrlEn?: string;
     title?: string;
+    titleEn?: string;
     description?: string;
+    descriptionEn?: string;
     linkUrl?: string;
+    linkUrlEn?: string;
     countryCode?: string;
     countryCodes?: string[];
 }
@@ -86,9 +92,13 @@ export interface AdBanner {
     id: string;
     type?: 'image' | 'html';
     htmlContent?: string;
+    htmlContentEn?: string;
     imageUrl?: string;
+    imageUrlEn?: string;
     linkUrl?: string;
+    linkUrlEn?: string;
     altText: string;
+    altTextEn?: string;
     isActive: boolean;
     order: number;
     countryCodes?: string[];
@@ -97,19 +107,28 @@ export interface AdBanner {
 export interface Store {
     id: string;
     name: string;
+    nameEn?: string;
     slug: string;
     logoUrl: string;
     storeUrl?: string;
     countryCodes: string[];
     description: string;
+    descriptionEn?: string;
     longDescription: string;
+    longDescriptionEn?: string;
     longDescriptions?: { [countryCode: string]: string };
     shippingInfo: string;
+    shippingInfoEn?: string;
     returnPolicy: string;
+    returnPolicyEn?: string;
     category?: string;
     isActive?: boolean;
     seo?: SeoConfig;
     countrySeo?: { [countryCode: string]: SeoConfig };
+    seoTitleEn?: string;
+    metaDescriptionEn?: string;
+    faqEn?: FAQItem[];
+    faqSchemaEn?: string;
 }
 
 export interface Coupon {
@@ -120,8 +139,11 @@ export interface Coupon {
     type: 'coupon' | 'deal';
     code?: string;
     title: string;
+    titleEn?: string;
     description: string;
+    descriptionEn?: string;
     discountValue: string;
+    discountValueEn?: string;
     expiryDate?: string;
     isActive?: boolean;
     usedCount: number;
@@ -152,10 +174,13 @@ export interface BlogPost {
     id: string;
     status: 'published' | 'draft';
     title: string;
+    titleEn?: string;
     slug: string;
     image: string;
     excerpt: string;
+    excerptEn?: string;
     content: string;
+    contentEn?: string;
     author: string;
     createdAt: string; // Replaces 'date'
     updatedAt: string;

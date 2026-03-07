@@ -11,7 +11,7 @@ import { Calendar, Tag } from "lucide-react";
 export const revalidate = 3600;
 
 interface PageProps {
-    params: Promise<{ country: string }>;
+    params: Promise<{ locale: string; country: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

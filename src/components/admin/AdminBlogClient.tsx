@@ -28,8 +28,12 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
 
     const [formData, setFormData] = useState<Partial<BlogPost>>({
         title: "",
+        titleEn: "",
         slug: "",
         content: "",
+        contentEn: "",
+        excerpt: "",
+        excerptEn: "",
         image: "",
         category: "",
         author: "ركن الكوبونات",
@@ -49,8 +53,12 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
     const resetForm = () => {
         setFormData({
             title: "",
+            titleEn: "",
             slug: "",
             content: "",
+            contentEn: "",
+            excerpt: "",
+            excerptEn: "",
             image: "",
             category: "",
             author: "ركن الكوبونات",
@@ -217,11 +225,19 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                         <h4 className="text-xs font-black text-blue-600 uppercase tracking-widest flex items-center gap-2">المعلومات المرجعية</h4>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                             <div className="space-y-2">
-                                                <label className="text-sm font-black text-slate-900 pr-2">عنوان المقال</label>
+                                                <label className="text-sm font-black text-slate-900 pr-2">عنوان المقال (عربي)</label>
                                                 <input
                                                     type="text" required
                                                     value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })}
                                                     className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 text-lg"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-black text-slate-900 pr-2">عنوان المقال (إنجليزي)</label>
+                                                <input
+                                                    type="text"
+                                                    value={formData.titleEn || ""} onChange={e => setFormData({ ...formData, titleEn: e.target.value })}
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 text-lg dir-ltr text-left"
                                                 />
                                             </div>
                                             <div className="space-y-2">
@@ -294,6 +310,22 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                 />
                                             </div>
                                             <div className="space-y-2">
+                                                <label className="text-sm font-black text-slate-900 pr-2">مقتطف قصير (عربي)</label>
+                                                <textarea
+                                                    rows={2}
+                                                    value={formData.excerpt || ""} onChange={e => setFormData({ ...formData, excerpt: e.target.value })}
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 resize-none text-sm"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-black text-slate-900 pr-2">مقتطف قصير (إنجليزي)</label>
+                                                <textarea
+                                                    rows={2}
+                                                    value={formData.excerptEn || ""} onChange={e => setFormData({ ...formData, excerptEn: e.target.value })}
+                                                    className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900 resize-none dir-ltr text-left text-sm"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
                                                 <label className="text-sm font-black text-slate-900 pr-2">الكاتب</label>
                                                 <input
                                                     type="text" required
@@ -306,7 +338,7 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
 
                                     {/* Content (Smart Editor & AI Engine) */}
                                     <div className="space-y-6">
-                                        <h4 className="text-xs font-black text-orange-600 uppercase tracking-widest flex items-center gap-2">محتوى المقال الذكي (Auto-linking & AI Engine)</h4>
+                                        <h4 className="text-xs font-black text-orange-600 uppercase tracking-widest flex items-center gap-2">محتوى المقال الذكي (عربي)</h4>
                                         <div className="space-y-2">
                                             <SmartEditor
                                                 value={formData.content || ""}
@@ -326,6 +358,21 @@ export default function AdminBlogClient({ initialPosts, categories, countries, s
                                                         }));
                                                     }
                                                 }}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* English Content */}
+                                    <div className="space-y-6">
+                                        <h4 className="text-xs font-black text-orange-600 uppercase tracking-widest flex items-center gap-2">محتوى المقال (إنجليزي)</h4>
+                                        <div className="space-y-2" dir="ltr">
+                                            <SmartEditor
+                                                value={formData.contentEn || ""}
+                                                onChange={(val) => setFormData({ ...formData, contentEn: val })}
+                                                stores={stores}
+                                                selectedCountries={formData.countryCodes || []}
+                                                onScoreChange={() => { }}
+                                                onAiIntentChange={() => { }}
                                             />
                                         </div>
                                     </div>

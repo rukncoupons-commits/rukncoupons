@@ -12,6 +12,7 @@ interface HeaderProps {
     stores?: Store[];
     categories?: Category[];
     coupons?: Coupon[];
+    locale?: string;
 }
 
 // Unified Search Result Type
@@ -25,25 +26,36 @@ type SearchResultItem = {
     score: number;
 };
 
-export default function Header({ countries, currentCountry, stores = [], categories = [], coupons = [] }: HeaderProps) {
+export default function Header({ countries, currentCountry, stores = [], categories = [], coupons = [], locale = "ar" }: HeaderProps) {
     const [searchQuery, setSearchQuery] = useState("");
     const [isCountryOpen, setIsCountryOpen] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const isEn = locale === "en";
+
+    const switchLocale = () => {
+        const newLocale = isEn ? "ar" : "en";
+        const parts = pathname.split("/");
+        // pathname: /ar/sa/... → parts=["", "ar", "sa", ...]
+        if (parts.length >= 2) {
+            parts[1] = newLocale; // Replace locale segment
+            router.push(parts.join("/"));
+        }
+    };
 
     const switchCountry = (code: string) => {
         // Save preference to disable auto-detect for 30 days
         document.cookie = `country_preference=${code}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
 
         const parts = pathname.split("/");
-        // pathname usually /sa/something... parts=["", "sa", "something"]
-        if (parts.length >= 2) {
-            parts[1] = code;
+        // pathname: /ar/sa/something → parts=["", "ar", "sa", "something"]
+        if (parts.length >= 3) {
+            parts[2] = code; // Replace the country segment
             const newPath = parts.join("/") || "/";
             router.push(`${newPath}${searchParams.toString() ? "?" + searchParams.toString() : ""}`);
         } else {
-            router.push(`/${code}`);
+            router.push(`/${locale}/${code}`);
         }
     };
 
@@ -52,7 +64,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
         const query = searchQuery.trim().toLowerCase();
         if (query) {
             const countryCode = currentCountry?.code || "sa";
-            router.push(`/${countryCode}/coupons?q=${encodeURIComponent(query)}`);
+            router.push(`/${locale}/${countryCode}/coupons?q=${encodeURIComponent(query)}`);
             setSearchQuery("");
             setShowSuggestions(false);
         }
@@ -82,7 +94,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                     id: `store-${store.id}`,
                     type: 'store',
                     title: store.name,
-                    url: `/${countryCode}/${store.slug}`,
+                    url: `/${locale}/${countryCode}/${store.slug}`,
                     imageUrl: store.logoUrl,
                     score: 3 // highest priority
                 });
@@ -98,7 +110,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                     id: `cat-${category.id}`,
                     type: 'category',
                     title: category.name,
-                    url: `/${countryCode}/categories/${category.slug}`,
+                    url: `/${locale}/${countryCode}/categories/${category.slug}`,
                     score: 2
                 });
             }
@@ -115,7 +127,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                     type: 'coupon',
                     title: coupon.title,
                     subtitle: storeName ? `كوبون يعرّض في ${storeName}` : undefined,
-                    url: `/${countryCode}/coupons?q=${encodeURIComponent(coupon.title)}`,
+                    url: `/${locale}/${countryCode}/coupons?q=${encodeURIComponent(coupon.title)}`,
                     score: 1
                 });
             }
@@ -141,9 +153,9 @@ export default function Header({ countries, currentCountry, stores = [], categor
         <header className="hidden lg:block bg-white shadow-sm sticky top-0 z-50">
             <div className="container mx-auto px-4 h-24 flex items-center justify-between gap-4">
                 {/* Logo */}
-                <Link href={`/${currentCountry?.code || ""}`} className="flex items-center gap-2 shrink-0" aria-label="الرئيسية">
-                    <div className="bg-blue-600 text-white p-1.5 rounded-lg font-bold text-xl">ركن</div>
-                    <span className="text-lg md:text-xl font-bold text-gray-800">الكوبونات</span>
+                <Link href={`/${locale}/${currentCountry?.code || "sa"}`} className="flex items-center gap-2 shrink-0" aria-label={isEn ? "Home" : "الرئيسية"}>
+                    <div className="bg-blue-600 text-white p-1.5 rounded-lg font-bold text-xl">{isEn ? "Rukn" : "ركن"}</div>
+                    <span className="text-lg md:text-xl font-bold text-gray-800">{isEn ? "Coupons" : "الكوبونات"}</span>
                 </Link>
 
                 {/* Search */}
@@ -157,14 +169,14 @@ export default function Header({ countries, currentCountry, stores = [], categor
                                 setShowSuggestions(true);
                             }}
                             onFocus={() => setShowSuggestions(true)}
-                            placeholder="ابحث عن متجر أو ماركة... (مثل نون، أمازون)"
-                            className="w-full bg-white border-2 border-gray-200 rounded-full py-3 px-5 pr-14 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all text-right text-gray-800 placeholder-gray-400 min-h-[48px]"
-                            dir="rtl"
+                            placeholder={isEn ? "Search for a store or brand... (e.g. Noon, Amazon)" : "ابحث عن متجر أو ماركة... (مثل نون، أمازون)"}
+                            className={`w-full bg-white border-2 border-gray-200 rounded-full py-3 px-5 ${isEn ? 'pl-14' : 'pr-14'} focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm transition-all ${isEn ? 'text-left' : 'text-right'} text-gray-800 placeholder-gray-400 min-h-[48px]`}
+                            dir={isEn ? "ltr" : "rtl"}
                         />
                         <button
                             type="submit"
-                            className="absolute right-2 top-1 bottom-1 w-11 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 rounded-full"
-                            aria-label="بحث"
+                            className={`absolute ${isEn ? 'left-2' : 'right-2'} top-1 bottom-1 w-11 flex items-center justify-center text-gray-400 hover:text-blue-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 rounded-full`}
+                            aria-label={isEn ? "Search" : "بحث"}
                         >
                             <Search className="w-5 h-5" aria-hidden="true" />
                         </button>
@@ -177,7 +189,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                                 <div className="max-h-80 overflow-y-auto">
                                     <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
                                         <StoreIconLucide className="w-4 h-4 text-gray-400" />
-                                        <span className="text-xs font-bold text-gray-500">نتائج بحث ذكية</span>
+                                        <span className="text-xs font-bold text-gray-500">{isEn ? "Smart Search Results" : "نتائج بحث ذكية"}</span>
                                     </div>
                                     {suggestedItems.map((item) => (
                                         <button
@@ -214,7 +226,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                                                     <span className="text-xs text-gray-500 line-clamp-1 mt-0.5">{item.subtitle}</span>
                                                 )}
                                                 <span className="text-[10px] text-gray-400 mt-1 px-1.5 py-0.5 bg-gray-100 rounded-md w-fit">
-                                                    {item.type === 'store' ? 'متجر' : item.type === 'category' ? 'قسم' : 'عرض / كوبون'}
+                                                    {item.type === 'store' ? (isEn ? 'Store' : 'متجر') : item.type === 'category' ? (isEn ? 'Category' : 'قسم') : (isEn ? 'Deal / Coupon' : 'عرض / كوبون')}
                                                 </span>
                                             </div>
                                         </button>
@@ -222,7 +234,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                                 </div>
                             ) : (
                                 <div className="p-4 text-center text-gray-500 text-sm">
-                                    لم نجد نتائج تطابق بحثك بدقة... اضغط "بحث" لرؤية جميع النتائج.
+                                    {isEn ? "No exact matches found... Press \"Search\" to see all results." : "لم نجد نتائج تطابق بحثك بدقة... اضغط \"بحث\" لرؤية جميع النتائج."}
                                 </div>
                             )}
                         </div>
@@ -231,25 +243,40 @@ export default function Header({ countries, currentCountry, stores = [], categor
 
                 {/* Actions */}
                 <div className="flex items-center gap-3">
+                    {/* Language Switcher */}
+                    <button
+                        onClick={switchLocale}
+                        className="flex items-center gap-1.5 bg-white hover:bg-gray-100 px-3 rounded-full border-2 border-gray-200 transition-colors min-h-[48px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                        aria-label={isEn ? "Switch to Arabic" : "Switch to English"}
+                        title={isEn ? "العربية" : "English"}
+                    >
+                        <svg className="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                        <span className="text-sm font-bold text-gray-800">{isEn ? "AR" : "EN"}</span>
+                    </button>
+
                     {/* Country Switcher */}
                     <div className="relative group" onMouseLeave={() => setIsCountryOpen(false)}>
                         <button
                             onClick={() => setIsCountryOpen(!isCountryOpen)}
                             className="flex items-center justify-between gap-2 bg-white hover:bg-gray-100 px-4 rounded-full border-2 border-gray-200 transition-colors min-h-[48px] min-w-[120px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             aria-expanded={isCountryOpen}
-                            aria-label="اختر الدولة"
+                            aria-label={isEn ? "Select Country" : "اختر الدولة"}
                         >
                             {currentCountry ? (
                                 <>
                                     <img
                                         src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/flags/1x1/${currentCountry.code}.svg`}
                                         className="w-6 h-6 object-cover rounded-full shadow-sm border border-gray-100"
-                                        alt={`علم ${currentCountry.name}`}
+                                        alt={isEn ? `Flag of ${currentCountry.name}` : `علم ${currentCountry.name}`}
                                     />
                                     <span className="text-sm font-bold text-gray-800">{currentCountry.name}</span>
                                 </>
                             ) : (
-                                <span className="font-bold text-sm">اختر الدولة</span>
+                                <span className="font-bold text-sm">{isEn ? "Select Country" : "اختر الدولة"}</span>
                             )}
                             <ChevronDown className="w-4 h-4 text-gray-500 transition-transform group-hover:rotate-180" />
                         </button>

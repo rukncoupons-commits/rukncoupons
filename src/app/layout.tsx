@@ -28,6 +28,14 @@ export const metadata: Metadata = {
   },
   description: "أحدث عروض المتاجر وأكواد الخصم في السعودية، الإمارات، مصر، الكويت، قطر، البحرين وعُمان.",
   robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    site: "@rukncoupons",
+  },
+  openGraph: {
+    siteName: "ركن الكوبونات",
+    locale: "ar_SA",
+  },
 };
 
 export const viewport = {
@@ -36,18 +44,24 @@ export const viewport = {
   themeColor: "#2563eb", // blue-600
 };
 
-export default function RootLayout({
+import { headers } from "next/headers";
+
+export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const headersList = await headers();
+  const locale = headersList.get("x-locale") || "ar";
+  const isEn = locale === "en";
   return (
-    <html lang="ar" dir="rtl">
+    <html lang={isEn ? "en" : "ar"} dir={isEn ? "ltr" : "rtl"}>
       <head>
         {/* Preconnect to critical domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+        <link rel="manifest" href="/manifest.json" />
         <TrackingScripts />
       </head>
       <body className={`${inter.variable} ${outfit.variable} antialiased font-sans bg-gray-50`}>

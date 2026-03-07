@@ -7,6 +7,7 @@ import React from "react";
 import { Store, Coupon, Category } from "@/lib/types";
 import CouponCardServer from "./CouponCardServer";
 import DeferredCouponsClient from "./DeferredCouponsClient";
+import { getStoreName } from "@/lib/locale-content";
 
 interface Props {
     store: Store;
@@ -14,9 +15,10 @@ interface Props {
     countryCode: string;
     countryName: string;
     categoryName?: string;
+    locale?: string;
 }
 
-export default function CouponListServer({ store, coupons, countryCode, countryName, categoryName }: Props) {
+export default function CouponListServer({ store, coupons, countryCode, countryName, categoryName, locale = "ar" }: Props) {
     const today = new Date().toISOString().split("T")[0];
     const active = coupons.filter(c => !c.expiryDate || c.expiryDate >= today);
 
@@ -31,6 +33,7 @@ export default function CouponListServer({ store, coupons, countryCode, countryN
                             store={store}
                             categoryName={categoryName}
                             countryCode={countryCode}
+                            locale={locale}
                         />
                     ))}
                     {active.length > 12 && (
@@ -45,8 +48,8 @@ export default function CouponListServer({ store, coupons, countryCode, countryN
             ) : (
                 <div className="bg-white p-16 rounded-3xl text-center border-2 border-dashed border-gray-200 w-full">
                     <div className="text-5xl mb-4" aria-hidden="true">😔</div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-2">عذراً، لا توجد كوبونات حالياً</h3>
-                    <p className="text-gray-500">نحن نعمل على إضافة عروض جديدة لمتجر {store.name} قريباً.</p>
+                    <h3 className="text-lg font-bold text-gray-800 mb-2">{locale === "en" ? "Sorry, no coupons available right now" : "عذراً، لا توجد كوبونات حالياً"}</h3>
+                    <p className="text-gray-500">{locale === "en" ? `We're working on adding new deals for ${getStoreName(locale, store)} soon.` : `نحن نعمل على إضافة عروض جديدة لمتجر ${getStoreName(locale, store)} قريباً.`}</p>
                 </div>
             )}
         </section>

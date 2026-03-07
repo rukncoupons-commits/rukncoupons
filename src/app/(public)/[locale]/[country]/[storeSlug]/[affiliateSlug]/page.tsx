@@ -13,7 +13,7 @@ import { buildAbsoluteUrl, buildHreflangAlternates, COUNTRY_CONFIG } from "@/lib
 export const revalidate = 3600;
 
 interface PageProps {
-    params: Promise<{ country: string; storeSlug: string; affiliateSlug: string }>;
+    params: Promise<{ locale: string; country: string; storeSlug: string; affiliateSlug: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

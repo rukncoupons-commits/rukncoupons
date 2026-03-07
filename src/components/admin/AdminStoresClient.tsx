@@ -3,7 +3,7 @@
 import React, { useState, useTransition } from "react";
 import { Store, Category, Country } from "@/lib/types";
 import { Search, Plus, Edit, Trash2, X, Check, Globe, Layout, Info, Link as LinkIcon, Save, Loader2, FileText, Store as StoreIcon } from "lucide-react";
-import { createStoreAction, updateStoreAction, deleteStoreAction } from "@/lib/admin-actions";
+import { createStoreAction, updateStoreAction, deleteStoreAction, toggleStoreActiveAction } from "@/lib/admin-actions";
 import { cn } from "@/lib/utils";
 import RichTextEditor from "./RichTextEditor";
 
@@ -23,14 +23,19 @@ export default function AdminStoresClient({ initialStores, categories, countries
     // Form State
     const [formData, setFormData] = useState<Partial<Store>>({
         name: "",
+        nameEn: "",
         slug: "",
         logoUrl: "",
         storeUrl: "",
         category: "",
         description: "",
+        descriptionEn: "",
         longDescription: "",
+        longDescriptionEn: "",
         shippingInfo: "",
+        shippingInfoEn: "",
         returnPolicy: "",
+        returnPolicyEn: "",
         countryCodes: [],
         isActive: true,
     });
@@ -43,14 +48,19 @@ export default function AdminStoresClient({ initialStores, categories, countries
     const resetForm = () => {
         setFormData({
             name: "",
+            nameEn: "",
             slug: "",
             logoUrl: "",
             storeUrl: "",
             category: "",
             description: "",
+            descriptionEn: "",
             longDescription: "",
+            longDescriptionEn: "",
             shippingInfo: "",
+            shippingInfoEn: "",
             returnPolicy: "",
+            returnPolicyEn: "",
             countryCodes: [],
             isActive: true,
         });
@@ -96,6 +106,14 @@ export default function AdminStoresClient({ initialStores, categories, countries
                 ? prev.countryCodes.filter(c => c !== code)
                 : [...(prev.countryCodes || []), code]
         }));
+    };
+
+    const handleToggleActive = async (store: Store) => {
+        const newIsActive = store.isActive === false ? true : false;
+        startTransition(async () => {
+            await toggleStoreActiveAction(store.id, newIsActive);
+            setStores(prev => prev.map(s => s.id === store.id ? { ...s, isActive: newIsActive } : s));
+        });
     };
 
     return (
@@ -153,6 +171,22 @@ export default function AdminStoresClient({ initialStores, categories, countries
 
                         {/* Actions Panel */}
                         <div className="absolute left-4 top-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <button
+                                onClick={() => handleToggleActive(store)}
+                                className={cn(
+                                    "p-3 border rounded-xl shadow-sm transition-all transform hover:scale-110",
+                                    store.isActive !== false
+                                        ? "bg-white border-slate-100 text-green-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200"
+                                        : "bg-white border-slate-100 text-red-600 hover:bg-green-50 hover:text-green-600 hover:border-green-200"
+                                )}
+                                title={store.isActive !== false ? "تعطيل المتجر" : "تفعيل المتجر"}
+                            >
+                                {store.isActive !== false ? (
+                                    <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18.36 6.64A9 9 0 0 1 20.77 15M6 6l12 12M3.27 15.96A9 9 0 0 1 5.64 6.64" /><circle cx="12" cy="12" r="1" /></svg>
+                                ) : (
+                                    <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" /></svg>
+                                )}
+                            </button>
                             <button
                                 onClick={() => handleEdit(store)}
                                 className="p-3 bg-white border border-slate-100 text-blue-600 rounded-xl shadow-sm hover:bg-blue-600 hover:text-white transition-all transform hover:rotate-12"
@@ -312,7 +346,7 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                     <div className="space-y-6">
                                         <h4 className="text-sm font-black text-orange-600 uppercase tracking-widest flex items-center gap-2">
                                             <FileText size={16} />
-                                            المحتوى والوصف
+                                            المحتوى والوصف (عربي)
                                         </h4>
                                         <div className="space-y-6">
                                             <div className="space-y-2">
@@ -330,6 +364,84 @@ export default function AdminStoresClient({ initialStores, categories, countries
                                                         value={formData.longDescription || ""}
                                                         onChange={(val) => setFormData({ ...formData, longDescription: val })}
                                                         placeholder="اكتب وصفاً مفصلاً للمتجر، أضف ترويسات وروابط وصور..."
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-black text-slate-900 pr-2">معلومات الشحن</label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.shippingInfo} onChange={e => setFormData({ ...formData, shippingInfo: e.target.value })}
+                                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900"
+                                                        placeholder="مثال: شحن مجاني للطلبات فوق 200 ريال"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-black text-slate-900 pr-2">سياسة الإرجاع</label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.returnPolicy} onChange={e => setFormData({ ...formData, returnPolicy: e.target.value })}
+                                                        className="w-full bg-slate-50 border-2 border-transparent focus:bg-white focus:border-blue-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900"
+                                                        placeholder="مثال: إرجاع مجاني خلال 14 يوم"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* English Content */}
+                                    <div className="space-y-6">
+                                        <h4 className="text-sm font-black text-indigo-600 uppercase tracking-widest flex items-center gap-2">
+                                            <Globe size={16} />
+                                            English Content (المحتوى الإنجليزي)
+                                        </h4>
+                                        <div className="space-y-6">
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-black text-slate-900 pr-2">Store Name (English)</label>
+                                                <input
+                                                    type="text"
+                                                    value={formData.nameEn || ""} onChange={e => setFormData({ ...formData, nameEn: e.target.value })}
+                                                    className="w-full bg-indigo-50/50 border-2 border-transparent focus:bg-white focus:border-indigo-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900" dir="ltr"
+                                                    placeholder="e.g. Noon"
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-black text-slate-900 pr-2">Short Description (English)</label>
+                                                <textarea
+                                                    rows={3}
+                                                    value={formData.descriptionEn || ""} onChange={e => setFormData({ ...formData, descriptionEn: e.target.value })}
+                                                    className="w-full bg-indigo-50/50 border-2 border-transparent focus:bg-white focus:border-indigo-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900" dir="ltr"
+                                                    placeholder="e.g. Best Noon coupon codes and deals"
+                                                ></textarea>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <label className="text-sm font-black text-slate-900 pr-2">Detailed Description (English HTML)</label>
+                                                <div className="block mt-2">
+                                                    <RichTextEditor
+                                                        value={formData.longDescriptionEn || ""}
+                                                        onChange={(val) => setFormData({ ...formData, longDescriptionEn: val })}
+                                                        placeholder="Write a detailed English description for this store..."
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-black text-slate-900 pr-2">Shipping Info (English)</label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.shippingInfoEn || ""} onChange={e => setFormData({ ...formData, shippingInfoEn: e.target.value })}
+                                                        className="w-full bg-indigo-50/50 border-2 border-transparent focus:bg-white focus:border-indigo-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900" dir="ltr"
+                                                        placeholder="e.g. Free shipping on orders over 200 SAR"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <label className="text-sm font-black text-slate-900 pr-2">Return Policy (English)</label>
+                                                    <input
+                                                        type="text"
+                                                        value={formData.returnPolicyEn || ""} onChange={e => setFormData({ ...formData, returnPolicyEn: e.target.value })}
+                                                        className="w-full bg-indigo-50/50 border-2 border-transparent focus:bg-white focus:border-indigo-500 py-4 px-6 rounded-2xl outline-none transition-all font-bold text-slate-900" dir="ltr"
+                                                        placeholder="e.g. Free returns within 14 days"
                                                     />
                                                 </div>
                                             </div>

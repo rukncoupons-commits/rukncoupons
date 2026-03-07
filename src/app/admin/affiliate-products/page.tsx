@@ -3,6 +3,8 @@ import { Metadata } from "next";
 import { getAffiliateProducts, getStores } from "@/lib/data-service";
 import AdminAffiliateProductsClient from "@/components/admin/AdminAffiliateProductsClient";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
     title: "إدارة منتجات أمازون | لوحة التحكم",
 };

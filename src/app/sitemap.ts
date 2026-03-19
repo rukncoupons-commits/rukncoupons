@@ -30,14 +30,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 priority: locale === "ar" ? 1.0 : 0.9,
                 alternates: {
                     languages: {
-                        ar: `${SITE_URL}/ar/${countryCode}`,
-                        en: `${SITE_URL}/en/${countryCode}`,
+                        [`ar-${countryCode.toUpperCase()}`]: `${SITE_URL}/ar/${countryCode}`,
+                        [`en-${countryCode.toUpperCase()}`]: `${SITE_URL}/en/${countryCode}`,
                     },
                 },
             });
 
             // 2. Static pages
-            for (const page of ["stores", "coupons", "blog", "about", "contact", "privacy"]) {
+            for (const page of ["stores", "coupons", "blog", "about", "contact", "privacy", "best-coupons", "today-deals", "new-coupons", "no-code-needed"]) {
                 entries.push({
                     url: `${SITE_URL}/${locale}/${countryCode}/${page}`,
                     lastModified: now,
@@ -45,8 +45,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                     priority: ["about", "contact", "privacy"].includes(page) ? 0.3 : 0.7,
                     alternates: {
                         languages: {
-                            ar: `${SITE_URL}/ar/${countryCode}/${page}`,
-                            en: `${SITE_URL}/en/${countryCode}/${page}`,
+                            [`ar-${countryCode.toUpperCase()}`]: `${SITE_URL}/ar/${countryCode}/${page}`,
+                            [`en-${countryCode.toUpperCase()}`]: `${SITE_URL}/en/${countryCode}/${page}`,
                         },
                     },
                 });
@@ -64,8 +64,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                     priority: locale === "ar" ? 0.9 : 0.85,
                     alternates: {
                         languages: {
-                            ar: `${SITE_URL}/ar/${countryCode}/${store.slug}`,
-                            en: `${SITE_URL}/en/${countryCode}/${store.slug}`,
+                            [`ar-${countryCode.toUpperCase()}`]: `${SITE_URL}/ar/${countryCode}/${store.slug}`,
+                            [`en-${countryCode.toUpperCase()}`]: `${SITE_URL}/en/${countryCode}/${store.slug}`,
                         },
                     },
                 });

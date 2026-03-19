@@ -6,7 +6,11 @@ interface DynamicStoreContentProps {
     countryName: string;
     countryCode: string;
     storeCategory: string;
+    locale?: string;
+    longTailKeyword?: string;
 }
+
+import { buildEnglishHowToUse, buildEnglishSavingTips } from "@/lib/seo-helpers-en";
 
 // Simple hash function for deterministic randomness
 function stringToHash(str: string): number {
@@ -24,11 +28,12 @@ const getDiscountTerm = (hash: number) => {
     return terms[hash % terms.length];
 };
 
-export default function DynamicStoreContent({ storeName, countryName, countryCode, storeCategory }: DynamicStoreContentProps) {
+export default function DynamicStoreContent({ storeName, countryName, countryCode, storeCategory, locale = 'ar', longTailKeyword }: DynamicStoreContentProps) {
     const hash = stringToHash(storeName);
     const term = getDiscountTerm(hash);
     const showYear = hash % 2 === 0;
     const year = showYear ? new Date().getFullYear().toString() : 'الحالي';
+    const isEn = locale === 'en';
 
     // -------------------------------------------------------------------------
     // TEMPLATE VARIATIONS
@@ -148,11 +153,56 @@ export default function DynamicStoreContent({ storeName, countryName, countryCod
         );
     };
 
+    const renderIntroEn = () => (
+        <div key="intro" className="mb-8 border-b border-gray-100 pb-6 text-left" dir="ltr">
+            <h2 className="text-2xl font-black text-gray-800 mb-4">Everything you need to know about {storeName} in {countryName}</h2>
+            <p className="text-gray-600 leading-relaxed text-sm">
+                {storeName} is a top destination for {storeCategory} in {countryName}. It combines quality products with great savings. By applying the latest <strong>{storeName} coupon code</strong> available, you can significantly reduce your total order cost. The platform is user-friendly and supports various secure payment methods.
+            </p>
+        </div>
+    );
+
+    const renderHowToEn = () => (
+        <div key="howto" className="mb-8 border-b border-gray-100 pb-6 text-left" dir="ltr">
+            <h2 className="text-2xl font-black text-gray-800 mb-4">How to apply a {storeName} {longTailKeyword || "discount code"}?</h2>
+            <div className="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">
+                {buildEnglishHowToUse(storeName, longTailKeyword)}
+            </div>
+        </div>
+    );
+
+    const renderTermsEn = () => (
+        <div key="terms" className="mb-8 border-b border-gray-100 pb-6 text-left" dir="ltr">
+            <h2 className="text-2xl font-black text-gray-800 mb-4">Terms and conditions</h2>
+            <ul className="list-disc list-outside ml-4 space-y-2 text-gray-600 text-sm">
+                <li>Check the expiration date. Most discounts are time-limited.</li>
+                <li>Ensure you meet any minimum purchase requirements to successfully apply the code.</li>
+                <li>Certain major brands or clearance items might be excluded from additional discounts.</li>
+            </ul>
+        </div>
+    );
+
+    const renderTipsEn = () => (
+        <div key="tips" className="mb-8 border-b border-gray-100 pb-6 text-left" dir="ltr">
+            <h2 className="text-2xl font-black text-green-700 mb-4">
+                💡 Smart shopping tips for {storeName}
+            </h2>
+            <div className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">
+                {buildEnglishSavingTips(storeName)}
+            </div>
+        </div>
+    );
+
     // -------------------------------------------------------------------------
     // RANDOM ORDER GENERATION (Deterministic via hash)
     // -------------------------------------------------------------------------
 
-    const sections = [
+    const sections = isEn ? [
+        renderIntroEn(),
+        renderHowToEn(),
+        renderTermsEn(),
+        renderTipsEn()
+    ] : [
         renderIntro(),
         renderHowTo(),
         renderTerms(),
@@ -171,7 +221,7 @@ export default function DynamicStoreContent({ storeName, countryName, countryCod
 
     // Always ensure Intro is first logically, but internal content can drift
     const finalSections = [
-        renderIntro(),
+        isEn ? renderIntroEn() : renderIntro(),
         ...sections.filter(s => s?.key !== 'intro') // Push the rest in randomized order
     ];
 
@@ -181,32 +231,38 @@ export default function DynamicStoreContent({ storeName, countryName, countryCod
             {finalSections}
 
             {/* Phase 4: Internal Linking Cross-Pollination (Un-templated Semantic Variations) */}
-            <div className="mt-8 pt-4">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">اكتشف المزيد من خيارات التوفير</h3>
+            <div className="mt-8 pt-4" dir={isEn ? "ltr" : "rtl"}>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">{isEn ? "Discover more savings options" : "اكتشف المزيد من خيارات التوفير"}</h3>
                 <div className="flex flex-wrap gap-2 text-sm">
                     <Link
-                        href={`/${countryCode}/stores?category=${storeCategory}`}
+                        href={`/${locale}/${countryCode}/stores`}
                         className="bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors font-medium text-center"
                     >
-                        استعرض متاجر {storeCategory}
+                        {isEn ? `Browse ${storeCategory} stores` : `استعرض متاجر ${storeCategory}`}
                     </Link>
                     <Link
-                        href={`/${countryCode}/ramadan-offers`}
+                        href={`/${locale}/${countryCode}/best-coupons`}
                         className="bg-yellow-50 text-yellow-700 hover:bg-yellow-100 px-4 py-2 rounded-lg transition-colors font-medium border border-yellow-200 text-center"
                     >
-                        🌙 أقوى عروض شهر رمضان
+                        {isEn ? "⭐ Best Coupons" : "⭐ أفضل الكوبونات"}
                     </Link>
                     <Link
-                        href={`/${countryCode}/white-friday`}
-                        className="bg-gray-800 text-white hover:bg-gray-900 px-4 py-2 rounded-lg transition-colors font-medium text-center"
+                        href={`/${locale}/${countryCode}/today-deals`}
+                        className="bg-green-50 text-green-700 hover:bg-green-100 px-4 py-2 rounded-lg transition-colors font-medium border border-green-200 text-center"
                     >
-                        🖤 تخفيضات البلاك فرايدي
+                        {isEn ? "🔥 Today's Deals" : "🔥 عروض اليوم"}
                     </Link>
                     <Link
-                        href={`/${countryCode}/stores`}
+                        href={`/${locale}/${countryCode}/new-coupons`}
+                        className="bg-purple-50 text-purple-700 hover:bg-purple-100 px-4 py-2 rounded-lg transition-colors font-medium border border-purple-200 text-center"
+                    >
+                        {isEn ? "✨ New Coupons" : "✨ كوبونات جديدة"}
+                    </Link>
+                    <Link
+                        href={`/${locale}/${countryCode}/no-code-needed`}
                         className="bg-gray-50 text-gray-700 hover:bg-gray-100 px-4 py-2 rounded-lg transition-colors font-medium text-center border border-gray-200"
                     >
-                        دليل كافة العلامات التجارية
+                        {isEn ? "🎯 No Code Needed" : "🎯 عروض بدون كود"}
                     </Link>
                 </div>
             </div>

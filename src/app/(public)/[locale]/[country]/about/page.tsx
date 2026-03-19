@@ -2,9 +2,10 @@ import React from "react";
 import { Metadata } from "next";
 import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
+import Link from "next/link";
 import { buildAbsoluteUrl, buildHreflangAlternates } from "@/lib/seo-helpers";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 interface PageProps {
     params: Promise<{ locale: string; country: string }>;
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             ? "Learn about our mission to provide the best discount coupons and exclusive offers in the Middle East. Rukn Coupons is your destination for smart shopping."
             : "تعرف على مهمتنا في توفير أفضل كوبونات الخصم والعروض الحصرية في الشرق الأوسط. موقع ركن الكوبونات هو وجهتك للتسوق الذكي.",
         alternates: {
-            canonical: buildAbsoluteUrl(`/${country}/about`),
+            canonical: buildAbsoluteUrl(`/${rawLocale}/${country}/about`),
             languages: buildHreflangAlternates("/about"),
         },
     };
@@ -97,6 +98,45 @@ export default async function AboutPage({ params }: PageProps) {
                                             <span className="text-sm">{isEn ? "A simple and fast design that lets you find and copy your coupon with a single click." : "تصميم بسيط وسريع يتيح لك العثور على الكوبون ونسخه بضغطة زر واحدة."}</span>
                                         </li>
                                     </ul>
+                                </section>
+
+                                <section>
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                                        <span className="w-1.5 h-8 bg-blue-600 rounded-full"></span>
+                                        {isEn ? "Who We Are" : "من نحن"}
+                                    </h2>
+                                    <div className="bg-gray-50 border-l-4 border-blue-600 p-6 rounded-r-2xl text-gray-700 leading-relaxed shadow-sm">
+                                        <p className="mb-4">
+                                            {isEn 
+                                                ? "Rukn Coupons was founded by a team of dedicated e-commerce enthusiasts and savings experts with over 10 years of experience in the Middle Eastern digital retail space. Our editorial team consists of native Arabic and English speakers who deeply understand local market nuances and the true value of every Riyal, Dirham, and Pound."
+                                                : "تأسس موقع ركن الكوبونات على يد فريق من الخبراء والمتخصصين في التجارة الإلكترونية بحصيلة خبرة تتجاوز 10 سنوات في السوق الرقمي للشرق الأوسط. يضم فريق التحرير لدينا متحدثين أصليين باللغتين العربية والإنجليزية، يدركون تماماً الفروق الدقيقة في السوق المحلي والقيمة الحقيقية لكل ريال، درهم، وجنيه."}
+                                        </p>
+                                        <p>
+                                            {isEn 
+                                                ? "We are not just an automated aggregator. We are a team of real shoppers who passionately believe that everyone deserves to pay a fair price."
+                                                : "نحن لسنا مجرد مجمّع آلي للكوبونات. نحن فريق من المتسوقين الحقيقيين الذين يؤمنون بشدة أن الجميع يستحق دفع سعر عادل ومخفض."}
+                                        </p>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                                        <span className="w-1.5 h-8 bg-blue-600 rounded-full"></span>
+                                        {isEn ? "How We Verify Coupons" : "كيف نتحقق من الكوبونات"}
+                                    </h2>
+                                    <p className="mb-4">
+                                        {isEn
+                                            ? "Trust is the absolute core of our platform. We know how frustrating it is to find a coupon code that doesn't work at checkout. That is why every single promo code on our website undergoes a rigorous manual testing process."
+                                            : "الثقة هي الجوهر الأساسي لمنصتنا. نحن نعلم مدى الإحباط الذي يسببه العثور على رمز خصم لا يعمل عند الدفع. لذلك، يخضع كل رمز ترويجي على موقعنا لعملية اختبار يدوية صارمة."}
+                                    </p>
+                                    <p className="mb-6">
+                                        {isEn
+                                            ? "Our dedicated Quality Assurance (QA) team physically tests codes on the respective store's checkout pages daily. If a code fails to provide the promised discount, it is immediately removed or distinctly marked as expired."
+                                            : "يقوم فريق ضمان الجودة (QA) المخصص لدينا باختبار الأكواد فعلياً على صفحات الدفع الخاصة بالمتاجر بشكل يومي. إذا فشل أي كود في توفير الخصم الموعود، تتم إزالته فوراً أو وضع علامة واضحة بأنه منتهي الصلاحية."}
+                                    </p>
+                                    <Link href={`/${rawLocale}/${country}/how-we-verify-coupons`} className="inline-flex items-center gap-2 font-bold text-blue-600 hover:text-blue-800 transition-colors bg-blue-50 px-6 py-3 rounded-full">
+                                        {isEn ? "Read our full Verification Methodology →" : "اقرأ منهجية التحقق الكاملة الخاصة بنا ←"}
+                                    </Link>
                                 </section>
 
                                 <section>

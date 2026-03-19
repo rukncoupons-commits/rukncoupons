@@ -151,6 +151,45 @@ export default function Sidebar({ ads, recentPosts, socialConfig, storesCount, c
                 </dl>
             </div>
 
+            {/* Local City Links */}
+            {(countryCode === "ae" || countryCode === "sa" || countryCode === "eg") && (
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                    <h3 className="font-bold text-gray-800 mb-4 border-b pb-2 flex items-center gap-2">
+                        <svg className="w-5 h-5 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        <span>{isEn ? "Local Deals" : "عروض محلية"}</span>
+                    </h3>
+                    <div className="flex flex-col gap-3">
+                        {countryCode === "ae" && (
+                            <>
+                                <Link href={`${prefix}/dubai-coupons`} className="text-sm font-bold text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 bg-gray-300 rounded-full shrink-0"></span>
+                                    {isEn ? "Dubai Coupon Codes" : "أفضل كود خصم في دبي"}
+                                </Link>
+                                <Link href={`${prefix}/abu-dhabi-coupons`} className="text-sm font-bold text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 bg-gray-300 rounded-full shrink-0"></span>
+                                    {isEn ? "Abu Dhabi Coupons" : "أكواد خصم أبوظبي"}
+                                </Link>
+                            </>
+                        )}
+                        {countryCode === "sa" && (
+                            <Link href={`${prefix}/riyadh-coupons`} className="text-sm font-bold text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 bg-gray-300 rounded-full shrink-0"></span>
+                                {isEn ? "Riyadh Coupon Codes" : "أفضل كود خصم في الرياض"}
+                            </Link>
+                        )}
+                        {countryCode === "eg" && (
+                            <Link href={`${prefix}/cairo-coupons`} className="text-sm font-bold text-gray-700 hover:text-blue-600 transition-colors flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 bg-gray-300 rounded-full shrink-0"></span>
+                                {isEn ? "Cairo Coupon Codes" : "أقوى كود خصم في القاهرة"}
+                            </Link>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* Recent blog posts */}
             {recentPosts.length > 0 && (
                 <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">

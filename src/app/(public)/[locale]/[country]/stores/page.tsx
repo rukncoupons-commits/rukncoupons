@@ -12,7 +12,6 @@ export const revalidate = 3600;
 
 interface PageProps {
     params: Promise<{ locale: string; country: string }>;
-    searchParams: Promise<{ q?: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -47,10 +46,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
 }
 
-export default async function StoresPage({ params, searchParams }: PageProps) {
+export default async function StoresPage({ params }: PageProps) {
     const { locale: rawLocale, country } = await params;
     const locale = (isValidLocale(rawLocale) ? rawLocale : DEFAULT_LOCALE) as Locale;
-    const { q } = await searchParams;
     const data = await getCountryData(country);
     const socialConfig = await getSocialConfig();
     const isEn = locale === "en";
@@ -80,17 +78,18 @@ export default async function StoresPage({ params, searchParams }: PageProps) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <StoresClient
-                initialStores={data.stores}
-                categories={data.categories}
-                allCoupons={data.coupons}
-                recentPosts={data.blogPosts.slice(0, 3)}
-                socialConfig={socialConfig}
-                adBanners={data.adBanners}
-                countryCode={country}
-                initialQuery={q}
-                locale={locale}
-            />
+            <React.Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center p-10"><div className="w-8 h-8 rounded-full border-4 border-blue-600 border-t-transparent animate-spin"></div></div>}>
+                <StoresClient
+                    initialStores={data.stores}
+                    categories={data.categories}
+                    allCoupons={data.coupons}
+                    recentPosts={data.blogPosts.slice(0, 3)}
+                    socialConfig={socialConfig}
+                    adBanners={data.adBanners}
+                    countryCode={country}
+                    locale={locale}
+                />
+            </React.Suspense>
         </>
     );
 }

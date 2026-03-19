@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -8,8 +9,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-cairo: var(--font-cairo), sans-serif;
+  --font-inter: var(--font-inter), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,7 +27,55 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+html[dir="rtl"] body, body[dir="rtl"] {
+  font-family: var(--font-cairo), sans-serif;
+}
+
+html[dir="ltr"] body, body[dir="ltr"] {
+  font-family: var(--font-inter), sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GLOBAL TYPOGRAPHY (LTR VS RTL)
+   ═══════════════════════════════════════════════════════════ */
+
+/* English / LTR Context */
+:where([dir="ltr"] h1,
+  [dir="ltr"] h2,
+  [dir="ltr"] h3,
+  [dir="ltr"] h4,
+  [dir="ltr"] h5,
+  [dir="ltr"] h6) {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Arabic / RTL Context */
+:where([dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3,
+  [dir="rtl"] h4,
+  [dir="rtl"] h5,
+  [dir="rtl"] h6) {
+  font-weight: 800;
+  /* Cairo needs heavier weights for headings */
+}
+
+:where([dir="rtl"] p,
+  [dir="rtl"] span,
+  [dir="rtl"] div,
+  [dir="rtl"] a,
+  [dir="rtl"] li) {
+  font-weight: 500;
+  /* Cairo standard text reads better slightly thicker than 400 */
+}
+
+/* Bold overrides within prose/content blocks */
+[dir="rtl"] strong,
+[dir="rtl"] b {
+  font-weight: 700;
 }
 
 /* ═══════════════════════════════════════════════════════════

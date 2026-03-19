@@ -17,7 +17,7 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const { country, storeSlug, affiliateSlug } = await params;
+    const { locale: rawLocale, country, storeSlug, affiliateSlug } = await params;
 
     // Only Amazon gets this feature for now
     if (!storeSlug.toLowerCase().includes('amazon')) return {};
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const data = await getCountryData(country);
     const title = `${template.title} في ${data.currentCountry?.name} | ركن الكوبونات`;
     const description = `اكتشف ${template.title} مع دليل شراء شامل، مقارنة أسعار، وأفضل العروض المتاحة حالياً على أمازون ${data.currentCountry?.name}.`;
-    const url = buildAbsoluteUrl(`/${country}/${storeSlug}/${affiliateSlug}`);
+    const url = buildAbsoluteUrl(`/${rawLocale}/${country}/${storeSlug}/${affiliateSlug}`);
 
     return {
         title,
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function AffiliateHubPage({ params }: PageProps) {
-    const { country, storeSlug, affiliateSlug } = await params;
+    const { locale: rawLocale, country, storeSlug, affiliateSlug } = await params;
 
     if (!storeSlug.toLowerCase().includes('amazon')) {
         notFound();
@@ -99,9 +99,9 @@ export default async function AffiliateHubPage({ params }: PageProps) {
             <div className="container mx-auto px-4">
                 {/* Breadcrumb */}
                 <nav aria-label="breadcrumb" className="flex mb-6 text-sm text-gray-500 gap-2">
-                    <Link href={`/${country}`} className="hover:text-blue-600">الرئيسية</Link>
+                    <Link href={`/${rawLocale}/${country}`} className="hover:text-blue-600">الرئيسية</Link>
                     <span>/</span>
-                    <Link href={`/${country}/${storeSlug}`} className="hover:text-blue-600">{storeData.store.name}</Link>
+                    <Link href={`/${rawLocale}/${country}/${storeSlug}`} className="hover:text-blue-600">{storeData.store.name}</Link>
                     <span>/</span>
                     <span className="text-gray-800 font-bold">{template.title}</span>
                 </nav>
@@ -237,7 +237,7 @@ export default async function AffiliateHubPage({ params }: PageProps) {
                                 {AmazonTemplates.filter(t => t.slug !== affiliateSlug).slice(0, 8).map(t => (
                                     <Link
                                         key={t.slug}
-                                        href={`/${country}/${storeSlug}/${t.slug}`}
+                                        href={`/${rawLocale}/${country}/${storeSlug}/${t.slug}`}
                                         className="bg-white border border-gray-200 hover:border-blue-400 hover:text-blue-600 px-4 py-3 rounded-xl text-sm font-bold text-gray-700 transition-colors shadow-sm flex items-center gap-2 group"
                                     >
                                         <ArrowLeft className="w-4 h-4 text-gray-300 group-hover:text-blue-500 transform group-hover:-translate-x-1 transition-all" />

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Country, Store, Category, Coupon } from "@/lib/types";
 import { Search, ChevronDown, Store as StoreIconLucide, Folder, TicketPercent } from "lucide-react";
+import { getCountryName, Locale } from "@/lib/i18n";
 
 interface HeaderProps {
     countries: Country[];
@@ -40,7 +41,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
         // pathname: /ar/sa/... → parts=["", "ar", "sa", ...]
         if (parts.length >= 2) {
             parts[1] = newLocale; // Replace locale segment
-            router.push(parts.join("/"));
+            window.location.href = parts.join("/");
         }
     };
 
@@ -93,7 +94,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                 results.push({
                     id: `store-${store.id}`,
                     type: 'store',
-                    title: store.name,
+                    title: isEn && (store as any).nameEn ? (store as any).nameEn : store.name,
                     url: `/${locale}/${countryCode}/${store.slug}`,
                     imageUrl: store.logoUrl,
                     score: 3 // highest priority
@@ -109,7 +110,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                 results.push({
                     id: `cat-${category.id}`,
                     type: 'category',
-                    title: category.name,
+                    title: isEn && (category as any).nameEn ? (category as any).nameEn : category.name,
                     url: `/${locale}/${countryCode}/categories/${category.slug}`,
                     score: 2
                 });
@@ -118,15 +119,17 @@ export default function Header({ countries, currentCountry, stores = [], categor
 
         // 3. Search Coupons
         coupons.forEach(coupon => {
-            const storeName = stores.find(s => s.id === coupon.storeId)?.name || '';
-            const searchIndex = `كوبون كود عرض خصم ${coupon.title} ${storeName} ${coupon.code}`.toLowerCase();
+            const storeNameRaw = stores.find(s => s.id === coupon.storeId);
+            const storeNameBase = storeNameRaw?.name || '';
+            const storeName = isEn && (storeNameRaw as any)?.nameEn ? (storeNameRaw as any).nameEn : storeNameBase;
+            const searchIndex = `كوبون كود عرض خصم ${coupon.title} ${storeNameBase} ${coupon.code}`.toLowerCase();
             const isMatch = queryWords.every(word => searchIndex.includes(word));
             if (isMatch) {
                 results.push({
                     id: `coup-${coupon.id}`,
                     type: 'coupon',
                     title: coupon.title,
-                    subtitle: storeName ? `كوبون يعرّض في ${storeName}` : undefined,
+                    subtitle: storeName ? (isEn ? `Valid at ${storeName}` : `كوبون يعرّض في ${storeName}`) : undefined,
                     url: `/${locale}/${countryCode}/coupons?q=${encodeURIComponent(coupon.title)}`,
                     score: 1
                 });
@@ -149,13 +152,24 @@ export default function Header({ countries, currentCountry, stores = [], categor
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    const priorityOrder = ["sa", "ae", "eg"];
+    const uniqueCountries = Array.from(new Map(countries.map(c => [c.code, c])).values());
+    const sortedCountries = [...uniqueCountries].sort((a, b) => {
+        const aIdx = priorityOrder.indexOf(a.code);
+        const bIdx = priorityOrder.indexOf(b.code);
+        if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+        if (aIdx !== -1) return -1;
+        if (bIdx !== -1) return 1;
+        return 0;
+    });
+
     return (
         <header className="hidden lg:block bg-white shadow-sm sticky top-0 z-50">
             <div className="container mx-auto px-4 h-24 flex items-center justify-between gap-4">
                 {/* Logo */}
                 <Link href={`/${locale}/${currentCountry?.code || "sa"}`} className="flex items-center gap-2 shrink-0" aria-label={isEn ? "Home" : "الرئيسية"}>
-                    <div className="bg-blue-600 text-white p-1.5 rounded-lg font-bold text-xl">{isEn ? "Rukn" : "ركن"}</div>
-                    <span className="text-lg md:text-xl font-bold text-gray-800">{isEn ? "Coupons" : "الكوبونات"}</span>
+                    <div className="bg-blue-600 text-white p-1.5 rounded-lg font-black text-xl">{isEn ? "Rukn" : "ركن"}</div>
+                    <span className="text-lg md:text-xl font-black text-gray-800">{isEn ? "Coupons" : "الكوبونات"}</span>
                 </Link>
 
                 {/* Search */}
@@ -246,16 +260,11 @@ export default function Header({ countries, currentCountry, stores = [], categor
                     {/* Language Switcher */}
                     <button
                         onClick={switchLocale}
-                        className="flex items-center gap-1.5 bg-white hover:bg-gray-100 px-3 rounded-full border-2 border-gray-200 transition-colors min-h-[48px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                        className="flex items-center justify-center bg-white hover:bg-gray-100 px-4 rounded-full border-2 border-gray-200 transition-colors min-h-[48px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                         aria-label={isEn ? "Switch to Arabic" : "Switch to English"}
                         title={isEn ? "العربية" : "English"}
                     >
-                        <svg className="w-5 h-5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <line x1="2" y1="12" x2="22" y2="12" />
-                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                        </svg>
-                        <span className="text-sm font-bold text-gray-800">{isEn ? "AR" : "EN"}</span>
+                        <span className="text-sm font-bold text-gray-800" style={{ fontFamily: isEn ? "var(--font-cairo), system-ui, sans-serif" : "var(--font-inter), system-ui, sans-serif" }}>{isEn ? "العربية" : "English"}</span>
                     </button>
 
                     {/* Country Switcher */}
@@ -271,9 +280,9 @@ export default function Header({ countries, currentCountry, stores = [], categor
                                     <img
                                         src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/flags/1x1/${currentCountry.code}.svg`}
                                         className="w-6 h-6 object-cover rounded-full shadow-sm border border-gray-100"
-                                        alt={isEn ? `Flag of ${currentCountry.name}` : `علم ${currentCountry.name}`}
+                                        alt={isEn ? `Flag of ${getCountryName(locale as Locale, currentCountry.code)}` : `علم ${getCountryName(locale as Locale, currentCountry.code)}`}
                                     />
-                                    <span className="text-sm font-bold text-gray-800">{currentCountry.name}</span>
+                                    <span className="text-sm font-bold text-gray-800">{getCountryName(locale as Locale, currentCountry.code)}</span>
                                 </>
                             ) : (
                                 <span className="font-bold text-sm">{isEn ? "Select Country" : "اختر الدولة"}</span>
@@ -292,7 +301,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                         {/* Dropdown */}
                         <div className={`absolute top-full right-0 w-48 pt-2 ${isCountryOpen ? 'block' : 'hidden md:group-hover:block'} animate-in fade-in slide-in-from-top-1 duration-200 z-50`}>
                             <div className="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
-                                {Array.from(new Map(countries.map(c => [c.code, c])).values()).map((country, idx) => (
+                                {sortedCountries.map((country, idx) => (
                                     <button
                                         key={`${country.code}-${idx}`}
                                         onClick={() => {
@@ -307,7 +316,7 @@ export default function Header({ countries, currentCountry, stores = [], categor
                                             className="w-5 h-5 object-cover rounded-full shadow-sm border border-gray-100"
                                             alt={`علم ${country.name}`}
                                         />
-                                        <span className="text-gray-700 font-medium">{country.name}</span>
+                                        <span className="text-gray-700 font-medium">{getCountryName(locale as Locale, country.code)}</span>
                                     </button>
                                 ))}
                             </div>

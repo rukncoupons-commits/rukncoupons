@@ -20,11 +20,18 @@ interface Props {
     locale?: string;
 }
 
-export default function CouponCardServer({ coupon, store, categoryName = "عرض خاص", countryCode, locale = "ar" }: Props) {
+export default function CouponCardServer({ coupon, store, categoryName, countryCode, locale = "ar" }: Props) {
     const today = new Date().toISOString().split("T")[0];
     const isExpired = coupon.expiryDate && coupon.expiryDate < today;
     if (isExpired) return null;
     const isEn = locale === "en";
+    const displayCategoryName = categoryName || (isEn ? "Special Offer" : "عرض خاص");
+
+    // Urgency: expires within 3 days
+    const expiresSoon = coupon.expiryDate ? (() => {
+        const diff = Math.ceil((new Date(coupon.expiryDate!).getTime() - new Date(today).getTime()) / 86400000);
+        return diff >= 0 && diff <= 3;
+    })() : false;
 
     const storeHref = store ? `/${locale}/${countryCode}/${store.slug}` : "#";
     const displayStoreName = store ? getStoreName(locale, store) : "";
@@ -74,13 +81,29 @@ export default function CouponCardServer({ coupon, store, categoryName = "عرض
             <Link href={storeHref} className="font-bold text-gray-900 text-sm mb-1 hover:text-blue-600 transition-colors">
                 {displayStoreName}
             </Link>
-            {categoryName && <p className="text-[10px] text-gray-500 font-medium mb-3">{categoryName}</p>}
+            {displayCategoryName && <p className="text-[10px] text-gray-500 font-medium mb-3">{displayCategoryName}</p>}
 
             {/* Discount badge */}
-            <div className="w-full bg-blue-50 text-blue-600 rounded-xl py-2 px-4 mb-3">
+            <div className="w-full bg-blue-50 text-blue-600 rounded-xl py-2 px-4 mb-2">
                 <span className="font-bold text-lg tracking-tight block" dir="ltr">
                     {displayDiscount}
                 </span>
+            </div>
+
+            {/* Trust & Urgency badges */}
+            <div className="flex items-center justify-center gap-2 mb-3 flex-wrap">
+                {coupon.isVerified && (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-700 bg-green-50 border border-green-200 px-2 py-0.5 rounded-full">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
+                        {isEn ? "Verified" : "متحقق منه"}
+                    </span>
+                )}
+                {expiresSoon && (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-orange-700 bg-orange-50 border border-orange-200 px-2 py-0.5 rounded-full">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                        {isEn ? "Expires Soon" : "ينتهي قريباً"}
+                    </span>
+                )}
             </div>
 
             {/* Title — always visible to Googlebot */}
@@ -106,9 +129,6 @@ export default function CouponCardServer({ coupon, store, categoryName = "عرض
                         aria-label={isEn ? `Go to ${displayStoreName}` : `الذهاب إلى متجر ${displayStoreName}`}
                     >
                         <span>{isEn ? "Visit Store" : "الذهاب للمتجر"}</span>
-                        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" />
-                        </svg>
                     </a>
                 </div>
             ) : (

@@ -146,14 +146,16 @@ export default function HomeClient({
                                 key={store.id}
                                 href={`/${countryCode}/${store.slug}`}
                                 aria-label={`متجر ${store.name}`}
-                                className="flex flex-col items-center gap-3 min-w-[80px] snap-start group cursor-pointer py-2"
+                                className="min-w-[80px] snap-start group cursor-pointer block p-2"
                             >
-                                <div className="w-20 h-20 rounded-full border-2 border-white p-1 bg-white shadow-md group-hover:border-blue-500 group-hover:shadow-lg group-hover:-translate-y-1 transition-all duration-300 flex items-center justify-center overflow-hidden">
-                                    <img src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" />
+                                <div className="flex flex-col items-center gap-3 transition-all duration-300 ease-out transform group-hover:-translate-y-2 group-hover:scale-105 origin-bottom">
+                                    <div className="w-20 h-20 rounded-full border-2 border-white p-1 bg-white shadow-sm group-hover:border-blue-500 group-hover:shadow-lg transition-all duration-300 flex items-center justify-center overflow-hidden">
+                                        <img src={store.logoUrl} alt={store.name} className="w-full h-full object-contain rounded-full" />
+                                    </div>
+                                    <span className="text-xs font-bold text-gray-700 group-hover:text-blue-600 truncate max-w-[90px] text-center transition-colors">
+                                        {store.name}
+                                    </span>
                                 </div>
-                                <span className="text-xs font-bold text-gray-700 group-hover:text-blue-600 truncate max-w-[90px] text-center transition-colors">
-                                    {store.name}
-                                </span>
                             </Link>
                         ))}
                     </div>

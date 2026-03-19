@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Country } from "@/lib/types";
+import { getCountryName, Locale } from "@/lib/i18n";
 
 interface MobileCountrySwitcherProps {
     countries: Country[];
@@ -9,6 +10,7 @@ interface MobileCountrySwitcherProps {
     isOpen: boolean;
     onClose: () => void;
     onSelect: (code: string) => void;
+    locale?: string;
 }
 
 export default function MobileCountrySwitcher({
@@ -17,6 +19,7 @@ export default function MobileCountrySwitcher({
     isOpen,
     onClose,
     onSelect,
+    locale = "ar"
 }: MobileCountrySwitcherProps) {
     const [search, setSearch] = useState("");
     const sheetRef = useRef<HTMLDivElement>(null);
@@ -26,11 +29,21 @@ export default function MobileCountrySwitcher({
         new Map(countries.map((c) => [c.code, c])).values()
     );
 
+    const priorityOrder = ["sa", "ae", "eg"];
+    const sortedCountries = [...uniqueCountries].sort((a, b) => {
+        const aIdx = priorityOrder.indexOf(a.code);
+        const bIdx = priorityOrder.indexOf(b.code);
+        if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+        if (aIdx !== -1) return -1;
+        if (bIdx !== -1) return 1;
+        return 0;
+    });
+
     const filtered = search.trim()
-        ? uniqueCountries.filter((c) =>
-            c.name.toLowerCase().includes(search.trim().toLowerCase())
+        ? sortedCountries.filter((c) =>
+            getCountryName(locale as Locale, c.code).toLowerCase().includes(search.trim().toLowerCase())
         )
-        : uniqueCountries;
+        : sortedCountries;
 
     // Close on Escape
     useEffect(() => {
@@ -130,7 +143,7 @@ export default function MobileCountrySwitcher({
                             >
                                 <img
                                     src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icons/7.2.3/flags/1x1/${country.code}.svg`}
-                                    alt={`علم ${country.name}`}
+                                    alt={locale === "en" ? `Flag of ${getCountryName(locale as Locale, country.code)}` : `علم ${getCountryName(locale as Locale, country.code)}`}
                                     width={28}
                                     height={28}
                                     style={{ borderRadius: "50%", objectFit: "cover", border: "1px solid #e5e7eb" }}

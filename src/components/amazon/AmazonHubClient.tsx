@@ -7,15 +7,17 @@ import { Copy, AlertCircle } from "lucide-react";
 interface AmazonHubClientProps {
     countryName: string;
     amazonProducts: any[]; // Simulated products or fetched data
+    locale?: string;
 }
 
-export default function AmazonHubClient({ countryName, amazonProducts }: AmazonHubClientProps) {
+export default function AmazonHubClient({ countryName, amazonProducts, locale = 'ar' }: AmazonHubClientProps) {
     const year = new Date().getFullYear();
     const [liveDate, setLiveDate] = useState("");
+    const isEn = locale === 'en';
 
     useEffect(() => {
         // Phase 7: Freshness Signal (Live Client-side)
-        setLiveDate(new Date().toLocaleDateString('ar-SA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
+        setLiveDate(new Date().toLocaleDateString(isEn ? 'en-US' : 'ar-SA', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }));
     }, []);
 
     // Phase 4: Sticky CTA logic (Mobile)
@@ -33,7 +35,7 @@ export default function AmazonHubClient({ countryName, amazonProducts }: AmazonH
     const trending = amazonProducts.filter(p => !topDeals.includes(p)).slice(0, 8);
 
     return (
-        <div className="w-full" dir="rtl">
+        <div className="w-full" dir={isEn ? "ltr" : "rtl"}>
             {/* Phase 1: Custom Hero Section */}
             <div className="bg-gradient-to-l from-gray-900 via-gray-800 to-amber-900 rounded-3xl p-8 md:p-12 mb-10 text-white relative overflow-hidden shadow-xl border-4 border-white">
                 <div className="absolute -left-20 -top-20 opacity-10 blur-3xl w-64 h-64 bg-amber-500 rounded-full"></div>
@@ -43,14 +45,21 @@ export default function AmazonHubClient({ countryName, amazonProducts }: AmazonH
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
                         </span>
-                        تم التحديث اليوم: {liveDate}
+                        {isEn ? `Updated today: ${liveDate}` : `تم التحديث اليوم: ${liveDate}`}
                     </div>
 
                     <h2 className="text-3xl md:text-5xl font-black mb-6 leading-tight">
-                        أفضل عروض <span className="text-amber-400">أمازون {countryName}</span> اليوم {year}
+                        {isEn ? (
+                            <>Best <span className="text-amber-400">Amazon {countryName}</span> Offers Today {year}</>
+                        ) : (
+                            <>أفضل عروض <span className="text-amber-400">أمازون {countryName}</span> اليوم {year}</>
+                        )}
                     </h2>
                     <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-2xl font-medium">
-                        وفر مئات الريالات مع أقوى الصفقات والمنتجات الأعلى تقييماً على أمازون. لا تبحث عن كود خصم، الأسعار المخفضة تُطبق مباشرة عبر الروابط الموثوقة أدناه.
+                        {isEn 
+                            ? "Save hundreds with the strongest deals and top-rated products on Amazon. You don't need a coupon code; discounted prices are applied directly via the verified links below." 
+                            : "وفر مئات الريالات مع أقوى الصفقات والمنتجات الأعلى تقييماً على أمازون. لا تبحث عن كود خصم، الأسعار المخفضة تُطبق مباشرة عبر الروابط الموثوقة أدناه."
+                        }
                     </p>
                 </div>
             </div>
@@ -59,9 +68,12 @@ export default function AmazonHubClient({ countryName, amazonProducts }: AmazonH
             <div className="bg-red-50 border border-red-100 rounded-2xl p-5 mb-10 flex gap-4 items-start shadow-sm">
                 <AlertCircle className="w-6 h-6 text-red-500 shrink-0 mt-0.5" />
                 <div>
-                    <h3 className="font-bold text-red-800 mb-1">تنبيه هام حول أكواد خصم أمازون</h3>
+                    <h3 className="font-bold text-red-800 mb-1">{isEn ? "Important alert about Amazon discount codes" : "تنبيه هام حول أكواد خصم أمازون"}</h3>
                     <p className="text-sm text-red-700 leading-relaxed">
-                        أمازون لا تُصدر "أكواد خصم" موقعة لجميع المنتجات. معظم المتاجر تعرض أكواد وهمية. الطريقة الحقيقية الوحيدة للتوفير هي تفعيل الصفقات المخفية وعروض اليوم المبينة أدناه مباشرة من الموقع الرسمي.
+                        {isEn 
+                            ? "Amazon does not issue 'coupon codes' for all products, and most sites display fake codes. The only real way to save is by activating hidden deals directly from the official link." 
+                            : "أمازون لا تُصدر \"أكواد خصم\" موقعة لجميع المنتجات. معظم المتاجر تعرض أكواد وهمية. الطريقة الحقيقية الوحيدة للتوفير هي تفعيل الصفقات المخفية وعروض اليوم المبينة أدناه مباشرة من الموقع الرسمي."
+                        }
                     </p>
                 </div>
             </div>
@@ -70,7 +82,7 @@ export default function AmazonHubClient({ countryName, amazonProducts }: AmazonH
             <div className="mb-14">
                 <div className="flex items-center gap-3 mb-6">
                     <span className="text-2xl">🔥</span>
-                    <h2 className="text-2xl font-black text-gray-800">أفضل صفقات اليوم في {countryName}</h2>
+                    <h2 className="text-2xl font-black text-gray-800">{isEn ? `Best deals today in ${countryName}` : `أفضل صفقات اليوم في ${countryName}`}</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {topDeals.map((product, idx) => (
@@ -83,7 +95,7 @@ export default function AmazonHubClient({ countryName, amazonProducts }: AmazonH
             <div className="mb-14">
                 <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
                     <span className="text-2xl">⭐</span>
-                    <h2 className="text-2xl font-black text-gray-800">المنتجات الأعلى تقييماً</h2>
+                    <h2 className="text-2xl font-black text-gray-800">{isEn ? "Top-rated products" : "المنتجات الأعلى تقييماً"}</h2>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {trending.map((product, idx) => (
@@ -102,11 +114,11 @@ export default function AmazonHubClient({ countryName, amazonProducts }: AmazonH
                         className="bg-gray-900 border-2 border-amber-400 shadow-[0_0_20px_rgba(0,0,0,0.3)] w-full py-4 px-6 rounded-2xl flex items-center justify-between"
                     >
                         <div className="flex flex-col">
-                            <span className="text-white font-black">عروض أمازون الحصرية</span>
-                            <span className="text-amber-400 text-xs font-bold">سينتهي العرض قريباً</span>
+                            <span className="text-white font-black">{isEn ? "Exclusive Amazon Offers" : "عروض أمازون الحصرية"}</span>
+                            <span className="text-amber-400 text-xs font-bold">{isEn ? "Offer ending soon" : "سينتهي العرض قريباً"}</span>
                         </div>
                         <span className="bg-amber-400 text-gray-900 font-bold px-4 py-2 rounded-xl text-sm">
-                            شاهد الكل
+                            {isEn ? "View All" : "شاهد الكل"}
                         </span>
                     </a>
                 </div>

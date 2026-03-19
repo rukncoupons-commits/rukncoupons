@@ -24,15 +24,9 @@ if (!admin.apps.length) {
         });
     } else {
         // Fallback for Cloud Run or build environment
-        try {
-            admin.initializeApp();
-        } catch (error) {
-            // During build, we might not have any credentials.
-            // Provide a dummy project ID to prevent SDK crashes during module evaluation.
-            admin.initializeApp({
-                projectId: projectId || "build-placeholder",
-            });
-        }
+        admin.initializeApp({
+            projectId: projectId || process.env.GOOGLE_CLOUD_PROJECT || "build-placeholder",
+        });
     }
 }
 

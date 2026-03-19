@@ -1,0 +1,665 @@
+[
+  {
+    "id": "02IkDmPnaW2PaiVEfUoU",
+    "slug": "aliexpress",
+    "name": "علي إكسبرس",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "24rNk0Pgw55hl9Ogiptd",
+    "slug": "whites",
+    "name": "صيدلية وايتس",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "2Q7TlJBWVrlXFvn7tHgC",
+    "slug": "toys-r-us",
+    "name": "تويز آر أص",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "3jrd2QZV2cF7A1Me9ymz",
+    "slug": "ace",
+    "name": "إيس",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "3kXGgye09M34D52LDWD7",
+    "slug": "the-body-shop",
+    "name": "ذا بودي شوب",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "48cIUwiWpnQtiWC7mshx",
+    "slug": "carrefour",
+    "name": "كارفور",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "4fPoAtA3szjFgMvsg9OS",
+    "slug": "maje",
+    "name": "ماج",
+    "missing": [
+      "seoEn"
+    ]
+  },
+  {
+    "id": "5N52OOu6jDSPeIxZOSWz",
+    "slug": "faces",
+    "name": "فيسز (وجوه سابقاً)",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "61TDpWYCY5hSJHVziuqf",
+    "slug": "kiabi",
+    "name": "كيابي",
+    "missing": [
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "6PqF8bgdYo4HFYa6FiQ6",
+    "slug": "next",
+    "name": "نكست",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "6amXvJpjqQVVrD0QI5en",
+    "slug": "allbirds",
+    "name": "أول بيردز",
+    "missing": [
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "8Ek3bdykgQqMk9gsh9Wm",
+    "slug": "almaithaly",
+    "name": "الميثالي",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "9E2wqR7q3MmbGiBfE6my",
+    "slug": "ounass",
+    "name": "أناس",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "B9qOQlj3eRBIZ3MjUqKw",
+    "slug": "virgin-megastore",
+    "name": "فيرجن ميجاستور",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "CFx1TIByOwAk7JUZPbbm",
+    "slug": "waffrah",
+    "name": "وفرة",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "CcU8y47jyFzusYFo51sx",
+    "slug": "b-tech",
+    "name": "بي تك",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "D47UJsBqjOtdxEJK3g0t",
+    "slug": "bath-body-works",
+    "name": "باث & بودي وركس",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "Ea3lQUlutVWL3Gxlntij",
+    "slug": "firstcry",
+    "name": "فيرست كراي",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "FAPv8K4nwZHpCKFMNCPM",
+    "slug": "throwmenot",
+    "name": "ThrowMeNot",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "FU6PJj7wKLxDVN5gjNvu",
+    "slug": "metro-brazil",
+    "name": "مترو برازيل",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "IqwDQK4Cl7nUhOXMxmyq",
+    "slug": "toyou",
+    "name": "ToYou",
+    "missing": [
+      "seoEn"
+    ]
+  },
+  {
+    "id": "Jc6oRzbHKNnhDLp8GBBV",
+    "slug": "jarir",
+    "name": "جرير",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "LDuiDFSNMaeJRBgprONt",
+    "slug": "hm",
+    "name": "H&M",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "MsABCvjmvs3aqdlWrTEn",
+    "slug": "almosafer",
+    "name": "المسافر",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "NLQDenPYT8NYn4DgJkpK",
+    "slug": "ubuy",
+    "name": "يوباي",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "QhZMgNj2rfA95Jzb50Jr",
+    "slug": "6th-street",
+    "name": "٦ ستريت",
+    "missing": [
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "QiQi9j4dSPylehQaZKXy",
+    "slug": "temu",
+    "name": "تيمو",
+    "missing": [
+      "seoEn"
+    ]
+  },
+  {
+    "id": "RIwvsxyibeFyBfWAPZ1Z",
+    "slug": "home-centre",
+    "name": "هوم سنتر",
+    "missing": [
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "TqsOLaoLhVIJxvWzIChH",
+    "slug": "mothercare",
+    "name": "مذركير",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "VVBYjWOYJdF2qcyIJ0ub",
+    "slug": "vogacloset",
+    "name": "فوغا كلوسيت",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "W94saUfEdd1k2TJ65G7P",
+    "slug": "جاب",
+    "name": "جاب",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "XHBeAptewSvjjDLvlbDH",
+    "slug": "defacto",
+    "name": "ديفاكتو",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "ZPFRdpL4w3X3mU7kouRF",
+    "slug": "pottery-barn",
+    "name": "بوتري بارن",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "aZN1H6V1D5IjP365b4oQ",
+    "slug": "extra",
+    "name": "إكسترا",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "aqFqOXSDrkqzv2mnAjAU",
+    "slug": "amazon",
+    "name": "أمازون",
+    "missing": [
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "bJqJvNN1IsHLPJkA5s5a",
+    "slug": "booking",
+    "name": "بوكينج",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "bOM4eUmcfiQjRAsm0Ivb",
+    "slug": "samsung",
+    "name": "سامسونج",
+    "missing": [
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "eFIyHhZseKlX5m1tAlzm",
+    "slug": "jahez",
+    "name": "جاهز",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "fzv1Mm8US2egmtnp7RBE",
+    "slug": "nahdi",
+    "name": "صيدلية النهدي",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "gKGc0J0OBRzZDpGmeBnB",
+    "slug": "victorias-secret",
+    "name": "فيكتوريا سيكريت",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "iEdtbdu2BewCiSak1aZe",
+    "slug": "نون",
+    "name": "نون",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "jQpXsV3gj4TrrJzIjsg7",
+    "slug": "american-eagle",
+    "name": "أمريكان إيجل",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "jf6jH1TCDRcoMb1fXkqo",
+    "slug": "ikea",
+    "name": "ايكيا",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "kF81mKY33w1Nfpqf9AyG",
+    "slug": "shein",
+    "name": "شي إن",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "l5deuD0vQNp99anyX2Wh",
+    "slug": "sivvi",
+    "name": "سيفي",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "mLFRIHAsiEEmyrgVrt22",
+    "slug": "level-shoes",
+    "name": "ليڤيل شوز",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "mkwAzNIpOIIgFEecEOFn",
+    "slug": "doctor-nutrition",
+    "name": "دكتور نيوترشن",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "n5aDUSnelD8YfBrx3YGV",
+    "slug": "centrepoint",
+    "name": "سنتربوينت",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "nNMRPY6AadGGxUhP395M",
+    "slug": "namshi",
+    "name": "نمشي",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "nia6sbpYksdYmm9LW9EL",
+    "slug": "damas",
+    "name": "مجوهرات داماس",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "o80qLKd8DtOBnXtiTgyZ",
+    "slug": "iherb",
+    "name": "آي هيرب",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "ojY5IigIlmqc0dfiFRAr",
+    "slug": "max-fashion",
+    "name": "ماكس فاشون",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "orGKfTztiLWFe5gVKcJk",
+    "slug": "glasseslit",
+    "name": "Glasseslit",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "qGdorPDIN2Eep6a8hrDO",
+    "slug": "sephora",
+    "name": "سيفورا",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "r4oZVTcRUmMzFJCyb6aM",
+    "slug": "splash",
+    "name": "سبلاش",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "r6Zi9juqzCCJe9VX695b",
+    "slug": "almatar",
+    "name": "المطار",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "rPbGRitp99dP84ybqaDN",
+    "slug": "agoda",
+    "name": "أجودا",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "sW24d2JjlLegA0WWrfl4",
+    "slug": "mamas-papas",
+    "name": "ماماز وباباز",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "tdLIAm4noEeAybwUTUSY",
+    "slug": "nownow",
+    "name": "ناو ناو",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "uSKS7VQnPGhsnqm6dpBW",
+    "slug": "sporter",
+    "name": "سبورتر",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "uiOkv7egsHHSFFfUXHkX",
+    "slug": "800-flowers",
+    "name": "800 فلاورز",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "vW9C8rabscty0nDk22uf",
+    "slug": "bloomingdales",
+    "name": "Bloomingdale's",
+    "missing": [
+      "shippingInfoEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "vrpavCc1W4qRfGZUMIOD",
+    "slug": "mrsool",
+    "name": "مرسول",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "wF5wqmlaPNMXG3Tln4TY",
+    "slug": "jumia",
+    "name": "جوميا",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "xMIcEosrqpalieS9a3N3",
+    "slug": "talabat",
+    "name": "طلبات",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "xjot0FSRr8s99ratKtJG",
+    "slug": "mumzworld",
+    "name": "ممزورلد",
+    "missing": [
+      "seoEn"
+    ]
+  },
+  {
+    "id": "y009DTaqBWlvwd49ZWOC",
+    "slug": "hungerstation",
+    "name": "هنقرستيشن",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "zHff3ggyhRBPEhYbS1nZ",
+    "slug": "reef-perfumes",
+    "name": "عطور ريف (Reef Perfumes)",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  },
+  {
+    "id": "zJsM6XMfJNQTxy5pj086",
+    "slug": "west-elm",
+    "name": "وست إلم",
+    "missing": [
+      "shippingInfoEn",
+      "returnPolicyEn",
+      "seoEn"
+    ]
+  }
+]

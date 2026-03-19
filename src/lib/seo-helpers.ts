@@ -52,12 +52,18 @@ export function getHreflangByCountry(countryCode: string): string {
  */
 export function buildHreflangAlternates(pathSuffix: string = "") {
     const languages: Record<string, string> = {};
+    const cleanSuffix = pathSuffix.startsWith("/") ? pathSuffix : `/${pathSuffix}`;
+
     for (const code of SUPPORTED_COUNTRIES) {
-        const hreflang = getHreflangByCountry(code);
-        languages[hreflang] = buildAbsoluteUrl(`/${code}${pathSuffix}`);
+        const arHreflang = `ar-${code.toUpperCase()}`; // e.g. ar-SA
+        const enHreflang = `en-${code.toUpperCase()}`; // e.g. en-SA
+
+        languages[arHreflang] = buildAbsoluteUrl(`/ar/${code}${cleanSuffix}`);
+        languages[enHreflang] = buildAbsoluteUrl(`/en/${code}${cleanSuffix}`);
     }
-    // x-default → root domain (auto-detects country)
-    languages["x-default"] = buildAbsoluteUrl(`/${pathSuffix || "/"}`);
+
+    // x-default → Arabic Saudi Arabia 
+    languages["x-default"] = buildAbsoluteUrl(`/ar/sa${cleanSuffix}`);
     return languages;
 }
 
@@ -106,12 +112,12 @@ export function buildOrganizationSchema() {
                 "url": SITE_URL,
                 "name": "ركن الكوبونات",
                 "publisher": { "@id": `${SITE_URL}/#organization` },
-                "inLanguage": "ar",
+                "inLanguage": ["ar", "en"],
                 "potentialAction": {
                     "@type": "SearchAction",
                     "target": {
                         "@type": "EntryPoint",
-                        "urlTemplate": `${SITE_URL}/sa/stores?q={search_term_string}`,
+                        "urlTemplate": `${SITE_URL}/ar/sa/stores?q={search_term_string}`,
                     },
                     "query-input": "required name=search_term_string",
                 },
@@ -142,10 +148,11 @@ export function buildStorePageSchema(params: {
     }[];
     countryCode: string;
     countryName: string;
+    locale: string;
 }) {
-    const { store, coupons, countryCode, countryName } = params;
+    const { store, coupons, countryCode, countryName, locale } = params;
     const currency = getCurrencyByCountry(countryCode);
-    const storeUrl = buildAbsoluteUrl(`/${countryCode}/${store.slug}`);
+    const storeUrl = buildAbsoluteUrl(`/${locale}/${countryCode}/${store.slug}`);
     const today = new Date().toISOString().split("T")[0];
 
     const activeCoupons = coupons.filter(c => !c.expiryDate || c.expiryDate >= today);
@@ -163,9 +170,9 @@ export function buildStorePageSchema(params: {
         {
             "@type": "BreadcrumbList",
             "itemListElement": [
-                { "@type": "ListItem", "position": 1, "name": "الرئيسية", "item": buildAbsoluteUrl(`/${countryCode}`) },
-                { "@type": "ListItem", "position": 2, "name": "المتاجر", "item": buildAbsoluteUrl(`/${countryCode}/stores`) },
-                { "@type": "ListItem", "position": 3, "name": `كود خصم ${store.name}`, "item": storeUrl },
+                { "@type": "ListItem", "position": 1, "name": locale === "en" ? "Home" : "الرئيسية", "item": buildAbsoluteUrl(`/${locale}/${countryCode}`) },
+                { "@type": "ListItem", "position": 2, "name": locale === "en" ? "Stores" : "المتاجر", "item": buildAbsoluteUrl(`/${locale}/${countryCode}/stores`) },
+                { "@type": "ListItem", "position": 3, "name": locale === "en" ? `${store.name} Coupon Code` : `كود خصم ${store.name}`, "item": storeUrl },
             ],
         },
     ];
@@ -180,8 +187,8 @@ export function buildStorePageSchema(params: {
                 "position": i + 1,
                 "item": {
                     "@type": "Offer",
-                    "name": c.title,
-                    "description": c.description,
+                    "name": locale === "en" ? (c as any).titleEn || c.title : c.title,
+                    "description": locale === "en" ? (c as any).descriptionEn || c.description : c.description,
                     "priceCurrency": currency,
                     ...(c.code ? { "serialNumber": c.code } : {}),
                     "offeredBy": { "@type": "Store", "name": store.name },

@@ -45,7 +45,7 @@ export default function CopyButton({ couponId, code, storeName }: CopyButtonProp
                 }`}
             aria-label={isEn ? `Copy ${storeName} discount code: ${code}` : `نسخ كود خصم ${storeName}: ${code}`}
         >
-            <span className={`font-mono font-black text-base tracking-widest ${copied ? "text-green-600" : "text-blue-700"}`} dir="ltr">
+            <span className={`font-mono font-bold text-base tracking-widest ${copied ? "text-green-600" : "text-blue-700"}`} dir="ltr">
                 {code}
             </span>
             {copied ? (

@@ -206,7 +206,7 @@ export const getStoreBySlug = cache(async (countryCode: string, slug: string) =>
     return { store, coupons: storeCoupons };
 });
 
-export async function getCouponsForStore(storeId: string, countryCode: string) {
+export const getCouponsForStore = cache(async (storeId: string, countryCode: string) => {
     const coupons = await getCoupons();
     const rules = await getRules();
     const stores = await getStores();
@@ -217,7 +217,7 @@ export async function getCouponsForStore(storeId: string, countryCode: string) {
         countryCode,
         stores
     );
-}
+});
 
 export const getPostBySlug = cache(async (countryCode: string, slug: string) => {
     const posts = await getBlogPosts();

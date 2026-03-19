@@ -66,8 +66,13 @@ export default function GeoSuggestionPopup() {
                 if (!detected) detected = 'sa';
 
                 if (detected && COUNTRY_MAP[detected]) {
-                    const pathParts = pathname.split("/").filter(Boolean);
-                    const currentUrlCountry = (pathParts[0] || "").toLowerCase();
+                    const isRoot = pathname === "/";
+                    const isLocalePath = pathname.startsWith("/ar") || pathname.startsWith("/en");
+
+                    if (!isRoot && !isLocalePath) return; // Exclude admin or other paths
+
+                    const pathParts = pathname.split("/");
+                    const currentUrlCountry = isLocalePath ? (pathParts[2] || "").toLowerCase() : "";
 
                     // If the URL country matches the detected country, no need to show
                     if (currentUrlCountry === detected) return;
@@ -93,15 +98,19 @@ export default function GeoSuggestionPopup() {
         setShowPopup(false);
 
         // Replace the current country slug in the pathname
-        const pathParts = pathname.split("/").filter(Boolean);
-        if (pathParts.length > 0 && COUNTRY_MAP[pathParts[0].toLowerCase()]) {
-            pathParts[0] = detectedCountry;
-        } else {
-            pathParts.unshift(detectedCountry);
-        }
+        const isLocalePath = pathname.startsWith("/ar") || pathname.startsWith("/en");
 
-        // Use push to navigate without full reload
-        router.push("/" + pathParts.join("/"));
+        if (isLocalePath) {
+            const parts = pathname.split("/");
+            if (parts.length >= 3) {
+                parts[2] = detectedCountry;
+                router.push(parts.join("/"));
+            } else {
+                router.push(`/${parts[1]}/${detectedCountry}`);
+            }
+        } else {
+            router.push(`/ar/${detectedCountry}`);
+        }
     };
 
     const handleDecline = () => {
@@ -112,9 +121,9 @@ export default function GeoSuggestionPopup() {
 
     return (
         <div className="fixed bottom-0 left-0 right-0 z-[100] animate-in slide-in-from-bottom duration-500">
-            <div className="max-w-4xl mx-auto m-4 bg-white rounded-2xl shadow-2xl border border-slate-100 p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="relative max-w-4xl mx-auto m-4 bg-white rounded-2xl shadow-2xl border border-slate-100 p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4">
 
-                <div className="flex items-center gap-4 text-slate-800 font-bold">
+                <div className="flex items-center gap-4 text-slate-800 font-bold flex-1">
                     <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-2xl shrink-0">
                         {countryData.flag}
                     </div>
@@ -123,7 +132,7 @@ export default function GeoSuggestionPopup() {
                     </p>
                 </div>
 
-                <div className="flex items-center gap-3 w-full md:w-auto mt-4 md:mt-0">
+                <div className="flex items-center gap-3 w-full md:w-auto mt-4 md:mt-0 shrink-0">
                     <button
                         onClick={handleDecline}
                         className="flex-1 md:flex-none px-6 py-2.5 rounded-xl text-slate-500 hover:bg-slate-50 font-bold text-sm transition-all text-center border-2 border-transparent"

@@ -85,6 +85,12 @@ export default function Footer({ currentCountryCode = "sa", locale = "ar" }: Foo
                                 {isEn ? "Privacy Policy" : "سياسة الخصوصية"}
                             </Link>
                         </li>
+                        <li>
+                            <Link href={`${prefix}/how-we-verify-coupons`} className="hover:text-white transition text-green-400 font-medium flex items-center gap-2 mt-2">
+                                <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                                {isEn ? "How We Verify Coupons" : "كيف نتحقق من الكوبونات"}
+                            </Link>
+                        </li>
                     </ul>
                 </div>
                 <div>

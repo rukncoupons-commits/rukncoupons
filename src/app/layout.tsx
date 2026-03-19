@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Cairo } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
 import { buildOrganizationSchema, SITE_URL } from "@/lib/seo-helpers";
@@ -13,9 +13,10 @@ const inter = Inter({
   display: "swap",
   preload: true,
 });
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit",
+
+const cairo = Cairo({
+  subsets: ["arabic", "latin"],
+  variable: "--font-cairo",
   display: "swap",
   preload: true,
 });
@@ -44,27 +45,35 @@ export const viewport = {
   themeColor: "#2563eb", // blue-600
 };
 
-import { headers } from "next/headers";
-
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const headersList = await headers();
-  const locale = headersList.get("x-locale") || "ar";
-  const isEn = locale === "en";
   return (
-    <html lang={isEn ? "en" : "ar"} dir={isEn ? "ltr" : "rtl"}>
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <head>
+        {/* Synchronize HTML lang/dir immediately using path to prevent DYNAMIC_SERVER_USAGE from headers() */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var path = window.location.pathname;
+                  var isEn = path.startsWith('/en/') || path === '/en';
+                  document.documentElement.lang = isEn ? 'en' : 'ar';
+                  document.documentElement.dir = isEn ? 'ltr' : 'rtl';
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
         {/* Preconnect to critical domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://storage.googleapis.com" />
         <link rel="manifest" href="/manifest.json" />
         <TrackingScripts />
       </head>
-      <body className={`${inter.variable} ${outfit.variable} antialiased font-sans bg-gray-50`}>
+      <body suppressHydrationWarning className={`${inter.variable} ${cairo.variable} antialiased bg-gray-50`}>
         {/* Geo Auto Suggestion Layer */}
         <GeoSuggestionPopup />
 

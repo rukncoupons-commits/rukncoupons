@@ -29,7 +29,6 @@ export function generateStaticParams() {
 
 interface PageProps {
     params: Promise<{ locale: string; country: string }>;
-    searchParams: Promise<{ cat?: string }>;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; country: string }> }): Promise<Metadata> {
@@ -52,22 +51,26 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     return {
         title, description,
         openGraph: { title: seo?.ogTitle || title, description: seo?.ogDescription || description, url: canonicalUrl, type: "website" },
+        twitter: {
+            card: "summary_large_image",
+            title: seo?.ogTitle || title,
+            description: seo?.ogDescription || description,
+        },
         alternates: {
             canonical: seo?.canonicalUrl || canonicalUrl,
             languages: {
-                "ar": buildAbsoluteUrl(`/ar/${country}`),
-                "en": buildAbsoluteUrl(`/en/${country}`),
+                [`ar-${country.toUpperCase()}`]: buildAbsoluteUrl(`/ar/${country}`),
+                [`en-${country.toUpperCase()}`]: buildAbsoluteUrl(`/en/${country}`),
                 "x-default": buildAbsoluteUrl(`/ar/${country}`),
             },
         },
-        robots: seo?.noIndex ? "noindex, nofollow" : { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+        robots: seo?.noIndex ? "noindex, nofollow" : { index: true, follow: true, "max-image-preview": "large" as const, "max-snippet": -1 },
     };
 }
 
-export default async function HomePage({ params, searchParams }: PageProps) {
+export default async function HomePage({ params }: PageProps) {
     const { locale: rawLocale, country } = await params;
     const locale = (isValidLocale(rawLocale) ? rawLocale : DEFAULT_LOCALE) as Locale;
-    const { cat } = await searchParams;
     const isEn = locale === "en";
     const dir = getDir(locale);
 
@@ -84,11 +87,8 @@ export default async function HomePage({ params, searchParams }: PageProps) {
         .filter(c => !c.expiryDate || c.expiryDate >= today)
         .sort((a, b) => (a.isExclusive && !b.isExclusive ? -1 : !a.isExclusive && b.isExclusive ? 1 : 0));
 
-    if (cat) {
-        displayCoupons = displayCoupons.filter(c => c.categories?.includes(cat));
-    }
-
-    const selectedCat = data.categories.find(c => c.slug === cat);
+    // No server-side category filtering on homepage to preserve 100% static CDN caching
+    const selectedCat = undefined;
     const storeMap = new Map(data.stores.map(s => [s.id, s]));
 
     // Schema
@@ -110,6 +110,30 @@ export default async function HomePage({ params, searchParams }: PageProps) {
                     return { "@type": "ListItem", "position": i + 1, "item": { "@type": "Offer", "name": c.title, "priceCurrency": currency, "offeredBy": store ? { "@type": "Store", "name": store.name } : undefined } };
                 }),
             } : null,
+            {
+                "@type": "Organization",
+                "name": isEn ? "Rukn Coupons" : "ركن الكوبونات",
+                "url": `https://rukncoupons.com/${locale}/${country}`,
+                "logo": "https://rukncoupons.com/icon.png",
+                "sameAs": [
+                    socialConfig.facebook,
+                    socialConfig.twitter,
+                    socialConfig.instagram,
+                    socialConfig.tiktok,
+                    socialConfig.youtube,
+                    socialConfig.snapchat
+                ].filter(Boolean)
+            },
+            {
+                "@type": "WebSite",
+                "name": isEn ? "Rukn Coupons" : "ركن الكوبونات",
+                "url": `https://rukncoupons.com/${locale}/${country}`,
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": `https://rukncoupons.com/${locale}/${country}/stores?q={search_term_string}`,
+                    "query-input": "required name=search_term_string"
+                }
+            }
         ].filter(Boolean),
     };
 
@@ -161,15 +185,15 @@ export default async function HomePage({ params, searchParams }: PageProps) {
                     <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                         <Link
                             href={`/${locale}/${country}`}
-                            className={`px-5 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-colors ${!cat ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                            className={`px-5 py-2 rounded-xl text-sm font-bold whitespace-nowrap transition-colors bg-blue-600 text-white`}
                         >
                             {t(locale, "all")}
                         </Link>
                         {data.categories.map((category) => (
                             <Link
                                 key={category.id}
-                                href={`/${locale}/${country}?cat=${category.slug}`}
-                                className={`px-5 py-2 rounded-xl text-sm font-bold whitespace-nowrap flex items-center gap-1.5 transition-colors ${cat === category.slug ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}
+                                href={`/${locale}/${country}/coupons?cat=${category.slug}`}
+                                className={`px-5 py-2 rounded-xl text-sm font-bold whitespace-nowrap flex items-center gap-1.5 transition-colors bg-gray-100 text-gray-600 hover:bg-gray-200`}
                             >
                                 {category.icon && <span aria-hidden="true">{category.icon}</span>}
                                 {getLocCatName(locale, category)}
@@ -225,6 +249,51 @@ export default async function HomePage({ params, searchParams }: PageProps) {
                                 </svg>
                             </Link>
                         </div>
+
+                        {/* LANDING PAGE CROSS-LINKS */}
+                        <section className="mt-12 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4">
+                                {isEn ? `Explore Deals in ${getCountryName(locale, country)}` : `اكتشف العروض في ${getCountryName(locale, country)}`}
+                            </h2>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <Link href={`/${locale}/${country}/best-coupons`} className="bg-white rounded-xl p-3 text-center hover:shadow-md transition-shadow font-bold text-sm text-gray-700 hover:text-blue-600">
+                                    ⭐ {isEn ? "Best Coupons" : "أفضل الكوبونات"}
+                                </Link>
+                                <Link href={`/${locale}/${country}/today-deals`} className="bg-white rounded-xl p-3 text-center hover:shadow-md transition-shadow font-bold text-sm text-gray-700 hover:text-blue-600">
+                                    🔥 {isEn ? "Today's Deals" : "عروض اليوم"}
+                                </Link>
+                                <Link href={`/${locale}/${country}/new-coupons`} className="bg-white rounded-xl p-3 text-center hover:shadow-md transition-shadow font-bold text-sm text-gray-700 hover:text-blue-600">
+                                    ✨ {isEn ? "New Coupons" : "كوبونات جديدة"}
+                                </Link>
+                                <Link href={`/${locale}/${country}/no-code-needed`} className="bg-white rounded-xl p-3 text-center hover:shadow-md transition-shadow font-bold text-sm text-gray-700 hover:text-blue-600">
+                                    🎯 {isEn ? "No Code Needed" : "عروض بدون كود"}
+                                </Link>
+                            </div>
+                        </section>
+
+                        {/* POPULAR STORES — Keyword-Rich Anchor Text Grid */}
+                        <section className="mt-8 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+                            <h2 className="text-xl font-bold text-gray-800 mb-4">
+                                {isEn ? `🛍️ Top Store Coupons in ${getCountryName(locale, country)}` : `🛍️ أفضل كوبونات المتاجر في ${getCountryName(locale, country)}`}
+                            </h2>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                {data.stores.slice(0, 12).map(store => (
+                                    <Link
+                                        key={store.id}
+                                        href={`/${locale}/${country}/${store.slug}`}
+                                        className="flex items-center gap-2.5 p-3 rounded-xl bg-gray-50 hover:bg-blue-50 hover:text-blue-600 transition-colors text-sm font-medium text-gray-700"
+                                    >
+                                        <img src={store.logoUrl} alt="" className="w-7 h-7 rounded-full object-contain bg-white border border-gray-100" loading="lazy" width={28} height={28} />
+                                        <span>{isEn ? `${getStoreName(locale, store)} coupon code` : `كود خصم ${getStoreName(locale, store)}`}</span>
+                                    </Link>
+                                ))}
+                            </div>
+                            <div className="mt-4 text-center">
+                                <Link href={`/${locale}/${country}/stores`} className="text-blue-600 font-bold text-sm hover:underline">
+                                    {isEn ? "View All Stores →" : "عرض جميع المتاجر ←"}
+                                </Link>
+                            </div>
+                        </section>
                     </div>
 
                     <div className="lg:col-span-4 xl:col-span-3">

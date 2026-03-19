@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Coupon, Store, Category } from "@/lib/types";
 import { Copy, Zap, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useParams } from "next/navigation";
 
 interface CouponCardProps {
     coupon: Coupon;
@@ -13,7 +14,11 @@ interface CouponCardProps {
     onAction?: (coupon: Coupon) => void;
 }
 
-export default function CouponCard({ coupon, store, categoryName = "عرض خاص", onAction }: CouponCardProps) {
+export default function CouponCard({ coupon, store, categoryName, onAction }: CouponCardProps) {
+    const params = useParams();
+    const isEn = params?.locale === "en";
+    const displayCategoryName = categoryName || (isEn ? "Special Offer" : "عرض خاص");
+
     const onActionClick = (e: React.MouseEvent) => {
         e.stopPropagation();
 
@@ -33,7 +38,7 @@ export default function CouponCard({ coupon, store, categoryName = "عرض خا�
                 {/* EXCLUSIVE BADGE */}
                 {coupon.isExclusive && (
                     <div className="absolute top-0 right-0 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-[10px] font-bold px-3 py-1 rounded-bl-2xl shadow-sm z-10">
-                        حصري
+                        {isEn ? "Exclusive" : "حصري"}
                     </div>
                 )}
 
@@ -55,7 +60,7 @@ export default function CouponCard({ coupon, store, categoryName = "عرض خا�
 
                 {/* Store Name & Category */}
                 <h3 className="font-bold text-gray-900 text-sm mb-1">{store?.name}</h3>
-                {categoryName && <p className="text-[10px] text-gray-500 font-medium mb-4">{categoryName}</p>}
+                {displayCategoryName && <p className="text-[10px] text-gray-500 font-medium mb-4">{displayCategoryName}</p>}
 
                 {/* DISCOUNT BADGE */}
                 <div className="w-full bg-blue-50 text-blue-600 rounded-xl py-2 px-4 mb-4 transform transition-transform group-hover:scale-105">
@@ -78,12 +83,12 @@ export default function CouponCard({ coupon, store, categoryName = "عرض خا�
                 >
                     {coupon.code ? (
                         <>
-                            <span>نسخ الكود</span>
+                            <span>{isEn ? "Copy" : "نسخ الكود"}</span>
                             <Copy className="w-4 h-4" />
                         </>
                     ) : (
                         <>
-                            <span>تفعيل العرض</span>
+                            <span>{isEn ? "Activate" : "تفعيل العرض"}</span>
                             <Zap className="w-4 h-4" />
                         </>
                     )}
@@ -93,7 +98,7 @@ export default function CouponCard({ coupon, store, categoryName = "عرض خا�
                 <div className="w-full flex items-center justify-between mt-4 pt-3 border-t border-gray-50 text-[10px] text-gray-400">
                     <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
-                        <span>لفترة محدودة</span>
+                        <span>{isEn ? "Limited time" : "لفترة محدودة"}</span>
                     </div>
 
                     <div className="flex items-center gap-1">

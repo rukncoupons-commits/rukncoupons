@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  staticPageGenerationTimeout: 300,
 
   // Image optimization
   images: {
@@ -44,7 +45,7 @@ const nextConfig: NextConfig = {
       },
       // ISR pages: short public cache, long stale
       {
-        source: "/:country(sa|ae|eg|kw|qa|bh|om)/:path*",
+        source: "/:locale(ar|en)/:country(sa|ae|eg|kw|qa|bh|om)/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=300, stale-while-revalidate=3600" },
         ],

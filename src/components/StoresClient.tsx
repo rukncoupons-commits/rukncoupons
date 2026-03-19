@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Store, Category, Coupon, BlogPost, SocialConfig, AdBanner } from "@/lib/types";
 import Sidebar from "./Sidebar";
 import { Search, X } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { getStoreName, getStoreDescription, getCategoryName as getLocCatName } from "@/lib/locale-content";
 
@@ -17,7 +18,6 @@ interface StoresClientProps {
     socialConfig: SocialConfig | null;
     adBanners: AdBanner[];
     countryCode: string;
-    initialQuery?: string;
     locale?: string;
 }
 
@@ -29,10 +29,10 @@ export default function StoresClient({
     socialConfig,
     adBanners,
     countryCode,
-    initialQuery = "",
     locale = "ar",
 }: StoresClientProps) {
-    const [searchQuery, setSearchQuery] = useState(initialQuery);
+    const searchParams = useSearchParams();
+    const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
     const [selectedCategory, setSelectedCategory] = useState("");
     const isEn = locale === "en";
     const dir = isEn ? "ltr" : "rtl";

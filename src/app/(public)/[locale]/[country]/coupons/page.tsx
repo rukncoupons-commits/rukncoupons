@@ -7,8 +7,8 @@ import Sidebar from "@/components/Sidebar";
 import CouponCardServer from "@/components/CouponCardServer";
 import { buildAbsoluteUrl, getCurrencyByCountry, buildHreflangAlternates } from "@/lib/seo-helpers";
 
-// ISR: Regenerate every hour
-export const revalidate = 3600;
+// Dynamic rendering to support on-the-fly filtering via searchParams
+export const dynamic = "force-dynamic";
 
 interface PageProps {
     params: Promise<{ locale: string; country: string }>;
@@ -16,7 +16,7 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
-    const { country } = await params;
+    const { locale: rawLocale, country } = await params;
     const sp = await searchParams;
     const hasFilters = !!(sp.store || sp.cat);
     const { currentCountry } = await getCountryData(country);
@@ -24,7 +24,7 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 
     const title = `جميع كوبونات وعروض ${currentCountry.name} | ركن الكوبونات`;
     const description = `تصفح أحدث الكوبونات والخصومات لجميع المتاجر في ${currentCountry.name}. عروض حصرية ومتجددة يومياً.`;
-    const canonicalUrl = buildAbsoluteUrl(`/${country}/coupons`);
+    const canonicalUrl = buildAbsoluteUrl(`/${rawLocale}/${country}/coupons`);
 
     return {
         title,

@@ -44,7 +44,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
         const parts = pathname.split("/");
         if (parts.length >= 2) {
             parts[1] = newLocale;
-            router.push(parts.join("/"));
+            window.location.href = parts.join("/");
         }
     };
 
@@ -92,7 +92,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                 results.push({
                     id: `store-${store.id}`,
                     type: 'store',
-                    title: store.name,
+                    title: isEn && (store as any).nameEn ? (store as any).nameEn : store.name,
                     url: `/${locale}/${countryCode}/${store.slug}`,
                     imageUrl: store.logoUrl,
                     score: 3
@@ -108,7 +108,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                 results.push({
                     id: `cat-${category.id}`,
                     type: 'category',
-                    title: category.name,
+                    title: isEn && (category as any).nameEn ? (category as any).nameEn : category.name,
                     url: `/${locale}/${countryCode}/categories/${category.slug}`,
                     score: 2
                 });
@@ -117,15 +117,17 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
 
         // 3. Search Coupons
         coupons.forEach(coupon => {
-            const storeName = stores.find(s => s.id === coupon.storeId)?.name || '';
-            const searchIndex = `كوبون كود عرض خصم ${coupon.title} ${storeName} ${coupon.code}`.toLowerCase();
+            const storeNameRaw = stores.find(s => s.id === coupon.storeId);
+            const storeNameBase = storeNameRaw?.name || '';
+            const storeName = isEn && (storeNameRaw as any)?.nameEn ? (storeNameRaw as any).nameEn : storeNameBase;
+            const searchIndex = `كوبون كود عرض خصم ${coupon.title} ${storeNameBase} ${coupon.code}`.toLowerCase();
             const isMatch = queryWords.every(word => searchIndex.includes(word));
             if (isMatch) {
                 results.push({
                     id: `coup-${coupon.id}`,
                     type: 'coupon',
                     title: coupon.title,
-                    subtitle: storeName ? `كوبون يعرّض في ${storeName}` : undefined,
+                    subtitle: storeName ? (isEn ? `Valid at ${storeName}` : `كوبون يعرّض في ${storeName}`) : undefined,
                     url: `/${locale}/${countryCode}/coupons?q=${encodeURIComponent(coupon.title)}`,
                     score: 1
                 });
@@ -170,17 +172,6 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                         }}>{isEn ? "Rukn" : "ركن"}</div>
                         <span style={{ fontWeight: 700, fontSize: 15, color: "#1f2937" }}>{isEn ? "Coupons" : "الكوبونات"}</span>
                     </Link>
-
-                    {/* Language Switcher */}
-                    <button
-                        onClick={switchLocale}
-                        className="mobile-header__icon-btn"
-                        aria-label={isEn ? "Switch to Arabic" : "Switch to English"}
-                        title={isEn ? "العربية" : "English"}
-                        style={{ fontSize: 12, fontWeight: 700, minWidth: 36 }}
-                    >
-                        {isEn ? "AR" : "EN"}
-                    </button>
 
                     {/* Search toggle */}
                     <button
@@ -249,9 +240,9 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                         <div style={{ backgroundColor: '#fff', borderTop: '1px solid #e5e7eb', maxHeight: '60vh', overflowY: 'auto' }}>
                             {suggestedItems.length > 0 ? (
                                 <div>
-                                    <div style={{ padding: '8px 16px', background: '#f9fafb', fontSize: '12px', fontWeight: 'bold', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #f3f4f6' }}>
+                                    <div style={{ padding: '8px 16px', background: '#f9fafb', fontSize: '12px', fontWeight: 'bold', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '8px', borderBottom: '1px solid #f3f4f6' }} dir={isEn ? "ltr" : "rtl"}>
                                         <StoreIconLucide size={14} />
-                                        <span>نتائج بحث ذكية</span>
+                                        <span>{isEn ? "Smart Search Results" : "نتائج بحث ذكية"}</span>
                                     </div>
                                     {suggestedItems.map((item) => (
                                         <button
@@ -301,7 +292,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                                                     <span style={{ fontSize: '12px', color: '#6b7280', marginTop: '2px', textAlign: 'right', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{item.subtitle}</span>
                                                 )}
                                                 <span style={{ fontSize: '10px', color: '#9ca3af', marginTop: '4px', padding: '2px 6px', backgroundColor: '#f3f4f6', borderRadius: '4px', display: 'inline-block' }}>
-                                                    {item.type === 'store' ? 'متجر' : item.type === 'category' ? 'قسم' : 'عرض / كوبون'}
+                                                    {item.type === 'store' ? (isEn ? 'Store' : 'متجر') : item.type === 'category' ? (isEn ? 'Category' : 'قسم') : (isEn ? 'Deal / Coupon' : 'عرض / كوبون')}
                                                 </span>
                                             </div>
                                         </button>
@@ -325,6 +316,7 @@ export default function MobileHeader({ countries, currentCountry, stores = [], c
                 currentCountry={currentCountry}
                 stores={stores}
                 onSwitchCountry={switchCountry}
+                locale={locale}
             />
         </>
     );

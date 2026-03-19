@@ -33,20 +33,22 @@ export function buildEnglishStoreTitle(params: {
     maxDiscount: number | null;
     activeCouponCount: number;
     customTitle?: string;
+    longTailKeyword?: string;
 }): string {
-    const { storeName, countryCode, maxDiscount, customTitle } = params;
+    const { storeName, countryCode, maxDiscount, customTitle, longTailKeyword } = params;
 
     if (customTitle) return customTitle;
 
     const year = new Date().getFullYear();
     const country = getEnglishCountryName(countryCode);
+    const keyword = longTailKeyword || "Coupon Code";
 
-    // Deterministic pattern selection
+    // High CTR Pattern as requested: "{Store} {Country} {Keyword} {Year} – {MaxDiscount}% OFF + Free Shipping"
+    // Using variations to avoid exact duplicates
     const patterns = [
-        `${storeName} Coupon Code ${country} ${year} – Verified & Working`,
-        `${storeName} Promo Code ${country} ${year}${maxDiscount ? ` | Save ${maxDiscount}%` : " | Latest Deals"}`,
-        `${storeName} Discount Code ${country} ${year} – Tested Today`,
-        `Latest ${storeName} Coupon Codes ${country} ${year} | Exclusive Deals`,
+        `${storeName} ${country} ${keyword} ${year} – ${maxDiscount ? `Up to ${maxDiscount}% OFF` : "Exclusive Offers"} + Free Shipping`,
+        `${storeName} ${keyword} ${country} ${year} | ${maxDiscount ? `Save ${maxDiscount}%` : "Verified Working"} Today`,
+        `${storeName} ${country} ${longTailKeyword || "Promo Code"} ${year} – 100% Working Deals`,
     ];
     const index = storeName.length % patterns.length;
     return patterns[index];
@@ -61,16 +63,19 @@ export function buildEnglishStoreDescription(params: {
     maxDiscount: number | null;
     activeCouponCount: number;
     customDescription?: string;
+    longTailKeyword?: string;
 }): string {
-    const { storeName, countryCode, maxDiscount, activeCouponCount, customDescription } = params;
+    const { storeName, countryCode, maxDiscount, activeCouponCount, customDescription, longTailKeyword } = params;
 
     if (customDescription) return customDescription;
 
     const country = getEnglishCountryName(countryCode);
-    const discountText = maxDiscount ? `Save up to ${maxDiscount}%` : "Save big";
-    const couponText = activeCouponCount > 0 ? `${activeCouponCount} verified codes` : "verified codes";
+    const kw1 = longTailKeyword || "coupon codes";
+    const kw2 = longTailKeyword === "discount code" ? "promo codes" : "discount codes";
+    const discountText = maxDiscount ? `Save up to ${maxDiscount}% FREE` : "Unlock exclusive savings";
+    const countText = activeCouponCount > 0 ? `with ${activeCouponCount} verified` : "with tested";
 
-    return `Get the latest ${storeName} coupon codes for ${country}. ${discountText} with ${couponText}. Tested & working promo codes updated daily.`;
+    return `Get the latest ${storeName} ${kw1} in ${country}. ${discountText} ${countText} ${kw2}. Browse today's best ${storeName} deals and offers.`;
 }
 
 /**
@@ -82,26 +87,29 @@ export function buildEnglishStoreIntro(params: {
     activeCouponCount: number;
     maxDiscount: number | null;
     storeDescription?: string;
+    longTailKeyword?: string;
 }): string {
-    const { storeName, countryCode, activeCouponCount, maxDiscount, storeDescription } = params;
+    const { storeName, countryCode, activeCouponCount, maxDiscount, storeDescription, longTailKeyword } = params;
     const country = getEnglishCountryName(countryCode);
-    const year = new Date().getFullYear();
+    const keyword = longTailKeyword || "coupon code";
+    const variations = longTailKeyword ? [longTailKeyword, "deals", "offers today"] : ["promo code", "discount code", "deals"];
 
-    return `Looking for the latest ${storeName} coupon codes in ${country}? You've come to the right place. On this page, you'll find ${activeCouponCount > 0 ? `${activeCouponCount} verified` : "the latest"} ${storeName} promo codes, exclusive discounts, and the best deals available in ${year}. ${maxDiscount ? `Save up to ${maxDiscount}% on ` : "Save on "}your favorite products with our tested ${storeName} discount codes. All coupons are manually verified and updated daily to ensure they work.${storeDescription ? ` ${storeDescription}` : ""}`;
+    return `Save big with the latest ${storeName} ${country} ${keyword}s. Why pay full price when you can instantly unlock massive savings? Browse our daily-updated list of ${activeCouponCount > 0 ? `${activeCouponCount} verified` : "active"} ${storeName} ${variations[0]}s crafted specifically for shoppers in ${country}. ${maxDiscount ? `Grab up to ${maxDiscount}% OFF ` : "Get exclusive price drops "} on your entire cart today. Every ${storeName} ${variations[1]} you see here is manually tested by our team to guarantee it works. Don't miss out on ${storeName} ${variations[2]}—apply your code at checkout and enjoy free shipping on eligible orders.${storeDescription ? `\n\n**About ${storeName}:** ${storeDescription}` : ""}`;
 }
 
 /**
  * HOW TO USE — Step-by-step guide (60-120 words)
  */
-export function buildEnglishHowToUse(storeName: string): string {
-    return `Using a ${storeName} coupon code is simple. First, browse the available codes on this page and click "Copy" on the one you want to use. Next, head to the ${storeName} website and add your desired items to the shopping cart. When you reach the checkout page, look for the "Promo Code" or "Coupon Code" input field. Paste your copied code and click "Apply." The discount will be reflected in your order total immediately. If one code doesn't work, try another — some codes have specific conditions or minimum purchase requirements.`;
+export function buildEnglishHowToUse(storeName: string, longTailKeyword?: string): string {
+    const keyword = longTailKeyword || "coupon code";
+    return `Activating your ${storeName} ${keyword} takes just seconds. Step 1: Browse the active offers above and click "Copy" on the ${keyword} that gives the highest discount. Step 2: Shop on the official ${storeName} website and load up your cart. Step 3: Proceed to checkout and paste your copied ${keyword} directly into the "Promo Code" box. Hit "Apply" and watch your total price drop instantly!`;
 }
 
 /**
  * SAVING TIPS — Maximize savings section (60-120 words)
  */
 export function buildEnglishSavingTips(storeName: string): string {
-    return `To maximize your savings at ${storeName}, try these expert tips. First, always check this page before making a purchase — we update our codes daily. Second, compare multiple coupon codes to find the highest discount. Third, sign up for ${storeName}'s newsletter to get notified about flash sales and exclusive deals. Fourth, consider shopping during major sale events like Black Friday, Singles' Day, or end-of-season sales when ${storeName} typically offers their biggest discounts. Finally, check if ${storeName} offers a student discount or first-time buyer code for additional savings.`;
+    return `Want to maximize your savings at ${storeName}? Start by bookmarking this page to catch daily flash sales and exclusive ${storeName} deals. Always stack a working promo code with seasonal clearance events like Black Friday or White Friday. Pro tip: Subscribe to ${storeName}'s newsletter for a potential first-order discount code, and look out for limited-time free shipping offers to stack on top of your percentage-off coupon.`;
 }
 
 /**
@@ -112,19 +120,20 @@ export function buildEnglishStoreFAQ(params: {
     countryCode: string;
     activeCouponCount: number;
     maxDiscount: number | null;
+    longTailKeyword?: string;
 }): { question: string; answer: string }[] {
-    const { storeName, countryCode, activeCouponCount, maxDiscount } = params;
+    const { storeName, countryCode, activeCouponCount, maxDiscount, longTailKeyword } = params;
     const country = getEnglishCountryName(countryCode);
     const year = new Date().getFullYear();
 
     return [
         {
-            question: `What is the latest ${storeName} coupon code for ${country}?`,
-            answer: `We currently have ${activeCouponCount > 0 ? `${activeCouponCount} active` : "several"} ${storeName} coupon codes for ${country}. All codes are verified and updated daily. Check the list above for the latest working promo codes.`,
+            question: `What is the best ${storeName} ${longTailKeyword || "coupon code"} for ${country}?`,
+            answer: `The highest verified discount today offers ${maxDiscount ? `up to ${maxDiscount}% OFF` : "massive savings"}. We currently have ${activeCouponCount > 0 ? `${activeCouponCount} active` : "multiple"} ${storeName} promo codes tested and working. Check the top of this page for the #1 ranked code.`,
         },
         {
-            question: `How do I use a ${storeName} promo code?`,
-            answer: `Copy the code from this page, go to ${storeName}'s website, add items to your cart, and paste the code at checkout in the "Promo Code" or "Coupon Code" field. Click "Apply" and the discount will be applied instantly.`,
+            question: `How do I redeem my ${storeName} promo code?`,
+            answer: `Shop at ${storeName}, add products to your cart, and enter the copied code into the designated "Promo Code" or "Discount Code" field at checkout. Click Apply to instantly activate your deals.`,
         },
         {
             question: `Does ${storeName} offer free shipping in ${country}?`,

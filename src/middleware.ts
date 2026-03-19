@@ -119,29 +119,27 @@ export function middleware(request: NextRequest) {
     const isFromSearchEngine = SEARCH_REFERRERS.some((ref) => referrer.toLowerCase().includes(ref));
     const isSafeModeActive = isBot || hasMarketingParam || isFromSearchEngine;
 
-    // 7. REDIRECT LOGIC FOR ROOT DOMAIN (/)
-    if (pathname === '/') {
-        const hasRealGeoData = !!(cfCountry || vercelCountryHeaders || vercelGeoCountry);
-
-        if (!isBot && !hasMarketingParam && !isFromSearchEngine && !cookieCountry) {
-            if (hasRealGeoData) {
-                const redirectUrl = new URL(`/${DEFAULT_LOCALE}/${detectedCountry}`, request.url);
-                const redirectResponse = NextResponse.redirect(redirectUrl, 307);
-                redirectResponse.cookies.set('country_preference', detectedCountry, {
-                    path: '/',
-                    maxAge: 60 * 60 * 24 * 30,
-                    sameSite: 'lax',
-                });
-                return redirectResponse;
-            }
-            return NextResponse.next();
-        } else if (cookieCountry) {
-            const redirectUrl = new URL(`/${DEFAULT_LOCALE}/${cookieCountry}`, request.url);
-            return NextResponse.redirect(redirectUrl, 307);
-        } else {
-            const redirectUrl = new URL(`/${DEFAULT_LOCALE}/${detectedCountry}`, request.url);
-            return NextResponse.redirect(redirectUrl, 307);
+    // 7. REDIRECT LOGIC FOR ROOT DOMAIN OR LOCALE ONLY DOMAIN (/, /ar, /en)
+    const isRootOrLocaleOnly = pathname === '/' || SUPPORTED_LOCALES.includes(pathname.substring(1));
+    if (isRootOrLocaleOnly) {
+        const localeParams = pathname === '/' ? DEFAULT_LOCALE : pathname.substring(1);
+        let targetCountry = cookieCountry || detectedCountry || FALLBACK_COUNTRY;
+        if (!SUPPORTED_COUNTRIES.includes(targetCountry)) {
+            targetCountry = FALLBACK_COUNTRY;
         }
+
+        const redirectType = isBot || isFromSearchEngine ? 301 : 307;
+        const redirectUrl = new URL(`/${localeParams}/${targetCountry}`, request.url);
+        const redirectResponse = NextResponse.redirect(redirectUrl, redirectType);
+
+        if (!isBot && !cookieCountry && targetCountry === detectedCountry) {
+            redirectResponse.cookies.set('country_preference', targetCountry, {
+                path: '/',
+                maxAge: 60 * 60 * 24 * 30,
+                sameSite: 'lax',
+            });
+        }
+        return redirectResponse;
     }
 
     // 8. A/B TESTING (Blog Placements)

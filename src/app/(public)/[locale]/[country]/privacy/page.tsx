@@ -5,7 +5,7 @@ import { getCountryData, getSocialConfig } from "@/lib/data-service";
 import Sidebar from "@/components/Sidebar";
 import { buildAbsoluteUrl, buildHreflangAlternates } from "@/lib/seo-helpers";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 interface PageProps {
     params: Promise<{ locale: string; country: string }>;
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
             ? "Read the Rukn Coupons privacy policy to understand how we collect, use, and protect your personal data and privacy."
             : "اقرأ سياسة الخصوصية لموقع ركن الكوبونات لفهم كيفية جمعنا واستخدامنا وحمايتنا لبياناتك الشخصية وخصوصيتك.",
         alternates: {
-            canonical: buildAbsoluteUrl(`/${country}/privacy`),
+            canonical: buildAbsoluteUrl(`/${rawLocale}/${country}/privacy`),
             languages: buildHreflangAlternates("/privacy"),
         },
     };
@@ -61,6 +61,19 @@ export default async function PrivacyPage({ params }: PageProps) {
                                         <>نحن في موقع <span className="font-bold text-gray-800">"ركن الكوبونات"</span> ("الموقع"، "نحن"، "لدينا") نحترم خصوصيتك ونلتزم بحمايتها. توضح سياسة الخصوصية هذه كيفية جمعنا واستخدامنا وحمايتنا للمعلومات التي تقدمها عند استخدامك لموقعنا.</>
                                     )}
                                 </p>
+
+                                <div className="bg-green-50 border border-green-100 p-6 rounded-3xl mb-12 shadow-sm text-green-900 font-medium relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-green-500 opacity-5 rounded-full -mr-10 -mt-10"></div>
+                                    <div className="flex items-center gap-3 mb-3 relative z-10">
+                                        <div className="text-3xl">🛡️</div>
+                                        <h2 className="text-lg font-black">{isEn ? "Our Promise: We Do Not Sell Your Data" : "وعدنا: نحن لا نبيع بياناتك مطلقاً"}</h2>
+                                    </div>
+                                    <p className="text-base leading-relaxed relative z-10 text-green-800">
+                                        {isEn 
+                                            ? "As a premium coupon provider, our business model relies exclusively on affiliate partnerships with official stores. We never sell, rent, or digitally trade your personal information or email addresses to any third-party brokers under any circumstances." 
+                                            : "بصفتنا مزود كوبونات موثوق، يعتمد نموذج عملنا بالكامل وبشكل حصري على شراكات التسويق بالعمولة المعترف بها مع المتاجر الرسمية. نحن لا نبيع أو نؤجر أو نتاجر ببياناتك الشخصية أو بريدك الإلكتروني لأي أطراف ثالثة تحت أي ظرف من الظروف."}
+                                    </p>
+                                </div>
 
                                 <section className="bg-gray-50 p-8 rounded-3xl border border-gray-100">
                                     <h2 className="text-xl font-black text-gray-900 mb-6 flex items-center gap-3">

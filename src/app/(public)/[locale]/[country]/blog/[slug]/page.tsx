@@ -10,6 +10,8 @@ import Script from "next/script";
 import { processBlogContent, extractToc } from "@/lib/auto-link";
 import { User, ChevronDown, Facebook, Twitter, Mail, Tag } from "lucide-react";
 import { buildHreflangAlternates, buildAbsoluteUrl, validateContentDepth, SITE_URL } from "@/lib/seo-helpers";
+import { isValidLocale, DEFAULT_LOCALE, getCountryName, type Locale } from "@/lib/i18n";
+import { getStoreName } from "@/lib/locale-content";
 
 import { injectCouponSSR } from "@/lib/ssr-injector";
 import { BlogPost } from "@/lib/types";
@@ -125,27 +127,38 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-    const { country, slug } = await params;
+    const { locale: rawLocale, country, slug } = await params;
+    const locale: Locale = isValidLocale(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+    const isEn = locale === "en";
     const post = await getPostBySlug(country, slug);
     const { currentCountry } = await getCountryData(country);
 
-    if (!post || !currentCountry) return { title: "المقال - ركن الكوبونات" };
+    if (!post || !currentCountry) return { title: isEn ? "Article - Rukn Coupons" : "المقال - ركن الكوبونات" };
 
-    const title = post.seo?.metaTitle || post.title;
-    const description = post.seo?.metaDescription || post.excerpt;
-    const canonical = post.seo?.canonicalUrl || buildAbsoluteUrl(`/${country}/blog/${slug}`);
+    const title = isEn ? (post.titleEn || post.seo?.metaTitle || post.title) : (post.seo?.metaTitle || post.title);
+    const description = isEn ? (post.excerptEn || post.seo?.metaDescription || post.excerpt) : (post.seo?.metaDescription || post.excerpt);
+    const canonical = post.seo?.canonicalUrl || buildAbsoluteUrl(`/${rawLocale}/${country}/blog/${slug}`);
+    const siteName = isEn ? "Rukn Coupons" : "ركن الكوبونات";
 
     // Validate thin content against the raw DB content string
-    const { isThin } = validateContentDepth(post.content || "");
+    const contentToValidate = isEn ? (post.contentEn || post.content || "") : (post.content || "");
+    const { isThin } = validateContentDepth(contentToValidate);
 
     return {
-        title: `${title} | ركن الكوبونات`,
+        title: `${title} | ${siteName}`,
         description,
         openGraph: {
             title,
             description,
             images: [post.image],
             type: "article",
+            url: canonical,
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${title} | ${siteName}`,
+            description,
+            images: [post.image],
         },
         alternates: {
             canonical,
@@ -153,24 +166,33 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         },
         robots: post.seo?.noIndex || isThin
             ? "noindex, nofollow"
-            : { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+            : { index: true, follow: true, "max-image-preview": "large" as const, "max-snippet": -1 },
     };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-    const { country, slug } = await params;
+    const { locale: rawLocale, country, slug } = await params;
+    const locale: Locale = isValidLocale(rawLocale) ? rawLocale : DEFAULT_LOCALE;
+    const isEn = locale === "en";
+    const dir = isEn ? "ltr" : "rtl";
     const decodedSlug = decodeURIComponent(slug);
     const post = await getPostBySlug(country, decodedSlug);
     const data = await getCountryData(country);
     const socialConfig = await getSocialConfig();
+    const countryName = getCountryName(locale, country);
 
     if (!post || !data.currentCountry) {
         notFound();
         return null;
     }
 
-    const { processedHtml, detectedStoreIds, anchorVariations, optimalInjectionIndex } = processBlogContent(post.content || "", data.stores, country, post, data.blogPosts);
-    const toc = extractToc(post.content || "");
+    // Bilingual content selection
+    const postTitle = isEn ? (post.titleEn || post.title) : post.title;
+    const postExcerpt = isEn ? (post.excerptEn || post.excerpt) : post.excerpt;
+    const postContent = isEn ? (post.contentEn || post.content || "") : (post.content || "");
+
+    const { processedHtml, detectedStoreIds, anchorVariations, optimalInjectionIndex } = processBlogContent(postContent, data.stores, country, post, data.blogPosts);
+    const toc = extractToc(postContent);
 
     // Resolve related coupons
     const manualCouponIds = post.manualCouponIds || [];
@@ -184,29 +206,41 @@ export default async function BlogPostPage({ params }: PageProps) {
     }
 
     const allRelatedCoupons = [...manualCoupons, ...autoCoupons].slice(0, 4);
+    const topStores = data.stores.slice(0, 6);
 
-    const canonicalUrl = buildAbsoluteUrl(`/${country}/blog/${decodedSlug}`);
-    const wordCount = (post.content || "").trim().split(/\s+/).filter(w => w.length > 1).length;
+    const canonicalUrl = buildAbsoluteUrl(`/${locale}/${country}/blog/${decodedSlug}`);
+    const wordCount = postContent.trim().split(/\s+/).filter(w => w.length > 1).length;
+    const siteName = isEn ? "Rukn Coupons" : "ركن الكوبونات";
 
     const jsonLd: any[] = [
         {
             "@context": "https://schema.org",
             "@type": "BlogPosting",
-            "headline": post.title,
+            "headline": postTitle,
             "image": post.image,
             "author": { "@type": "Person", "name": post.author },
             "publisher": {
                 "@type": "Organization",
-                "name": "ركن الكوبونات",
+                "name": siteName,
                 "logo": { "@type": "ImageObject", "url": `${SITE_URL}/logo.png` },
             },
             "datePublished": post.createdAt,
             "dateModified": post.updatedAt || post.createdAt,
-            "description": post.excerpt,
+            "description": postExcerpt,
             "mainEntityOfPage": { "@type": "WebPage", "@id": canonicalUrl },
             "wordCount": wordCount,
             "articleSection": data.categories.find(c => c.slug === post.category)?.name || post.category,
-            "inLanguage": "ar",
+            "inLanguage": locale,
+        },
+        // Breadcrumb schema
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                { "@type": "ListItem", "position": 1, "name": isEn ? "Home" : "الرئيسية", "item": buildAbsoluteUrl(`/${locale}/${country}`) },
+                { "@type": "ListItem", "position": 2, "name": isEn ? "Blog" : "المدونة", "item": buildAbsoluteUrl(`/${locale}/${country}/blog`) },
+                { "@type": "ListItem", "position": 3, "name": postTitle },
+            ],
         },
     ];
 
@@ -227,7 +261,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     }
 
     return (
-        <main className="min-h-screen bg-gray-50 py-10 text-right" dir="rtl">
+        <main className={`min-h-screen bg-gray-50 py-10 ${isEn ? 'text-left' : 'text-right'}`} dir={dir}>
             <Script
                 id="blog-jsonld"
                 type="application/ld+json"
@@ -237,11 +271,11 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="container mx-auto px-4">
                 {/* Breadcrumb */}
                 <nav aria-label="breadcrumb" className="flex mb-6 text-sm text-gray-500 gap-2">
-                    <Link href={`/${country}`} className="hover:text-blue-600">الرئيسية</Link>
+                    <Link href={`/${locale}/${country}`} className="hover:text-blue-600">{isEn ? "Home" : "الرئيسية"}</Link>
                     <span>/</span>
-                    <Link href={`/${country}/blog`} className="hover:text-blue-600">المدونة</Link>
+                    <Link href={`/${locale}/${country}/blog`} className="hover:text-blue-600">{isEn ? "Blog" : "المدونة"}</Link>
                     <span>/</span>
-                    <span className="text-gray-800 truncate font-bold">{post.title}</span>
+                    <span className="text-gray-800 truncate font-bold">{postTitle}</span>
                 </nav>
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -249,16 +283,16 @@ export default async function BlogPostPage({ params }: PageProps) {
                         <article className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                             {/* Header Image */}
                             <div className="h-[300px] md:h-[400px] relative">
-                                <img src={post.image} alt={post.title} width={1200} height={630} className="w-full h-full object-cover" />
+                                <img src={post.image} alt={postTitle} width={1200} height={630} className="w-full h-full object-cover" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-8 text-white">
                                     <div className="flex gap-4 text-sm font-bold mb-4">
                                         <span className="bg-blue-600 px-3 py-1 rounded-full uppercase tracking-wider">
-                                            {data.categories.find(c => c.slug === post.category)?.name || post.category}
+                                            {isEn ? (data.categories.find(c => c.slug === post.category)?.nameEn || data.categories.find(c => c.slug === post.category)?.name || post.category) : (data.categories.find(c => c.slug === post.category)?.name || post.category)}
                                         </span>
-                                        <span className="flex items-center gap-1 opacity-90">{post.createdAt || ''}</span>
+                                        <span className="flex items-center gap-1 opacity-90">{post.createdAt ? new Date(post.createdAt).toLocaleDateString(isEn ? "en-US" : "ar-SA") : ''}</span>
                                     </div>
                                     <h1 className="text-3xl md:text-5xl font-black leading-tight drop-shadow-lg">
-                                        {post.title}
+                                        {postTitle}
                                     </h1>
                                 </div>
                             </div>
@@ -271,20 +305,20 @@ export default async function BlogPostPage({ params }: PageProps) {
                                             <User size={28} />
                                         </div>
                                         <div>
-                                            <p className="text-sm font-bold text-gray-800">كتب بواسطة: {post.author}</p>
-                                            <p className="text-xs text-gray-500 font-medium">خبير تسوق وتوفير</p>
+                                            <p className="text-sm font-bold text-gray-800">{isEn ? `Written by: ${post.author}` : `كتب بواسطة: ${post.author}`}</p>
+                                            <p className="text-xs text-gray-500 font-medium">{isEn ? "Shopping & Savings Expert" : "خبير تسوق وتوفير"}</p>
                                         </div>
                                     </div>
 
                                     {toc.length > 0 && (
                                         <div className="bg-gray-50 p-6 rounded-2xl border border-gray-200 md:w-2/3">
                                             <p className="font-bold text-gray-800 mb-4 text-sm flex items-center gap-2">
-                                                <span>📋</span> محتويات المقال:
+                                                <span>📋</span> {isEn ? "Table of Contents:" : "محتويات المقال:"}
                                             </p>
                                             <ul className="space-y-2 text-sm text-blue-600 font-bold">
                                                 {toc.map((item) => (
-                                                    <li key={item.id} style={{ paddingRight: (item.level - 2) * 20 }}>
-                                                        <a href={`#${item.id}`} className="hover:underline transition-colors flex items-center gap-1" aria-label={`انتقل إلى: ${item.text}`}>
+                                                    <li key={item.id} style={{ [isEn ? 'paddingLeft' : 'paddingRight']: (item.level - 2) * 20 }}>
+                                                        <a href={`#${item.id}`} className="hover:underline transition-colors flex items-center gap-1" aria-label={isEn ? `Jump to: ${item.text}` : `انتقل إلى: ${item.text}`}>
                                                             <span>•</span>
                                                             {item.text}
                                                         </a>
@@ -296,7 +330,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                                 </div>
 
                                 {/* Article Content (Smart Rendered) */}
-                                <div className="pl-0 lg:pl-[5%]">
+                                <div className={isEn ? 'pr-0 lg:pr-[5%]' : 'pl-0 lg:pl-[5%]'}>
                                     {await renderBlogContent(post, processedHtml, country, data.stores, getCouponsForStore, optimalInjectionIndex)}
                                 </div>
 
@@ -304,7 +338,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                                 {post.faq && post.faq.length > 0 && (
                                     <div className="mt-12 bg-blue-50/50 rounded-3xl p-8 border border-blue-100">
                                         <h2 className="text-2xl font-black text-gray-800 mb-8 flex items-center gap-3">
-                                            <span className="text-3xl">❓</span> الأسئلة الشائعة
+                                            <span className="text-3xl">❓</span> {isEn ? "Frequently Asked Questions" : "الأسئلة الشائعة"}
                                         </h2>
                                         <div className="space-y-4">
                                             {post.faq.map((item, i) => (
@@ -326,7 +360,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                                 {allRelatedCoupons.length > 0 && (
                                     <div className="mt-16 pt-12 border-t border-gray-100">
                                         <h2 className="text-2xl font-black text-gray-800 mb-8 flex items-center gap-3">
-                                            <span className="text-3xl">🔥</span> كوبونات وعروض موصى بها
+                                            <span className="text-3xl">🔥</span> {isEn ? "Recommended Coupons & Deals" : "كوبونات وعروض موصى بها"}
                                         </h2>
                                         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                                             {allRelatedCoupons.map((coupon) => (
@@ -344,32 +378,32 @@ export default async function BlogPostPage({ params }: PageProps) {
                                 {/* Social Share */}
                                 <div className="mt-16 pt-10 border-t border-gray-100">
                                     <div className="flex flex-col sm:flex-row justify-between items-center gap-6">
-                                        <p className="font-black text-gray-800 text-lg">شارك الفائدة مع أصدقائك:</p>
+                                        <p className="font-black text-gray-800 text-lg">{isEn ? "Share this article:" : "شارك الفائدة مع أصدقائك:"}</p>
                                         <div className="flex gap-4">
                                             <a
                                                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(canonicalUrl)}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="w-12 h-12 rounded-full bg-[#1877F2] text-white flex items-center justify-center hover:scale-110 transition-all shadow-md"
-                                                aria-label="مشاركة على فيسبوك"
+                                                aria-label={isEn ? "Share on Facebook" : "مشاركة على فيسبوك"}
                                             >
                                                 <Facebook />
                                             </a>
                                             <a
-                                                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(canonicalUrl)}&text=${encodeURIComponent(post.title)}`}
+                                                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(canonicalUrl)}&text=${encodeURIComponent(postTitle)}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-110 transition-all shadow-md"
-                                                aria-label="مشاركة على إكس"
+                                                aria-label={isEn ? "Share on X" : "مشاركة على إكس"}
                                             >
                                                 <Twitter />
                                             </a>
                                             <a
-                                                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(post.title + ' ' + canonicalUrl)}`}
+                                                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(postTitle + ' ' + canonicalUrl)}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="w-12 h-12 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:scale-110 transition-all shadow-md"
-                                                aria-label="مشاركة عبر واتساب"
+                                                aria-label={isEn ? "Share on WhatsApp" : "مشاركة عبر واتساب"}
                                             >
                                                 <Mail />
                                             </a>
@@ -378,6 +412,46 @@ export default async function BlogPostPage({ params }: PageProps) {
                                 </div>
                             </div>
                         </article>
+
+                        {/* Internal Links: Popular Stores */}
+                        <section className="mt-10 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                            <h2 className="text-xl font-bold text-gray-800 mb-4">
+                                {isEn ? `🛍️ Popular Stores in ${countryName}` : `🛍️ المتاجر الشائعة في ${countryName}`}
+                            </h2>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                {topStores.map(store => (
+                                    <Link
+                                        key={store.id}
+                                        href={`/${locale}/${country}/${store.slug}`}
+                                        className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 hover:bg-blue-50 hover:text-blue-600 transition-colors text-sm font-medium text-gray-700"
+                                    >
+                                        {store.logoUrl && <img src={store.logoUrl} alt="" className="w-6 h-6 rounded-full object-contain" loading="lazy" width={24} height={24} />}
+                                        <span>{isEn ? `${getStoreName(locale, store)} coupons` : `كوبونات ${getStoreName(locale, store)}`}</span>
+                                    </Link>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* Cross-links to landing pages */}
+                        <section className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6">
+                            <h2 className="text-lg font-bold text-gray-800 mb-4">
+                                {isEn ? "Explore More Deals" : "اكتشف المزيد من العروض"}
+                            </h2>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <Link href={`/${locale}/${country}/best-coupons`} className="bg-white rounded-xl p-3 text-center hover:shadow-md transition-shadow font-bold text-sm text-gray-700 hover:text-blue-600">
+                                    ⭐ {isEn ? "Best Coupons" : "أفضل الكوبونات"}
+                                </Link>
+                                <Link href={`/${locale}/${country}/today-deals`} className="bg-white rounded-xl p-3 text-center hover:shadow-md transition-shadow font-bold text-sm text-gray-700 hover:text-blue-600">
+                                    🔥 {isEn ? "Today's Deals" : "عروض اليوم"}
+                                </Link>
+                                <Link href={`/${locale}/${country}/new-coupons`} className="bg-white rounded-xl p-3 text-center hover:shadow-md transition-shadow font-bold text-sm text-gray-700 hover:text-blue-600">
+                                    ✨ {isEn ? "New Coupons" : "كوبونات جديدة"}
+                                </Link>
+                                <Link href={`/${locale}/${country}/no-code-needed`} className="bg-white rounded-xl p-3 text-center hover:shadow-md transition-shadow font-bold text-sm text-gray-700 hover:text-blue-600">
+                                    🎯 {isEn ? "No Code Needed" : "عروض بدون كود"}
+                                </Link>
+                            </div>
+                        </section>
                     </div>
 
                     <aside className="lg:col-span-4 xl:col-span-3">
@@ -388,6 +462,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                             storesCount={data.stores.length}
                             couponsCount={data.coupons.length}
                             countryCode={country}
+                            locale={locale}
                         />
                     </aside>
                 </div>

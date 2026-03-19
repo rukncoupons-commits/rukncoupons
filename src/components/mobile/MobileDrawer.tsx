@@ -4,6 +4,8 @@ import React, { useEffect, useCallback, useState } from "react";
 import Link from "next/link";
 import { Country, Store } from "@/lib/types";
 import MobileCountrySwitcher from "./MobileCountrySwitcher";
+import { usePathname } from "next/navigation";
+import { getCountryName, Locale } from "@/lib/i18n";
 
 interface MobileDrawerProps {
     isOpen: boolean;
@@ -12,6 +14,7 @@ interface MobileDrawerProps {
     currentCountry?: Country;
     stores?: Store[];
     onSwitchCountry: (code: string) => void;
+    locale?: string;
 }
 
 export default function MobileDrawer({
@@ -21,8 +24,10 @@ export default function MobileDrawer({
     currentCountry,
     stores = [],
     onSwitchCountry,
+    locale = "ar"
 }: MobileDrawerProps) {
     const [countrySheetOpen, setCountrySheetOpen] = useState(false);
+    const pathname = usePathname();
     const countryCode = currentCountry?.code || "sa";
 
     // Lock body scroll
@@ -102,6 +107,36 @@ export default function MobileDrawer({
                     </button>
                 </div>
 
+                {/* Language Selector */}
+                <div className="mobile-drawer__section">
+                    <button
+                        onClick={() => {
+                            const newLocale = locale === "en" ? "ar" : "en";
+                            const parts = pathname.split("/");
+                            if (parts.length >= 2) {
+                                parts[1] = newLocale;
+                                window.location.href = parts.join("/");
+                            }
+                        }}
+                        className="mobile-drawer__country-btn"
+                        aria-label={locale === "en" ? "Switch to Arabic" : "Switch to English"}
+                    >
+                        {/* Globe Icon for Language */}
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4b5563" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                        <span style={{ fontWeight: 600, color: "#1f2937", fontSize: 14, fontFamily: locale === "en" ? "var(--font-cairo), system-ui, sans-serif" : "var(--font-inter), system-ui, sans-serif" }}>
+                            {locale === "en" ? "العربية" : "English"}
+                        </span>
+                        {/* Chevron */}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" style={{ marginRight: "auto" }}>
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                    </button>
+                </div>
+
                 {/* Country Selector */}
                 <div className="mobile-drawer__section">
                     <button
@@ -118,7 +153,7 @@ export default function MobileDrawer({
                                     height={24}
                                     style={{ borderRadius: "50%", objectFit: "cover", border: "1px solid #e5e7eb" }}
                                 />
-                                <span style={{ fontWeight: 600, color: "#1f2937", fontSize: 14 }}>{currentCountry.name}</span>
+                                <span style={{ fontWeight: 600, color: "#1f2937", fontSize: 14 }}>{getCountryName(locale as Locale, currentCountry.code)}</span>
                             </>
                         ) : (
                             <span style={{ fontWeight: 600, fontSize: 14 }}>اختر الدولة</span>
@@ -190,6 +225,7 @@ export default function MobileDrawer({
                 countries={countries}
                 currentCountry={currentCountry}
                 isOpen={countrySheetOpen}
+                locale={locale}
                 onClose={() => setCountrySheetOpen(false)}
                 onSelect={(code) => {
                     onSwitchCountry(code);

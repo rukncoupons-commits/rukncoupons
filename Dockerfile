@@ -1,8 +1,8 @@
 # ═══════════════════════════════════════════════════════════════════
-#  Google Cloud Run — Optimized Multi-Stage Dockerfile
+#  Google Cloud Run — Optimized Single-Stage Dockerfile
 # ═══════════════════════════════════════════════════════════════════
 #
-#  Build: docker build -t rukncoupons .
+#  Build: Next.js must be pre-built before running docker build
 #  Run:   docker run -p 8080:8080 --env-file .env.local rukncoupons
 #
 #  Cloud Run specific:
@@ -11,25 +11,7 @@
 #   - Standalone output for minimal image size
 # ═══════════════════════════════════════════════════════════════════
 
-# Stage 1: Install dependencies
-FROM node:20-alpine AS deps
-RUN apk add --no-cache libc6-compat
-WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm install
-
-# Stage 2: Build the application
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
-# Disable Next.js telemetry during build
-ENV NEXT_TELEMETRY_DISABLED=1
-
-RUN npm run build
-
-# Stage 3: Production runner (minimal image)
+# Stage 1: Production runner (minimal image)
 FROM node:20-alpine AS runner
 WORKDIR /app
 
@@ -40,10 +22,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Only copy what's needed from the build
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+# Copy the standalone output and static files built by Cloud Build
+COPY public ./public
+COPY --chown=nextjs:nodejs .next/standalone ./
+COPY --chown=nextjs:nodejs .next/static ./.next/static
 
 USER nextjs
 

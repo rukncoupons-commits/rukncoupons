@@ -92,14 +92,14 @@ async function renderBlogContent(post: BlogPost, html: string, countryCode: stri
                 if (paragraphCount > 2) {
                     // Phase 5: AST injection using the pre-computed Phase 3 index from auto-link.ts
                     return (
-                        <div className="prose prose-lg prose-blue max-w-none prose-headings:font-black prose-headings:text-gray-800 prose-p:text-gray-600 prose-p:leading-relaxed blog-content break-words">
+                        <div className="prose prose-lg prose-blue max-w-none prose-headings:!text-slate-900 prose-p:!text-slate-800 prose-li:!text-slate-800 prose-p:leading-relaxed blog-content break-words">
                             {injectCouponSSR(cleanedHtml, optimalInjectionIndex, couponBlockNode)}
                         </div>
                     );
                 } else {
                     // Fallback for extremely short articles
                     return (
-                        <div className="prose prose-lg prose-blue max-w-none prose-headings:font-black prose-headings:text-gray-800 prose-p:text-gray-600 prose-p:leading-relaxed blog-content break-words">
+                        <div className="prose prose-lg prose-blue max-w-none prose-headings:!text-slate-900 prose-p:!text-slate-800 prose-li:!text-slate-800 prose-p:leading-relaxed blog-content break-words">
                             <div dangerouslySetInnerHTML={{ __html: cleanedHtml }} />
                             {couponBlockNode}
                         </div>
@@ -113,7 +113,7 @@ async function renderBlogContent(post: BlogPost, html: string, countryCode: stri
     return (
         <div
             dangerouslySetInnerHTML={{ __html: html }}
-            className="prose prose-lg prose-blue max-w-none prose-headings:font-black prose-headings:text-gray-800 prose-p:text-gray-600 prose-p:leading-relaxed blog-content break-words"
+            className="prose prose-lg prose-blue max-w-none prose-headings:!text-slate-900 prose-p:!text-slate-800 prose-li:!text-slate-800 prose-p:leading-relaxed blog-content break-words"
         />
     );
 }
@@ -347,7 +347,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                                                         <span>{item.question}</span>
                                                         <ChevronDown className="w-5 h-5 text-blue-500 transition-transform duration-300 group-open:rotate-180" />
                                                     </summary>
-                                                    <div className="p-6 pt-0 text-gray-600 text-base leading-relaxed border-t border-blue-50 mt-2">
+                                                    <div className="p-6 pt-0 !text-slate-800 text-base leading-relaxed border-t border-blue-50 mt-2">
                                                         {item.answer}
                                                     </div>
                                                 </details>
@@ -426,7 +426,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                                         className="flex items-center gap-2 p-3 rounded-xl bg-gray-50 hover:bg-blue-50 hover:text-blue-600 transition-colors text-sm font-medium text-gray-700"
                                     >
                                         {store.logoUrl && <img src={store.logoUrl} alt="" className="w-6 h-6 rounded-full object-contain" loading="lazy" width={24} height={24} />}
-                                        <span>{isEn ? `${getStoreName(locale, store)} coupons` : `كوبونات ${getStoreName(locale, store)}`}</span>
+                                        <span className="!text-slate-800">{isEn ? `${getStoreName(locale, store)} coupons` : `كوبونات ${getStoreName(locale, store)}`}</span>
                                     </Link>
                                 ))}
                             </div>

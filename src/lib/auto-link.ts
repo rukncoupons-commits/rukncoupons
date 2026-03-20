@@ -153,6 +153,15 @@ export function processBlogContent(
         return `<${tag}${attrs} id="${id}">${text}</${tag}>`;
     });
 
+    // Helper for safe replacement in text nodes only
+    const replaceInTextNodes = (html: string, regex: RegExp, replacement: (match: string) => string) => {
+        const parts = html.split(/(<[^>]+>)/g);
+        return parts.map(part => {
+            if (part.startsWith('<') && part.endsWith('>')) return part;
+            return part.replace(regex, replacement);
+        }).join('');
+    };
+
     // ── Step 2: Phase 4 — Dynamic Anchor Optimization ─────────────────
     const discountPrefixes = ['كود خصم', 'كوبون', 'كوبون خصم', 'عروض', 'تخفيضات', 'تخفيض', 'قسيمة'];
     const sortedStores = [...allStores].sort((a, b) => b.name.length - a.name.length);
@@ -171,7 +180,7 @@ export function processBlogContent(
                 'gi'
             );
 
-            processedHtml = processedHtml.replace(regex, (match) => {
+            processedHtml = replaceInTextNodes(processedHtml, regex, (match) => {
                 if (storeLinkCount >= MAX_LINKS_PER_STORE) return match;
 
                 const anchorText = match.trim().toLowerCase();
@@ -229,7 +238,7 @@ export function processBlogContent(
             const regex = new RegExp(`(?<!<a[^>]*>)\\b${escapeRegex(kw)}\\b(?!<\\/a>)`, 'gi');
 
             let matchedInThisKw = false;
-            processedHtml = processedHtml.replace(regex, (match) => {
+            processedHtml = replaceInTextNodes(processedHtml, regex, (match) => {
                 if (postLinkCount >= MAX_POST_LINKS_TOTAL || matchedInThisKw) return match;
 
                 matchedInThisKw = true;

@@ -45,7 +45,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export function generateStaticParams() {
-    return []; // Generate on demand to prevent build-time hangs in CI
+    return [
+        { locale: "ar", country: "ae" },
+        { locale: "en", country: "ae" },
+    ];
 }
 
 export default async function AbuDhabiCouponsPage({ params }: PageProps) {

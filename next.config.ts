@@ -2,11 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
-  staticPageGenerationTimeout: 1200, // 20 minutes for heavy Firestore cold builds
-  experimental: {
-    optimizePackageImports: ["lucide-react"],
-    cpus: 1, // Limit build concurrency to prevent overwhelming Firestore
-  },
+  staticPageGenerationTimeout: 300,
 
   // Image optimization
   images: {
@@ -61,6 +57,10 @@ const nextConfig: NextConfig = {
   // Compress responses
   compress: true,
 
+  // Power-user: experimental
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
 
   // Bypass build errors for CI deployment
   eslint: {

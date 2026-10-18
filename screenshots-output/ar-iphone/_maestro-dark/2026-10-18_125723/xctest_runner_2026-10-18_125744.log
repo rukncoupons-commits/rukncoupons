@@ -1,0 +1,161 @@
+2026-10-18 12:57:54.416 xcodebuild[13455:46067] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+2026-10-18 12:57:54.460 xcodebuild[13455:46067] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:iOS Simulator, arch:arm64, id:6EEDD2B9-6E06-4333-91B6-8661FDCCBA47, OS:26.5,2026-10-18 12:58:17.820913+0000 maestro-driver-iosUITests-Runner[14719:49418] [Default] Running tests...
+2026-10-18 12:58:18.033927+0000 maestro-driver-iosUITests-Runner[14719:49880] [General] Failed to send CA Event for app launch measurements for ca_event_type: 0 event_name: com.a** BUILD INTERRUPTED **
+ent.FirstFramePresentationMetric
+2026-10-18 12:58:18.075250+0000 maestro-driver-iosUITests-Runner[14719:49880] [General] Failed to send CA Event for app launch measurements for ca_event_type: 1 event_name: com.apple.app_launch_measurement.ExtendedLaunchMetrics
+2026-10-18 12:58:18.384260+0000 maestro-driver-iosUITests-Runner[14719:49418] snapshotKeyHonorModalViews configured to value: (null)
+objc[14719]: Class UIAccessibilityLoaderWebShared is implemented in both /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebCore.axbundle/WebCore (0x106164310) and /Library/Developer/CoreSimulator/Volumes/iOS_23F77/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.5.simruntime/Contents/Resources/RuntimeRoot/System/Library/AccessibilityBundles/WebKit.axbundle/WebKit (0x106d80398). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+    t =      nans Interface orientation changed to Portrait
+Test Suite 'Selected tests' started at 2026-10-18 12:58:28.952.
+Test Suite 'maestro-driver-iosUITests.xctest' started at 2026-10-18 12:58:28.953.
+Test Suite 'SwipeRouteHandlerV2ClassificationTests' started at 2026-10-18 12:58:28.954.
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testClassifiedTimeoutPreservesTheRealMessage]' started.
+    t =     0.00s Start Test at 2026-10-18 12:58:28.956
+    t =     0.01s Set Up
+    t =     0.01s Tear Down
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testClassifiedTimeoutPreservesTheRealMessage]' passed (0.011 seconds).
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testMainThreadBusyIsClassifiedAsTimeout]' started.
+    t =     0.00s Start Test at 2026-10-18 12:58:28.967
+    t =     0.00s Set Up
+    t =     0.00s Tear Down
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testMainThreadBusyIsClassifiedAsTimeout]' passed (0.003 seconds).
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testTimeoutMessageWithWrongDomainStaysInternal]' started.
+    t =     0.00s Start Test at 2026-10-18 12:58:29.000
+    t =     0.00s Set Up
+    t =     0.00s Tear Down
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testTimeoutMessageWithWrongDomainStaysInternal]' passed (0.003 seconds).
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testUIQueryTimeoutIsClassifiedAsTimeout]' started.
+    t =     0.00s Start Test at 2026-10-18 12:58:29.003
+    t =     0.00s Set Up
+    t =     0.01s Tear Down
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testUIQueryTimeoutIsClassifiedAsTimeout]' passed (0.007 seconds).
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testUnrelatedXCTFutureErrorStaysInternal]' started.
+    t =     0.00s Start Test at 2026-10-18 12:58:29.011
+    t =     0.00s Set Up
+    t =     0.00s Tear Down
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testUnrelatedXCTFutureErrorStaysInternal]' passed (0.003 seconds).
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testXCTFutureCode1000WithUnrelatedMessageStaysInternal]' started.
+    t =     0.00s Start Test at 2026-10-18 12:58:29.016
+    t =     0.03s Set Up
+    t =     0.03s Tear Down
+Test Case '-[maestro_driver_iosUITests.SwipeRouteHandlerV2ClassificationTests testXCTFutureCode1000WithUnrelatedMessageStaysInternal]' passed (0.028 seconds).
+Test Suite 'SwipeRouteHandlerV2ClassificationTests' passed at 2026-10-18 12:58:29.044.
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.056 (0.090) seconds
+Test Suite 'maestro_driver_iosUITests' started at 2026-10-18 12:58:29.044.
+    t =      nans Suite Set Up
+Test Case '-[maestro_driver_iosUITests.maestro_driver_iosUITests testHttpServer]' started.
+    t =     0.00s Start Test at 2026-10-18 12:58:29.045
+    t =     0.00s Set Up
+2026-10-18 12:58:29.046825+0000 maestro-driver-iosUITests-Runner[14719:49887] [maestro_driver_iosUITests] Will start HTTP server
+2026-10-18 12:58:29.233670+0000 maestro-driver-iosUITests-Runner[14719:49883] [FlyingFox] starting server 127.0.0.1:51127
+2026-10-18 12:58:29.346587+0000 maestro-driver-iosUITests-Runner[14719:49882] [FlyingFox] <127.0.0.1> open connection
+2026-10-18 12:58:29.361961+0000 maestro-driver-iosUITests-Runner[14719:49882] [FlyingFox] <127.0.0.1> request: GET /status
+2026-10-18 12:58:29.554330+0000 maestro-driver-iosUITests-Runner[14719:49883] [FlyingFox] <127.0.0.1> open connection
+2026-10-18 12:58:29.561571+0000 maestro-driver-iosUITests-Runner[14719:49881] [FlyingFox] <127.0.0.1> request: POST /deviceInfo
+    t =     0.52s Getting device orientation
+2026-10-18 12:58:43.766038+0000 maestro-driver-iosUITests-Runner[14719:49418] Using singleton test manager
+2026-10-18 12:58:43.826513+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.apple.springboard"]
+    t =    14.79s Getting device orientation
+    t =    14.80s Find the Application 'com.apple.springboard'
+2026-10-18 12:58:45.670166+0000 maestro-driver-iosUITests-Runner[14719:49418] Device orientation is 1
+2026-10-18 13:00:24.603097+0000 maestro-driver-iosUITests-Runner[14719:49887] [FlyingFox] <127.0.0.1> request: POST /setPermissions
+2026-10-18 13:00:25.607392+0000 maestro-driver-iosUITests-Runner[14719:49883] [FlyingFox] <127.0.0.1> request: POST /terminateApp
+2026-10-18 13:00:25.645245+0000 maestro-driver-iosUITests-Runner[14719:49418] [Start] Terminating app com.rukncoupons.app
+    t =   116.63s Terminate com.rukncoupons.app:0
+2026-10-18 13:00:25.689997+0000 maestro-driver-iosUITests-Runner[14719:49418] [End] Terminating app com.rukncoupons.app
+2026-10-18 13:00:57.703222+0000 maestro-driver-iosUITests-Runner[14719:57583] [FlyingFox] <127.0.0.1> request: POST /deviceInfo
+    t =   148.67s Getting device orientation
+2026-10-18 13:01:14.115034+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.rukncoupons.app"]
+    t =   165.08s Getting device orientation
+    t =   165.08s Find the Application 'com.rukncoupons.app'
+2026-10-18 13:01:14.746908+0000 maestro-driver-iosUITests-Runner[14719:49418] Device orientation is 1
+2026-10-18 13:01:21.382414+0000 maestro-driver-iosUITests-Runner[14719:49887] [FlyingFox] <127.0.0.1> request: POST /viewHierarchy
+2026-10-18 13:01:21.417839+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.rukncoupons.app"]
+2026-10-18 13:01:21.420109+0000 maestro-driver-iosUITests-Runner[14719:49418] [Start] View hierarchy snapshot for Application 'com.rukncoupons.app'
+2026-10-18 13:01:21.420253+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Starting getHierarchyWithFallback for element.
+    t =   172.38s Find the Application 'com.rukncoupons.app'
+2026-10-18 13:01:21.472977+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Successfully retrieved element hierarchy.
+2026-10-18 13:01:21.473454+0000 maestro-driver-iosUITests-Runner[14719:49418] Foreground app is not springboard skipping auto tapping on permissions
+2026-10-18 13:01:21.473947+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Fetch status bar hierarchy - start
+    t =   172.43s Checking existence of `StatusBar (First Match)`
+    t =   172.47s Get all elements bound by index for: Descendants matching type StatusBar
+    t =   172.67s Find the StatusBar (Element at index 0)
+    t =   172.71s Find the StatusBar (Element at index 1)
+2026-10-18 13:01:21.803164+0000 maestro-driver-iosUITests-Runner[14719:49418] Fetch status bar hierarchy - duration 0.32957494258880615
+2026-10-18 13:01:21.803257+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Fetch Safari WebView hierarchy - start
+2026-10-18 13:01:21.811725+0000 maestro-driver-iosUITests-Runner[14719:49418] Fetch Safari WebView hierarchy - duration 0.008337974548339844
+    t =   172.77s Find the Application 'com.apple.springboard'
+2026-10-18 13:01:21.850460+0000 maestro-driver-iosUITests-Runner[14719:49418] [Done] View hierarchy snapshot for Application 'com.rukncoupons.app' 
+2026-10-18 13:01:24.308923+0000 maestro-driver-iosUITests-Runner[14719:57583] [FlyingFox] <127.0.0.1> request: POST /deviceInfo
+    t =   175.27s Getting device orientation
+2026-10-18 13:01:24.328045+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.rukncoupons.app"]
+    t =   175.29s Getting device orientation
+2026-10-18 13:01:24.331108+0000 maestro-driver-iosUITests-Runner[14719:49418] Returning cached screen size
+2026-10-18 13:01:24.331300+0000 maestro-driver-iosUITests-Runner[14719:49418] Device orientation is 1
+2026-10-18 13:01:25.041627+0000 maestro-driver-iosUITests-Runner[14719:57582] [FlyingFox] <127.0.0.1> request: POST /viewHierarchy
+2026-10-18 13:01:25.053180+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.rukncoupons.app"]
+2026-10-18 13:01:25.054549+0000 maestro-driver-iosUITests-Runner[14719:49418] [Start] View hierarchy snapshot for Application 'com.rukncoupons.app'
+2026-10-18 13:01:25.055182+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Starting getHierarchyWithFallback for element.
+    t =   176.01s Find the Application 'com.rukncoupons.app'
+2026-10-18 13:01:25.152342+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Successfully retrieved element hierarchy.
+2026-10-18 13:01:25.152739+0000 maestro-driver-iosUITests-Runner[14719:49418] Foreground app is not springboard skipping auto tapping on permissions
+2026-10-18 13:01:25.152915+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Fetch status bar hierarchy - start
+    t =   176.18s Checking existence of `StatusBar (First Match)`
+    t =   176.22s Get all elements bound by index for: Descendants matching type StatusBar
+    t =   176.27s Find the StatusBar (Element at index 0)
+    t =   176.31s Find the StatusBar (Element at index 1)
+2026-10-18 13:01:25.403518+0000 maestro-driver-iosUITests-Runner[14719:49418] Fetch status bar hierarchy - duration 0.2505340576171875
+2026-10-18 13:01:25.403746+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Fetch Safari WebView hierarchy - start
+2026-10-18 13:01:25.404373+0000 maestro-driver-iosUITests-Runner[14719:49418] Fetch Safari WebView hierarchy - duration 0.0006159543991088867
+    t =   176.36s Find the Application 'com.apple.springboard'
+2026-10-18 13:01:25.460039+0000 maestro-driver-iosUITests-Runner[14719:49418] [Done] View hierarchy snapshot for Application 'com.rukncoupons.app' 
+2026-10-18 13:01:25.845544+0000 maestro-driver-iosUITests-Runner[14719:49887] [FlyingFox] <127.0.0.1> request: POST /deviceInfo
+    t =   176.80s Getting device orientation
+2026-10-18 13:01:25.855628+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.rukncoupons.app"]
+    t =   176.81s Getting device orientation
+2026-10-18 13:01:25.858107+0000 maestro-driver-iosUITests-Runner[14719:49418] Returning cached screen size
+2026-10-18 13:01:25.858469+0000 maestro-driver-iosUITests-Runner[14719:49418] Device orientation is 1
+2026-10-18 13:01:25.866282+0000 maestro-driver-iosUITests-Runner[14719:61276] [FlyingFox] <127.0.0.1> request: POST /viewHierarchy
+2026-10-18 13:01:25.872189+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.rukncoupons.app"]
+2026-10-18 13:01:25.873912+0000 maestro-driver-iosUITests-Runner[14719:49418] [Start] View hierarchy snapshot for Application 'com.rukncoupons.app'
+2026-10-18 13:01:25.874146+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Starting getHierarchyWithFallback for element.
+    t =   176.83s Find the Application 'com.rukncoupons.app'
+2026-10-18 13:01:25.939575+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Successfully retrieved element hierarchy.
+2026-10-18 13:01:25.941032+0000 maestro-driver-iosUITests-Runner[14719:49418] Foreground app is not springboard skipping auto tapping on permissions
+2026-10-18 13:01:25.941273+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Fetch status bar hierarchy - start
+    t =   177.03s Checking existence of `StatusBar (First Match)`
+    t =   177.06s Get all elements bound by index for: Descendants matching type StatusBar
+    t =   177.11s Find the StatusBar (Element at index 0)
+    t =   177.17s Find the StatusBar (Element at index 1)
+2026-10-18 13:01:26.265339+0000 maestro-driver-iosUITests-Runner[14719:49418] Fetch status bar hierarchy - duration 0.32400596141815186
+2026-10-18 13:01:26.265440+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Fetch Safari WebView hierarchy - start
+2026-10-18 13:01:26.266027+0000 maestro-driver-iosUITests-Runner[14719:49418] Fetch Safari WebView hierarchy - duration 0.0005691051483154297
+    t =   177.22s Find the Application 'com.apple.springboard'
+2026-10-18 13:01:26.324806+0000 maestro-driver-iosUITests-Runner[14719:49418] [Done] View hierarchy snapshot for Application 'com.rukncoupons.app' 
+2026-10-18 13:01:26.628440+0000 maestro-driver-iosUITests-Runner[14719:49883] [FlyingFox] <127.0.0.1> request: POST /deviceInfo
+    t =   177.58s Getting device orientation
+2026-10-18 13:01:26.635497+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.rukncoupons.app"]
+    t =   177.59s Getting device orientation
+2026-10-18 13:01:26.637202+0000 maestro-driver-iosUITests-Runner[14719:49418] Returning cached screen size
+2026-10-18 13:01:26.637398+0000 maestro-driver-iosUITests-Runner[14719:49418] Device orientation is 1
+2026-10-18 13:01:26.651429+0000 maestro-driver-iosUITests-Runner[14719:49883] [FlyingFox] <127.0.0.1> request: POST /viewHierarchy
+2026-10-18 13:01:26.654793+0000 maestro-driver-iosUITests-Runner[14719:49418] Detected running apps: ["com.rukncoupons.app"]
+2026-10-18 13:01:26.655669+0000 maestro-driver-iosUITests-Runner[14719:49418] [Start] View hierarchy snapshot for Application 'com.rukncoupons.app'
+2026-10-18 13:01:26.655818+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Starting getHierarchyWithFallback for element.
+    t =   177.61s Find the Application 'com.rukncoupons.app'
+2026-10-18 13:01:26.739390+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Successfully retrieved element hierarchy.
+2026-10-18 13:01:26.739677+0000 maestro-driver-iosUITests-Runner[14719:49418] Foreground app is not springboard skipping auto tapping on permissions
+2026-10-18 13:01:26.739894+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Fetch status bar hierarchy - start
+    t =   177.70s Checking existence of `StatusBar (First Match)`
+    t =   177.72s Get all elements bound by index for: Descendants matching type StatusBar
+    t =   177.75s Find the StatusBar (Element at index 0)
+    t =   177.79s Find the StatusBar (Element at index 1)
+2026-10-18 13:01:26.884180+0000 maestro-driver-iosUITests-Runner[14719:49418] Fetch status bar hierarchy - duration 0.14424502849578857
+2026-10-18 13:01:26.884296+0000 maestro-driver-iosUITests-Runner[14719:49418] [ViewHierarchyHandler] Fetch Safari WebView hierarchy - start
+2026-10-18 13:01:26.884850+0000 maestro-driver-iosUITests-Runner[14719:49418] Fetch Safari WebView hierarchy - duration 0.0005409717559814453
+    t =   177.84s Find the Application 'com.apple.springboard'
+2026-10-18 13:01:26.917526+0000 maestro-driver-iosUITests-Runner[14719:49418] [Done] View hierarchy snapshot for Application 'com.rukncoupons.app' 
+2026-10-18 13:01:27.544962+0000 maestro-driver-iosUITests-Runner[14719:49887] [FlyingFox] <127.0.0.1> request: GET /screenshot
+2026-10-18 13:01:33.617663+0000 maestro-driver-iosUITests-Runner[14719:57583] [FlyingFox] <127.0.0.1> request: GET /status

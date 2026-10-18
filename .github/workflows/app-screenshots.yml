@@ -1,0 +1,55 @@
+# App Store screenshots from the REAL iOS Simulator, on a GitHub-hosted Mac.
+#
+# Lives only on the `app-screenshots` branch. It downloads the app's Simulator build from EAS, runs
+# it on an iPhone (6.9") and an iPad (13") simulator in Arabic and English, walks the screens with
+# Maestro, and commits the PNGs back to this branch under screenshots-output/. The designed store
+# images are composed from them on the owner's machine (ios-app/scripts/compose-store-screenshots.mjs).
+#
+# Why here: no Mac is available, and Appetize's free plan (30 min/month, 3-minute sessions, no SDK)
+# ran out on 2026-10-18 before the set was captured.
+name: App Store screenshots (iOS Simulator)
+
+on:
+  push:
+    branches: [app-screenshots]
+    paths: [".github/app-screenshots/**", ".github/workflows/app-screenshots.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: app-screenshots
+  cancel-in-progress: true
+
+jobs:
+  capture:
+    runs-on: macos-26
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Capture
+        env:
+          # Simulator build 06359b05 (1.1.0): the follow button shows on the Simulator too.
+          APP_URL: https://expo.dev/artifacts/eas/x1qVWyYzZvkRLpj40Rrkzsq1FYeyH1V5Ky3c9L-xXLw.tar.gz
+        run: bash .github/app-screenshots/run.sh
+
+      - name: Commit the screenshots back to this branch
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f screenshots-output
+          git commit -m "screenshots from ${GITHUB_SHA::7} [skip ci]" || echo "nothing to commit"
+          git push origin HEAD:app-screenshots

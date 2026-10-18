@@ -1,0 +1,12 @@
+# The Stores grid with the phone in dark mode (run.sh switches the Simulator's appearance first).
+appId: com.rukncoupons.app
+---
+- launchApp:
+    clearState: false
+- extendedWaitUntil:
+    visible: ${TAB_STORES}
+    timeout: 45000
+- tapOn: ${TAB_STORES}
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${OUT_DIR}/appearance

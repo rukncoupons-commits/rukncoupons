@@ -1,12 +1,13 @@
-# The Stores grid with the phone in dark mode (run.sh switches the Simulator's appearance first).
+# Home with the phone in dark mode (run.sh switches the Simulator's appearance first). Home, not the
+# Stores grid: the grid's second row holds a store with no logo, and the appearance slide pairs this
+# dark Home with the other language's light Home.
 appId: com.rukncoupons.app
 ---
 - launchApp:
     clearState: false
 - extendedWaitUntil:
-    visible: ${TAB_STORES}
+    visible: ${STORES_WITH_CODES}
     timeout: 45000
-- tapOn: ${TAB_STORES}
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: appearance

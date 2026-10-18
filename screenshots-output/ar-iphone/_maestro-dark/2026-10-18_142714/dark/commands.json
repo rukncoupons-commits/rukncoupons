@@ -1,0 +1,173 @@
+[ {
+  "command" : {
+    "defineVariablesCommand" : {
+      "env" : {
+        "CONTINUE" : "متابعة",
+        "STORES_WITH_CODES" : "متاجر لديها أكواد",
+        "CATEGORIES" : "التصنيفات",
+        "TAB_STORES" : "المتاجر",
+        "ONTIME" : "أون تايم",
+        "FOLLOW" : "نبّهني بأكواده الجديدة",
+        "WHO_SUITS" : "لمن يناسب",
+        "SHIPPING" : "الشحن والتوصيل",
+        "COUPON_ID" : "iL7vjAgdoI6ibgBg1aC7",
+        "MAESTRO_DRIVER_STARTUP_TIMEOUT" : "240000",
+        "MAESTRO_FILENAME" : "dark",
+        "MAESTRO_DEVICE_UDID" : "6EEDD2B9-6E06-4333-91B6-8661FDCCBA47",
+        "MAESTRO_SHARD_ID" : "1",
+        "MAESTRO_SHARD_INDEX" : "0"
+      },
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1792333696425,
+    "duration" : 17,
+    "sequenceNumber" : 0,
+    "depth" : 0,
+    "evaluatedCommand" : {
+      "defineVariablesCommand" : {
+        "env" : {
+          "CONTINUE" : "متابعة",
+          "STORES_WITH_CODES" : "متاجر لديها أكواد",
+          "CATEGORIES" : "التصنيفات",
+          "TAB_STORES" : "المتاجر",
+          "ONTIME" : "أون تايم",
+          "FOLLOW" : "نبّهني بأكواده الجديدة",
+          "WHO_SUITS" : "لمن يناسب",
+          "SHIPPING" : "الشحن والتوصيل",
+          "COUPON_ID" : "iL7vjAgdoI6ibgBg1aC7",
+          "MAESTRO_DRIVER_STARTUP_TIMEOUT" : "240000",
+          "MAESTRO_FILENAME" : "dark",
+          "MAESTRO_DEVICE_UDID" : "6EEDD2B9-6E06-4333-91B6-8661FDCCBA47",
+          "MAESTRO_SHARD_ID" : "1",
+          "MAESTRO_SHARD_INDEX" : "0"
+        },
+        "optional" : false
+      }
+    }
+  }
+}, {
+  "command" : {
+    "applyConfigurationCommand" : {
+      "config" : {
+        "appId" : "com.rukncoupons.app"
+      },
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1792333696446,
+    "duration" : 173,
+    "sequenceNumber" : 1,
+    "depth" : 0,
+    "evaluatedCommand" : {
+      "applyConfigurationCommand" : {
+        "config" : {
+          "appId" : "com.rukncoupons.app"
+        },
+        "optional" : false
+      }
+    }
+  }
+}, {
+  "command" : {
+    "launchAppCommand" : {
+      "appId" : "com.rukncoupons.app",
+      "clearState" : false,
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1792333696620,
+    "duration" : 11149,
+    "sequenceNumber" : 2,
+    "depth" : 0,
+    "evaluatedCommand" : {
+      "launchAppCommand" : {
+        "appId" : "com.rukncoupons.app",
+        "clearState" : false,
+        "optional" : false
+      }
+    }
+  }
+}, {
+  "command" : {
+    "assertConditionCommand" : {
+      "condition" : {
+        "visible" : {
+          "textRegex" : "${STORES_WITH_CODES}",
+          "optional" : false
+        }
+      },
+      "timeout" : "45000",
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1792333707961,
+    "duration" : 12698,
+    "sequenceNumber" : 3,
+    "depth" : 0,
+    "evaluatedCommand" : {
+      "assertConditionCommand" : {
+        "condition" : {
+          "visible" : {
+            "textRegex" : "متاجر لديها أكواد",
+            "optional" : false
+          }
+        },
+        "timeout" : "45000",
+        "optional" : false
+      }
+    }
+  }
+}, {
+  "command" : {
+    "waitForAnimationToEndCommand" : {
+      "timeout" : "6000",
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1792333720661,
+    "duration" : 2313,
+    "sequenceNumber" : 4,
+    "depth" : 0,
+    "evaluatedCommand" : {
+      "waitForAnimationToEndCommand" : {
+        "timeout" : "6000",
+        "optional" : false
+      }
+    }
+  }
+}, {
+  "command" : {
+    "takeScreenshotCommand" : {
+      "path" : "appearance",
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1792333722977,
+    "duration" : 251,
+    "sequenceNumber" : 5,
+    "depth" : 0,
+    "evaluatedCommand" : {
+      "takeScreenshotCommand" : {
+        "path" : "appearance",
+        "optional" : false
+      }
+    },
+    "artifacts" : [ {
+      "type" : "TAKE_SCREENSHOT",
+      "path" : "takeScreenshot/appearance.png"
+    } ]
+  }
+} ]

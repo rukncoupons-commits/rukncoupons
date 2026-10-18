@@ -9,4 +9,4 @@ appId: com.rukncoupons.app
 - tapOn: ${TAB_STORES}
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: ${OUT_DIR}/appearance
+- takeScreenshot: appearance

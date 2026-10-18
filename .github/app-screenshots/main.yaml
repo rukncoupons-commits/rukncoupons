@@ -13,7 +13,7 @@ appId: com.rukncoupons.app
     timeout: 45000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: ${OUT_DIR}/home
+- takeScreenshot: home
 
 - scrollUntilVisible:
     element:
@@ -25,12 +25,12 @@ appId: com.rukncoupons.app
     duration: 1200
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: ${OUT_DIR}/categories
+- takeScreenshot: categories
 
 - tapOn: ${TAB_STORES}
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: ${OUT_DIR}/stores
+- takeScreenshot: stores
 
 - scrollUntilVisible:
     element:
@@ -42,7 +42,7 @@ appId: com.rukncoupons.app
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: ${OUT_DIR}/follow
+- takeScreenshot: follow
 
 - scrollUntilVisible:
     element:
@@ -51,7 +51,7 @@ appId: com.rukncoupons.app
     centerElement: true
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: ${OUT_DIR}/suitability
+- takeScreenshot: suitability
 
 - scrollUntilVisible:
     element:
@@ -60,7 +60,7 @@ appId: com.rukncoupons.app
     centerElement: true
 - waitForAnimationToEnd:
     timeout: 5000
-- takeScreenshot: ${OUT_DIR}/policies
+- takeScreenshot: policies
 
 # The code sheet, opened by its deep link (the coupon route is a modal over the tabs).
 - openLink: rukncoupons://coupon/${COUPON_ID}
@@ -69,4 +69,4 @@ appId: com.rukncoupons.app
     optional: true
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: ${OUT_DIR}/code
+- takeScreenshot: code

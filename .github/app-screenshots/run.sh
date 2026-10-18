@@ -3,9 +3,13 @@
 # Output: screenshots-output/<lang>-<iphone|ipad>/<scene>.png, plus run.log and a final frame per run
 # so a failed step can be seen, not guessed.
 set -uo pipefail
+# The XCTest driver took longer than Maestro's default to start on the second run of the first job.
+export MAESTRO_DRIVER_STARTUP_TIMEOUT=240000
 ROOT="$PWD"
 OUT="$ROOT/screenshots-output"
 FLOWS="$ROOT/.github/app-screenshots"
+# Each run replaces the previous one, so nothing stale is mistaken for a fresh capture.
+rm -rf "$OUT"
 mkdir -p "$OUT"
 exec > >(tee -a "$OUT/run.log") 2>&1
 
@@ -38,7 +42,9 @@ capture() { # <udid> <lang> <device label>
   xcrun simctl shutdown "$U" 2>/dev/null || true
   xcrun simctl erase "$U"
   xcrun simctl boot "$U" && xcrun simctl bootstatus "$U" -b
-  local LOC=en_US; [ "$L" = ar ] && LOC=ar_SA
+  # Gregorian calendar and Latin digits in Arabic too: the iPad status bar prints the date, and ar_SA
+  # alone renders it Hijri in Arabic-Indic digits (the owner's rule is 0–9 everywhere).
+  local LOC=en_US; [ "$L" = ar ] && LOC="ar_SA@calendar=gregorian;numbers=latn"
   xcrun simctl spawn "$U" defaults write "Apple Global Domain" AppleLanguages -array "$L"
   xcrun simctl spawn "$U" defaults write "Apple Global Domain" AppleLocale -string "$LOC"
   # A language change takes effect on the next boot.
@@ -59,15 +65,18 @@ capture() { # <udid> <lang> <device label>
          -e "ONTIME=Ontime" -e "FOLLOW=Alert me to new codes" -e "WHO_SUITS=Who it suits" -e "SHIPPING=Shipping & delivery"
          -e "COUPON_ID=5cQrhlHL1U0B2HYamzkr")
   fi
-  ENV+=(-e "OUT_DIR=$D")
-
-  maestro --device "$U" test "${ENV[@]}" "$FLOWS/main.yaml" || echo "!! main flow failed ($L $N)"
+  # Maestro only writes takeScreenshot files inside its own output folder; they are copied out after.
+  maestro --device "$U" test --test-output-dir "$D/_maestro-main" "${ENV[@]}" "$FLOWS/main.yaml" || echo "!! main flow failed ($L $N)"
   xcrun simctl io "$U" screenshot "$D/_after-main.png" || true
 
   xcrun simctl ui "$U" appearance dark
-  maestro --device "$U" test "${ENV[@]}" "$FLOWS/dark.yaml" || echo "!! dark flow failed ($L $N)"
+  maestro --device "$U" test --test-output-dir "$D/_maestro-dark" "${ENV[@]}" "$FLOWS/dark.yaml" || echo "!! dark flow failed ($L $N)"
   xcrun simctl io "$U" screenshot "$D/_after-dark.png" || true
   xcrun simctl ui "$U" appearance light
+  for f in home categories stores follow suitability policies code appearance; do
+    p=$(find "$D"/_maestro-* -name "$f.png" 2>/dev/null | head -1)
+    [ -n "$p" ] && cp "$p" "$D/$f.png" || echo "!! missing $f ($L $N)"
+  done
   xcrun simctl shutdown "$U" || true
   ls -la "$D"
 }

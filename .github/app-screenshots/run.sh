@@ -65,9 +65,8 @@ capture() { # <udid> <lang> <device label>
          -e "ONTIME=Ontime" -e "FOLLOW=Alert me to new codes" -e "WHO_SUITS=Who it suits" -e "SHIPPING=Shipping & delivery"
          -e "COUPON_ID=5cQrhlHL1U0B2HYamzkr")
   fi
-  sed "s/__STORES_SWIPE_END__/$STORES_SWIPE_END/" "$FLOWS/main.yaml" > "/tmp/main-$N.yaml"
   # Maestro only writes takeScreenshot files inside its own output folder; they are copied out after.
-  maestro --device "$U" test --test-output-dir "$D/_maestro-main" "${ENV[@]}" "/tmp/main-$N.yaml" || echo "!! main flow failed ($L $N)"
+  maestro --device "$U" test --test-output-dir "$D/_maestro-main" "${ENV[@]}" "$FLOWS/main.yaml" || echo "!! main flow failed ($L $N)"
   xcrun simctl io "$U" screenshot "$D/_after-main.png" || true
 
   xcrun simctl ui "$U" appearance dark
@@ -82,7 +81,6 @@ capture() { # <udid> <lang> <device label>
   ls -la "$D"
 }
 
-# How far the Stores grid is scrolled before its picture: about two rows on each device.
-[ -n "$IPHONE" ] && { STORES_SWIPE_END=27%; capture "$IPHONE" ar iphone; capture "$IPHONE" en iphone; } || echo "!! no iPhone Pro Max simulator"
-[ -n "$IPAD" ] && { STORES_SWIPE_END=48%; capture "$IPAD" ar ipad; capture "$IPAD" en ipad; } || echo "!! no iPad Pro 13 simulator"
+[ -n "$IPHONE" ] && { capture "$IPHONE" ar iphone; capture "$IPHONE" en iphone; } || echo "!! no iPhone Pro Max simulator"
+[ -n "$IPAD" ] && { capture "$IPAD" ar ipad; capture "$IPAD" en ipad; } || echo "!! no iPad Pro 13 simulator"
 echo "done"

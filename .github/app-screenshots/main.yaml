@@ -36,16 +36,6 @@ appId: com.rukncoupons.app
 - tapOn: ${TAB_STORES}
 - waitForAnimationToEnd:
     timeout: 5000
-# Two rows down, past a store with no logo (الماجد للعود), then back up a touch for the bar. Maestro parses
-# swipe points before it substitutes variables, so run.sh writes the per-device value into a copy.
-- swipe:
-    start: 50%, 75%
-    end: 50%, __STORES_SWIPE_END__
-    duration: 1600
-- swipe:
-    start: 50%, 42%
-    end: 50%, 50%
-    duration: 700
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: stores

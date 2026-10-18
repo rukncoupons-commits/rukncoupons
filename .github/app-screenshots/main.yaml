@@ -1,4 +1,9 @@
 # The light-mode screens, in one pass. Texts come from run.sh per language (the app's own i18n strings).
+#
+# Order matters on iOS 26: the tab bar shrinks to one button once a screen is scrolled down, and a short
+# scroll back up did not restore it on the runner. So every tab tap happens on an unscrolled screen —
+# Stores straight from the top of Home — and Categories, which needs Home scrolled, comes last after a
+# relaunch. On the store page the policies come before «who it suits», so they are captured first.
 appId: com.rukncoupons.app
 ---
 - launchApp:
@@ -15,29 +20,9 @@ appId: com.rukncoupons.app
     timeout: 6000
 - takeScreenshot: home
 
-- scrollUntilVisible:
-    element:
-      text: ${CATEGORIES}
-    direction: DOWN
-- swipe:
-    start: 50%, 78%
-    end: 50%, 32%
-    duration: 1200
-# iOS 26 shrinks the tab bar while scrolling DOWN; a short scroll back up restores it, both for the
-# picture and so the Stores tab can be tapped (the first run failed there).
-- swipe:
-    start: 50%, 42%
-    end: 50%, 54%
-    duration: 700
-- waitForAnimationToEnd:
-    timeout: 5000
-- takeScreenshot: categories
-
 - tapOn: ${TAB_STORES}
 - waitForAnimationToEnd:
-    timeout: 5000
-- waitForAnimationToEnd:
-    timeout: 5000
+    timeout: 6000
 - takeScreenshot: stores
 
 # A store card is one button read as «<name>, <offer>», so the name alone does not match it.
@@ -46,8 +31,9 @@ appId: com.rukncoupons.app
       text: "${ONTIME}.*"
     direction: DOWN
 - tapOn: "${ONTIME}.*"
+# Matched on the end of the label: «نبّهني» carries a shadda the accessibility text did not match.
 - extendedWaitUntil:
-    visible: ${FOLLOW}
+    visible: "${FOLLOW}"
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 5000
@@ -55,29 +41,21 @@ appId: com.rukncoupons.app
 
 - scrollUntilVisible:
     element:
-      text: "${WHO_SUITS}.*"
-    direction: DOWN
-    centerElement: true
-- swipe:
-    start: 50%, 45%
-    end: 50%, 53%
-    duration: 700
-- waitForAnimationToEnd:
-    timeout: 5000
-- takeScreenshot: suitability
-
-- scrollUntilVisible:
-    element:
       text: "${SHIPPING}.*"
     direction: DOWN
     centerElement: true
-- swipe:
-    start: 50%, 45%
-    end: 50%, 53%
-    duration: 700
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: policies
+
+- scrollUntilVisible:
+    element:
+      text: "${WHO_SUITS}.*"
+    direction: DOWN
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: suitability
 
 # The code sheet, opened by its deep link (the coupon route is a modal over the tabs).
 - openLink: rukncoupons://coupon/${COUPON_ID}
@@ -87,3 +65,22 @@ appId: com.rukncoupons.app
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: code
+
+# Categories last: a relaunch lands on an unscrolled Home.
+- launchApp:
+    clearState: false
+    stopApp: true
+- extendedWaitUntil:
+    visible: ${STORES_WITH_CODES}
+    timeout: 45000
+- scrollUntilVisible:
+    element:
+      text: ${CATEGORIES}
+    direction: DOWN
+- swipe:
+    start: 50%, 78%
+    end: 50%, 32%
+    duration: 1200
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: categories

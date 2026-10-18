@@ -65,9 +65,9 @@ capture() { # <udid> <lang> <device label>
          -e "ONTIME=Ontime" -e "FOLLOW=Alert me to new codes" -e "WHO_SUITS=Who it suits" -e "SHIPPING=Shipping & delivery"
          -e "COUPON_ID=5cQrhlHL1U0B2HYamzkr")
   fi
-  ENV+=(-e "STORES_SWIPE_END=$STORES_SWIPE_END")
+  sed "s/__STORES_SWIPE_END__/$STORES_SWIPE_END/" "$FLOWS/main.yaml" > "/tmp/main-$N.yaml"
   # Maestro only writes takeScreenshot files inside its own output folder; they are copied out after.
-  maestro --device "$U" test --test-output-dir "$D/_maestro-main" "${ENV[@]}" "$FLOWS/main.yaml" || echo "!! main flow failed ($L $N)"
+  maestro --device "$U" test --test-output-dir "$D/_maestro-main" "${ENV[@]}" "/tmp/main-$N.yaml" || echo "!! main flow failed ($L $N)"
   xcrun simctl io "$U" screenshot "$D/_after-main.png" || true
 
   xcrun simctl ui "$U" appearance dark

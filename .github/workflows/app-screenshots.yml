@@ -45,13 +45,23 @@ jobs:
           APP_URL: https://expo.dev/artifacts/eas/x1qVWyYzZvkRLpj40Rrkzsq1FYeyH1V5Ky3c9L-xXLw.tar.gz
         run: bash .github/app-screenshots/run.sh
 
+      # Every file, Maestro's step logs included, as a downloadable artifact of the run.
+      - name: Keep everything as a run artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-output
+          path: screenshots-output
+          retention-days: 14
+
+      # Only the pictures and the log go back to the branch: run 5 captured everything and then
+      # failed here, pushing Maestro's whole output folder.
       - name: Commit the screenshots back to this branch
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f screenshots-output
+          git rm -r -q --cached screenshots-output 2>/dev/null || true
+          git add -f screenshots-output/run.log screenshots-output/*/*.png
           git commit -m "screenshots from ${GITHUB_SHA::7} [skip ci]" || echo "nothing to commit"
-          # A cancelled earlier run may have pushed its own pictures meanwhile; this run's replace them.
-          git pull --rebase -X theirs origin app-screenshots || true
           git push origin HEAD:app-screenshots

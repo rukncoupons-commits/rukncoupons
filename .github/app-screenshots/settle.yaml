@@ -1,0 +1,17 @@
+# Lets a freshly shown screen settle before its picture: run 39296214731 caught large titles under a
+# header search bar mid-blur. A short pull-down returns the title to its expanded state, then a pause.
+appId: com.rukncoupons.app
+---
+- waitForAnimationToEnd:
+    timeout: 6000
+- swipe:
+    start: 50%, 40%
+    end: 50%, 62%
+    duration: 900
+# A wait for text that is never on screen, as a fixed pause.
+- extendedWaitUntil:
+    visible: "zz-never-on-screen-zz"
+    timeout: 4000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000

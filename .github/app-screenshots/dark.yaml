@@ -8,6 +8,5 @@ appId: com.rukncoupons.app
 - extendedWaitUntil:
     visible: ${STORES_WITH_CODES}
     timeout: 45000
-- waitForAnimationToEnd:
-    timeout: 6000
+- runFlow: settle.yaml
 - takeScreenshot: appearance

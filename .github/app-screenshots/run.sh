@@ -59,15 +59,17 @@ capture() { # <udid> <lang> <device label>
   xcrun simctl ui "$U" appearance light
   xcrun simctl install "$U" "$APP"
 
-  local ENV=()
+  # The code scene is the same coupon as the Play set: HH12 on Alibaba (two conditions in Arabic) and
+  # WELOME10 on The Luxury Closet (reads cleanly in English); both are listed in Saudi Arabia.
+  local ENV=(-e "DEVICE=$N")
   if [ "$L" = ar ]; then
-    ENV=(-e "CONTINUE=متابعة" -e "STORES_WITH_CODES=متاجر لديها أكواد" -e "CATEGORIES=التصنيفات" -e "TAB_STORES=المتاجر"
+    ENV+=(-e "CONTINUE=متابعة" -e "STORES_WITH_CODES=متاجر لديها أكواد" -e "CATEGORIES=التصنيفات" -e "TAB_STORES=المتاجر"
          -e "ONTIME=ماكس فاشون" -e "FOLLOW=.*بأكواده الجديدة" -e "WHO_SUITS=لمن يناسب" -e "SHIPPING=الشحن والتوصيل"
-         -e "COUPON_ID=iL7vjAgdoI6ibgBg1aC7")
+         -e "CODE_STORE=علي بابا" -e "CODE_TITLE=خصم 20 دولار" -e "COPY_OPEN=انسخ وافتح المتجر")
   else
-    ENV=(-e "CONTINUE=Continue" -e "STORES_WITH_CODES=Stores with codes" -e "CATEGORIES=Categories" -e "TAB_STORES=Stores"
+    ENV+=(-e "CONTINUE=Continue" -e "STORES_WITH_CODES=Stores with codes" -e "CATEGORIES=Categories" -e "TAB_STORES=Stores"
          -e "ONTIME=Max Fashion" -e "FOLLOW=.*new codes" -e "WHO_SUITS=Who it suits" -e "SHIPPING=Shipping & delivery"
-         -e "COUPON_ID=5cQrhlHL1U0B2HYamzkr")
+         -e "CODE_STORE=The Luxury Closet" -e "CODE_TITLE=10% off for new customers" -e "COPY_OPEN=Copy & open store")
   fi
   # Maestro only writes takeScreenshot files inside its own output folder; they are copied out after.
   # Up to three attempts: run 39296214731 lost Arabic scenes to one-off stalls (a screenshot call that never

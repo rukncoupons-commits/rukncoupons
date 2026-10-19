@@ -3,7 +3,8 @@
 # Order matters on iOS 26: the tab bar shrinks to one button once a screen is scrolled down, and a short
 # scroll back up did not restore it on the runner. So every tab tap happens on an unscrolled screen —
 # Stores straight from the top of Home — and Categories, which needs Home scrolled, comes last after a
-# relaunch. On the store page the policies come before «who it suits», so they are captured first.
+# relaunch. The store is Max Fashion (ONTIME variable): its page has the «who it suits» block in both
+# languages, and that block comes BEFORE the policies (screens/store.tsx), so it is captured first.
 appId: com.rukncoupons.app
 ---
 - launchApp:
@@ -41,21 +42,21 @@ appId: com.rukncoupons.app
 
 - scrollUntilVisible:
     element:
-      text: "${SHIPPING}.*"
-    direction: DOWN
-    centerElement: true
-- waitForAnimationToEnd:
-    timeout: 5000
-- takeScreenshot: policies
-
-- scrollUntilVisible:
-    element:
       text: "${WHO_SUITS}.*"
     direction: DOWN
     centerElement: true
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: suitability
+
+- scrollUntilVisible:
+    element:
+      text: "${SHIPPING}.*"
+    direction: DOWN
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: policies
 
 # The code sheet, opened by its deep link (the coupon route is a modal over the tabs).
 - openLink: rukncoupons://coupon/${COUPON_ID}

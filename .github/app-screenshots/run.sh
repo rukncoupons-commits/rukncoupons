@@ -8,10 +8,14 @@ export MAESTRO_DRIVER_STARTUP_TIMEOUT=240000
 ROOT="$PWD"
 OUT="$ROOT/screenshots-output"
 FLOWS="$ROOT/.github/app-screenshots"
-# Each run replaces the previous one, so nothing stale is mistaken for a fresh capture.
-rm -rf "$OUT"
+# Languages to capture this run (LANGS, default both). Only their folders are replaced, so nothing stale is
+# mistaken for a fresh capture and a language captured by an earlier run stays on the branch.
+LANGS="${LANGS:-ar en}"
 mkdir -p "$OUT"
+for L in $LANGS; do rm -rf "$OUT/$L-iphone" "$OUT/$L-ipad"; done
+: > "$OUT/run.log"
 exec > >(tee -a "$OUT/run.log") 2>&1
+echo "languages: $LANGS"
 
 xcodebuild -version
 xcrun simctl list runtimes
@@ -66,21 +70,30 @@ capture() { # <udid> <lang> <device label>
          -e "COUPON_ID=5cQrhlHL1U0B2HYamzkr")
   fi
   # Maestro only writes takeScreenshot files inside its own output folder; they are copied out after.
-  maestro --device "$U" test --test-output-dir "$D/_maestro-main" "${ENV[@]}" "$FLOWS/main.yaml" || echo "!! main flow failed ($L $N)"
-  xcrun simctl io "$U" screenshot "$D/_after-main.png" || true
+  # Up to three attempts: run 39296214731 lost Arabic scenes to one-off stalls (a screenshot call that never
+  # returned on the iPhone, a relaunch still black after 45 s on the iPad) while English passed on both.
+  local A
+  for A in 1 2 3; do
+    if maestro --device "$U" test --test-output-dir "$D/_maestro-main-$A" "${ENV[@]}" "$FLOWS/main.yaml"; then
+      echo "main flow passed ($L $N, attempt $A)"; break
+    fi
+    echo "!! main flow failed ($L $N, attempt $A)"
+    xcrun simctl io "$U" screenshot "$D/_after-main-$A.png" || true
+  done
 
   xcrun simctl ui "$U" appearance dark
   maestro --device "$U" test --test-output-dir "$D/_maestro-dark" "${ENV[@]}" "$FLOWS/dark.yaml" || echo "!! dark flow failed ($L $N)"
   xcrun simctl io "$U" screenshot "$D/_after-dark.png" || true
   xcrun simctl ui "$U" appearance light
+  # The NEWEST copy of each scene, so a later attempt wins over a partial earlier one.
   for f in home categories stores follow suitability policies code appearance; do
-    p=$(find "$D"/_maestro-* -name "$f.png" 2>/dev/null | head -1)
+    p=$(find "$D"/_maestro-* -name "$f.png" -print0 2>/dev/null | xargs -0 ls -t 2>/dev/null | head -1)
     [ -n "$p" ] && cp "$p" "$D/$f.png" || echo "!! missing $f ($L $N)"
   done
   xcrun simctl shutdown "$U" || true
   ls -la "$D"
 }
 
-[ -n "$IPHONE" ] && { capture "$IPHONE" ar iphone; capture "$IPHONE" en iphone; } || echo "!! no iPhone Pro Max simulator"
-[ -n "$IPAD" ] && { capture "$IPAD" ar ipad; capture "$IPAD" en ipad; } || echo "!! no iPad Pro 13 simulator"
+if [ -n "$IPHONE" ]; then for L in $LANGS; do capture "$IPHONE" "$L" iphone; done; else echo "!! no iPhone Pro Max simulator"; fi
+if [ -n "$IPAD" ]; then for L in $LANGS; do capture "$IPAD" "$L" ipad; done; else echo "!! no iPad Pro 13 simulator"; fi
 echo "done"

@@ -43,6 +43,8 @@ jobs:
         env:
           # Simulator build 06359b05 (1.1.0): the follow button shows on the Simulator too.
           APP_URL: https://expo.dev/artifacts/eas/x1qVWyYzZvkRLpj40Rrkzsq1FYeyH1V5Ky3c9L-xXLw.tar.gz
+          # English is complete from run 39296214731 (commit 17ff208); this run redoes Arabic only.
+          LANGS: ar
         run: bash .github/app-screenshots/run.sh
 
       # Every file, Maestro's step logs included, as a downloadable artifact of the run.

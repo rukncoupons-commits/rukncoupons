@@ -9,7 +9,8 @@
 # - the code sheet never opened from its deep link on the iOS Simulator (the picture was the store page,
 #   on iPhone and iPad alike), so the code is opened the way a user opens it: store page → the coupon;
 # - on the iPad the suitability block already shows in the follow picture, so the two came out identical;
-# - large titles under a header search bar were captured mid-blur, so screens settle and are pulled down.
+# - large titles came out blurred: the app's header blur material stacked on iOS 26's own edge effect
+#   (fixed in the app, tab-stack.tsx); screens still settle before their picture.
 appId: com.rukncoupons.app
 ---
 - launchApp:
@@ -93,11 +94,13 @@ appId: com.rukncoupons.app
     direction: DOWN
     centerElement: true
 - tapOn: ".*${CODE_TITLE}.*"
+# Run 39305566587: the sheet opened every time, but the button's accessibility text never equalled
+# the plain label, so this wait is lenient and never stops the flow.
 - extendedWaitUntil:
-    visible: "${COPY_OPEN}"
-    timeout: 20000
-- waitForAnimationToEnd:
-    timeout: 6000
+    visible: ".*${COPY_OPEN}.*"
+    timeout: 15000
+    optional: true
+- runFlow: settle.yaml
 - takeScreenshot: code
 
 # Categories last: a relaunch lands on an unscrolled Home. The heading is centred, then lifted by a SLOW

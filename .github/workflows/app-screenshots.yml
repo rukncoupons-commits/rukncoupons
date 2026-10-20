@@ -42,8 +42,9 @@ jobs:
 
       - name: Capture
         env:
-          # Simulator build 06359b05 (1.1.0): the follow button shows on the Simulator too.
-          APP_URL: https://expo.dev/artifacts/eas/x1qVWyYzZvkRLpj40Rrkzsq1FYeyH1V5Ky3c9L-xXLw.tar.gz
+          # Simulator build b96838cd (1.1.0 + the iOS 26 header fix in tab-stack.tsx): no blur material on
+          # the bar under iOS 26, so large titles should come out sharp. Build 06359b05 had the blurred titles.
+          APP_URL: https://expo.dev/artifacts/eas/ool4kJPKxIAqoGRtH_yIAFWJfl1PAFaTlBxP6fjKrHI.tar.gz
         run: bash .github/app-screenshots/run.sh
 
       # Every file, Maestro's step logs included, as a downloadable artifact of the run.

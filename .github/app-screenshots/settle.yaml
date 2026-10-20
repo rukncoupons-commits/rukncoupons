@@ -1,13 +1,10 @@
-# Lets a freshly shown screen settle before its picture: run 39296214731 caught large titles under a
-# header search bar mid-blur. A short pull-down returns the title to its expanded state, then a pause.
+# Lets a freshly shown screen settle before its picture. (A pull-down here, tried in run 39305566587,
+# made the iPhone Home title blur too; the blur itself was the app's header blur material on iOS 26,
+# fixed in the app — tab-stack.tsx.)
 appId: com.rukncoupons.app
 ---
 - waitForAnimationToEnd:
     timeout: 6000
-- swipe:
-    start: 50%, 40%
-    end: 50%, 62%
-    duration: 900
 # A wait for text that is never on screen, as a fixed pause.
 - extendedWaitUntil:
     visible: "zz-never-on-screen-zz"

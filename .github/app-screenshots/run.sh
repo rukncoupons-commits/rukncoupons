@@ -65,11 +65,11 @@ capture() { # <udid> <lang> <device label>
   local ENV=(-e "DEVICE=$N")
   if [ "$L" = ar ]; then
     ENV+=(-e "CONTINUE=متابعة" -e "STORES_WITH_CODES=متاجر لديها أكواد" -e "CATEGORIES=التصنيفات" -e "TAB_STORES=المتاجر"
-         -e "ONTIME=ماكس فاشون" -e "FOLLOW=.*بأكواده الجديدة" -e "WHO_SUITS=لمن يناسب" -e "SHIPPING=الشحن والتوصيل"
+         -e "ONTIME=ماكس فاشون" -e "FOLLOW=.*بأكواده الجديدة" -e "WHO_SUITS=لمن يناسب" -e "SHIPPING=الشحن والتوصيل" -e "OFFERS=العروض" -e "WHEN_NOT=ومتى لا يستح"
          -e "CODE_STORE=علي بابا" -e "CODE_TITLE=خصم 20 دولار" -e "COPY_OPEN=انسخ وافتح المتجر")
   else
     ENV+=(-e "CONTINUE=Continue" -e "STORES_WITH_CODES=Stores with codes" -e "CATEGORIES=Categories" -e "TAB_STORES=Stores"
-         -e "ONTIME=Max Fashion" -e "FOLLOW=.*new codes" -e "WHO_SUITS=Who it suits" -e "SHIPPING=Shipping & delivery"
+         -e "ONTIME=Max Fashion" -e "FOLLOW=.*new codes" -e "WHO_SUITS=Who it suits" -e "SHIPPING=Shipping & delivery" -e "OFFERS=Offers" -e "WHEN_NOT=When it isn.t worth it"
          -e "CODE_STORE=The Luxury Closet" -e "CODE_TITLE=10% off for new customers" -e "COPY_OPEN=Copy & open store")
   fi
   # Maestro only writes takeScreenshot files inside its own output folder; they are copied out after.

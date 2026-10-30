@@ -42,9 +42,9 @@ jobs:
 
       - name: Capture
         env:
-          # Simulator build b96838cd (1.1.0 + the iOS 26 header fix in tab-stack.tsx): no blur material on
-          # the bar under iOS 26, so large titles should come out sharp. Build 06359b05 had the blurred titles.
-          APP_URL: https://expo.dev/artifacts/eas/ool4kJPKxIAqoGRtH_yIAFWJfl1PAFaTlBxP6fjKrHI.tar.gz
+          # Simulator build f04c2d19 (1.1.1): no header blur material on iOS 26, and Arabic on iOS 26 uses the
+          # inline title (the large one came out reversed in build b96838cd). iPhone search field pinned stacked.
+          APP_URL: https://expo.dev/artifacts/eas/aQycjWyiDnbSfcd8dX6rHOxsTSbOvZHwQzN5UN7H7Y4.tar.gz
         run: bash .github/app-screenshots/run.sh
 
       # Every file, Maestro's step logs included, as a downloadable artifact of the run.

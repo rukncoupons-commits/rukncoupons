@@ -11,11 +11,12 @@ FLOWS="$ROOT/.github/app-screenshots"
 # Languages to capture this run (LANGS, default both). Only their folders are replaced, so nothing stale is
 # mistaken for a fresh capture and a language captured by an earlier run stays on the branch.
 LANGS="${LANGS:-ar en}"
+DEVICES="${DEVICES:-iphone ipad}"
 mkdir -p "$OUT"
-for L in $LANGS; do rm -rf "$OUT/$L-iphone" "$OUT/$L-ipad"; done
+for L in $LANGS; do for N in $DEVICES; do rm -rf "$OUT/$L-$N"; done; done
 : > "$OUT/run.log"
 exec > >(tee -a "$OUT/run.log") 2>&1
-echo "languages: $LANGS"
+echo "languages: $LANGS · devices: $DEVICES"
 
 xcodebuild -version
 xcrun simctl list runtimes
@@ -96,6 +97,10 @@ capture() { # <udid> <lang> <device label>
   ls -la "$D"
 }
 
-if [ -n "$IPHONE" ]; then for L in $LANGS; do capture "$IPHONE" "$L" iphone; done; else echo "!! no iPhone Pro Max simulator"; fi
-if [ -n "$IPAD" ]; then for L in $LANGS; do capture "$IPAD" "$L" ipad; done; else echo "!! no iPad Pro 13 simulator"; fi
+case " $DEVICES " in *" iphone "*)
+  if [ -n "$IPHONE" ]; then for L in $LANGS; do capture "$IPHONE" "$L" iphone; done; else echo "!! no iPhone Pro Max simulator"; fi;;
+esac
+case " $DEVICES " in *" ipad "*)
+  if [ -n "$IPAD" ]; then for L in $LANGS; do capture "$IPAD" "$L" ipad; done; else echo "!! no iPad Pro 13 simulator"; fi;;
+esac
 echo "done"

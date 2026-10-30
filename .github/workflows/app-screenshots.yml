@@ -45,6 +45,9 @@ jobs:
           # Simulator build f04c2d19 (1.1.1): no header blur material on iOS 26, and Arabic on iOS 26 uses the
           # inline title (the large one came out reversed in build b96838cd). iPhone search field pinned stacked.
           APP_URL: https://expo.dev/artifacts/eas/aQycjWyiDnbSfcd8dX6rHOxsTSbOvZHwQzN5UN7H7Y4.tar.gz
+          # Run 41118617975 completed the other three sets; this one redoes the Arabic iPhone only.
+          LANGS: ar
+          DEVICES: iphone
         run: bash .github/app-screenshots/run.sh
 
       # Every file, Maestro's step logs included, as a downloadable artifact of the run.

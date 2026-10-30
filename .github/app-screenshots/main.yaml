@@ -31,10 +31,15 @@ appId: com.rukncoupons.app
 - takeScreenshot: stores
 
 # A store card is one button read as «<name>, <offer>», so the name alone does not match it.
+# Half visible is enough and the card is centred: run 41118617975 stopped with Max Fashion's card at the
+# bottom edge, partly under the floating tab button, as the list grew with new stores.
 - scrollUntilVisible:
     element:
       text: "${ONTIME}.*"
     direction: DOWN
+    timeout: 45000
+    visibilityPercentage: 50
+    centerElement: true
 - tapOn: "${ONTIME}.*"
 # Matched on the end of the label: «نبّهني» carries a shadda the accessibility text did not match.
 - extendedWaitUntil:
